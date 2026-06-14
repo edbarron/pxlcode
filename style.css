@@ -54,7 +54,7 @@ body {
 }
 
 .logo-code {
-    color: var(--white);
+    color: limegreen;
 }
 
 .links {
@@ -114,7 +114,7 @@ body {
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--indigo);
+    color: limegreen;
     margin: 0 0 24px;
 }
 
@@ -209,7 +209,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: #7059FF;
+    background: limegreen;
     transform: translateY(-1px);
 }
 
