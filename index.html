@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Web design and development studio for professionals and small businesses. Landing pages, business websites, automation, and ongoing maintenance — built fast and reliable.">
+    <link rel="icon" type="image/png" href="./logo_nobackground.png">
     <title>PxlCode Studio | Web Design & Development for Growing Businesses</title>
-    <link rel="alternate" hreflang="es" href="https://pxlcode.xyz/es/">
     <link rel="alternate" hreflang="en" href="https://pxlcode.xyz/">
+    <link rel="alternate" hreflang="es" href="https://pxlcode.xyz/es/">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +15,8 @@
     <!-- Header -->
     <header class="header">
         <a href="#home" class="logo">
-            <span class="logo-pxl">PXL</span><span class="logo-code">CODE</span>
+            <img src="./logo_nobackground.png" alt="Logo pxlcode" style="height:30px; width: auto";>
+            <span class="logo-pxl">PXL</span><span class="logo-code">CODE STUDIO</span>
         </a>
 
         <nav>
@@ -23,8 +25,56 @@
                 <li><a href="#process">How We Work</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact" class="nav-cta">Get Started</a></li>
-                <li><a href="es" class="lang-switch">ES</a></li>
-
+                <li class="lang-dropdown">
+                    <button type="button" class="lang-trigger" id="lang-trigger" aria-haspopup="true" aria-expanded="false">
+                        <svg viewBox="0 0 24 16" width="20" height="14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <rect width="24" height="16" fill="#b22234"/>
+                            <rect y="1.23" width="24" height="1.23" fill="#ffffff"/>
+                            <rect y="3.69" width="24" height="1.23" fill="#ffffff"/>
+                            <rect y="6.15" width="24" height="1.23" fill="#ffffff"/>
+                            <rect y="8.62" width="24" height="1.23" fill="#ffffff"/>
+                            <rect y="11.08" width="24" height="1.23" fill="#ffffff"/>
+                            <rect y="13.54" width="24" height="1.23" fill="#ffffff"/>
+                            <rect width="10" height="8.62" fill="#3c3b6e"/>
+                        </svg>
+                        <span>English</span>
+                        <svg class="lang-chevron" viewBox="0 0 12 8" width="10" height="7" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        </svg>
+                    </button>
+                    <ul class="lang-menu" id="lang-menu" role="menu">
+                        <li role="none">
+                            <span class="lang-menu-label">Select language</span>
+                        </li>
+                        <li role="none">
+                            <a href="./" class="lang-option is-active" role="menuitem">
+                                <svg viewBox="0 0 24 16" width="20" height="14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <rect width="24" height="16" fill="#b22234"/>
+                                    <rect y="1.23" width="24" height="1.23" fill="#ffffff"/>
+                                    <rect y="3.69" width="24" height="1.23" fill="#ffffff"/>
+                                    <rect y="6.15" width="24" height="1.23" fill="#ffffff"/>
+                                    <rect y="8.62" width="24" height="1.23" fill="#ffffff"/>
+                                    <rect y="11.08" width="24" height="1.23" fill="#ffffff"/>
+                                    <rect y="13.54" width="24" height="1.23" fill="#ffffff"/>
+                                    <rect width="10" height="8.62" fill="#3c3b6e"/>
+                                </svg>
+                                English
+                            </a>
+                        </li>
+                        <li role="none">
+                            <a href="es/" class="lang-option" role="menuitem">
+                                <svg viewBox="0 0 24 16" width="20" height="14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <rect width="8" height="16" fill="#006847"/>
+                                    <rect x="8" width="8" height="16" fill="#ffffff"/>
+                                    <rect x="16" width="8" height="16" fill="#ce1126"/>
+                                    <circle cx="12" cy="8" r="2.6" fill="#8a5a2e"/>
+                                    <circle cx="12" cy="8" r="2.6" fill="none" stroke="#5a3a1c" stroke-width="0.4"/>
+                                </svg>
+                                Español
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </header>
@@ -296,6 +346,27 @@
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Send Message';
+            }
+        });
+
+        const langTrigger = document.getElementById('lang-trigger');
+        const langMenu = document.getElementById('lang-menu');
+
+        langTrigger.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const isOpen = langMenu.classList.toggle('is-open');
+            langTrigger.setAttribute('aria-expanded', isOpen);
+        });
+
+        document.addEventListener('click', function () {
+            langMenu.classList.remove('is-open');
+            langTrigger.setAttribute('aria-expanded', 'false');
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                langMenu.classList.remove('is-open');
+                langTrigger.setAttribute('aria-expanded', 'false');
             }
         });
     </script>

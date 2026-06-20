@@ -92,6 +92,107 @@ body {
     color: var(--white);
 }
 
+.lang-dropdown {
+    position: relative;
+}
+
+.lang-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 12px;
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.lang-trigger svg:first-child {
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.lang-trigger:hover {
+    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.04);
+}
+
+.lang-chevron {
+    color: var(--muted);
+    transition: transform 0.2s;
+}
+
+.lang-trigger[aria-expanded="true"] .lang-chevron {
+    transform: rotate(180deg);
+}
+
+.lang-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 180px;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+    z-index: 200;
+}
+
+.lang-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-menu-label {
+    display: block;
+    padding: 8px 10px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: 4px;
+    color: var(--white);
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.lang-option svg {
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.lang-option:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.lang-option.is-active {
+    background: rgba(91,63,255,0.15);
+    color: var(--indigo);
+    font-weight: 600;
+}
+
 /* ─── HERO ───────────────────────────────────── */
 .hero {
     min-height: 90vh;
