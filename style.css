@@ -57,6 +57,13 @@ body {
     color: var(--white);
 }
 
+.logo-by {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 8px;
+}
+
 .links {
     list-style: none;
     display: flex;
@@ -492,7 +499,90 @@ body {
     color: var(--muted);
     font-size: 15px;
     line-height: 1.65;
-    margin: 0;
+    margin: 0 0 16px;
+}
+
+.service-link {
+    color: var(--indigo);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.service-link:hover {
+    color: var(--lime);
+}
+
+/* ─── WORK PREVIEW (PORTFOLIO) ───────────────── */
+.work-preview {
+    background: var(--black);
+    padding: 100px var(--pad-x);
+}
+
+.work-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.work-card {
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.work-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--indigo);
+}
+
+.work-card-img {
+    width: 100%;
+    height: 160px;
+    background: #1A1A2E;
+    border-bottom: 1px solid var(--border);
+}
+
+.work-card-content {
+    padding: 24px;
+}
+
+.work-card-content h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 0 0 8px;
+}
+
+.work-card-content p {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0 0 16px;
+    line-height: 1.6;
+}
+
+.work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tag {
+    background: rgba(91,63,255,0.15);
+    color: var(--indigo);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.work-preview-cta {
+    text-align: center;
 }
 
 /* ─── PROCESS ────────────────────────────────── */
@@ -785,6 +875,10 @@ body {
     }
 
     .service-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .work-preview-grid {
         grid-template-columns: 1fr;
     }
 
