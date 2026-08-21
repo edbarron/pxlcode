@@ -87,8 +87,7 @@ body {
 }
 
 .links a.nav-cta {
-    color: var(--indigo);
-    border: 1px solid var(--indigo);
+    color: limegreen;
     padding: 8px 20px;
     border-radius: 4px;
     transition: background 0.2s, color 0.2s;
