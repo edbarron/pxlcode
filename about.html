@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About Ed Barron – Bilingual developer with Psychology background and HarvardX CS50 certifications. Python, SQL, automation, and web development." />
+    <link rel="icon" type="image/png" href="logo_nobackground.png" />
+    <title>About Me | PxlCode Studio</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* ===== About page specific styles ===== */
+        .about-hero {
+            min-height: 40vh;
+            padding-bottom: 40px;
+        }
+        .about-content {
+            padding: 20px 0 60px;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .about-card {
+            background: var(--navy);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px 32px;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .about-card:hover {
+            border-color: var(--indigo);
+            transform: translateY(-2px);
+        }
+        .about-card h2 {
+            color: var(--lime);
+            font-size: 1.3rem;
+            margin: 0 0 16px;
+            letter-spacing: -0.01em;
+        }
+        .about-card h2 .emoji {
+            margin-right: 8px;
+        }
+        .about-card p,
+        .about-card li {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0 0 12px;
+        }
+        .about-card ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .about-card ul li {
+            margin-bottom: 6px;
+        }
+        .about-card .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .about-card .tag-group .tag {
+            background: rgba(91,63,255,0.15);
+            color: var(--indigo);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .about-card .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 24px;
+            margin: 8px 0 0;
+        }
+        .about-card .tech-grid .tech-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        .about-card .tech-grid .tech-item .label {
+            color: var(--muted);
+        }
+        .about-card .tech-grid .tech-item .value {
+            color: var(--white);
+            font-weight: 500;
+        }
+        .about-card .credential {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 15px;
+        }
+        .about-card .credential .cert {
+            color: var(--lime);
+            font-weight: 600;
+        }
+        .about-card .credential .issuer {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .about-card .highlight-link {
+            color: var(--indigo);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .about-card .highlight-link:hover {
+            color: var(--lime);
+        }
+
+        .about-cta {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .about-cta .btn-ghost {
+            display: inline-block;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .about-card .tech-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            .about-card {
+                padding: 20px;
+            }
+            .about-card h2 {
+                font-size: 1.1rem;
+            }
+            .about-card p,
+            .about-card li {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         HEADER (injected from header.html)
+         ============================================================ -->
+    <div id="header-placeholder"></div>
+
+    <main>
+
+        <!-- ==================== HERO ==================== -->
+        <section class="hero about-hero">
+            <div class="hero-inner">
+                <p class="hero-eyebrow">About Me</p>
+                <h1>Ed <span class="accent">Barron</span></h1>
+                <p class="hero-sub">
+                    Bilingual developer · Python &amp; SQL · Automation &amp; Data · Web Apps
+                </p>
+            </div>
+            <div class="hero-grid-deco" aria-hidden="true">
+                <div class="grid-lines"></div>
+                <div class="pixel-block pb1"></div>
+                <div class="pixel-block pb2"></div>
+                <div class="pixel-block pb3"></div>
+                <div class="pixel-block pb4"></div>
+            </div>
+        </section>
+
+        <!-- ==================== ABOUT CONTENT ==================== -->
+        <section class="about-content">
+            <div class="section-inner">
+
+                <div class="about-grid">
+
+                    <!-- ===== CARD 1: Professional Summary ===== -->
+                    <div class="about-card">
+                        <h2><span class="emoji">👋</span> Who I Am</h2>
+                        <p>
+                            I'm a <strong>multidisciplinary professional</strong> based in Mexico, working remotely for US/Canada time zones. 
+                            I combine a background in <strong>Psychology</strong> with hands-on technical training from Harvard's CS50 program 
+                            and real-world experience in high-pressure communication and operations.
+                        </p>
+                        <p>
+                            I build <strong>practical tools with Python and SQL</strong> — automation scripts, data pipelines, 
+                            web applications (Flask/Django), and reporting systems. My work bridges the gap between 
+                            <strong>technical execution</strong> and <strong>human communication</strong>: 
+                            I write clean code, document clearly, and translate complex problems into simple solutions.
+                        </p>
+                        <div class="tag-group">
+                            <span class="tag">Remote (US/CA Time Zones)</span>
+                            <span class="tag">Bilingual EN/ES</span>
+                            <span class="tag">Python &amp; SQL</span>
+                        </div>
+                    </div>
+
+                    <!-- ===== CARD 2: Credentials & Certifications ===== -->
+                    <div class="about-card">
+                        <h2><span class="emoji">🎓</span> Credentials</h2>
+                        <p style="margin-bottom: 12px;">
+                            I hold official diplomas from <strong>HarvardX (edX)</strong>:
+                        </p>
+                        <div class="credential">
+                            <span class="cert">CS50x</span>
+                            <span class="issuer">— Introduction to Computer Science</span>
+                        </div>
+                        <div class="credential">
+                            <span class="cert">CS50P</span>
+                            <span class="issuer">— Introduction to Programming with Python</span>
+                        </div>
+                        <div class="credential">
+                            <span class="cert">CS50SQL</span>
+                            <span class="issuer">— Databases and SQL</span>
+                        </div>
+                        <div class="credential">
+                            <span class="cert">CS50W</span>
+                            <span class="issuer">— Web Programming with Python and JavaScript</span>
+                        </div>
+                        <p style="margin-top: 16px;">
+                            📜 <strong>Verify my credentials</strong> or see my complete academic and professional history on 
+                            <a href="https://linkedin.com/in/eduardo-barron-b13989137" target="_blank" class="highlight-link">my LinkedIn profile</a>.
+                        </p>
+                        <div class="tag-group">
+                            <span class="tag">HarvardX</span>
+                            <span class="tag">CS50</span>
+                            <span class="tag">edX</span>
+                        </div>
+                    </div>
+
+                    <!-- ===== CARD 3: Languages ===== -->
+                    <div class="about-card">
+                        <h2><span class="emoji">🌐</span> Languages</h2>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                            <span style="color: var(--muted);">Spanish</span>
+                            <span style="color: var(--white); font-weight: 600;">Native</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                            <span style="color: var(--muted);">English</span>
+                            <span style="color: var(--white); font-weight: 600;">C2 Certified (Professional)</span>
+                        </div>
+                        <p style="margin-top: 16px;">
+                            Fluent in both business and technical communication. I work seamlessly with English-speaking teams and clients.
+                        </p>
+                    </div>
+
+                    <!-- ===== CARD 4: Tech Stack ===== -->
+                    <div class="about-card">
+                        <h2><span class="emoji">⚙️</span> Tech Stack</h2>
+                        <div class="tech-grid">
+                            <div class="tech-item">
+                                <span class="label">Languages</span>
+                                <span class="value">Python, SQL, JS</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="label">Web</span>
+                                <span class="value">Flask, Django, HTML/CSS</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="label">Data</span>
+                                <span class="value">SQLite, pandas, APIs</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="label">Tools</span>
+                                <span class="value">Git, Linux, VS Code</span>
+                            </div>
+                            <div class="tech-item">
+                                <span class="label">Languages (Human)</span>
+                                <span class="value">English (C2), Spanish (Native)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== CARD 5: What I Do ===== -->
+                    <div class="about-card" style="grid-column: span 1;">
+                        <h2><span class="emoji">🚀</span> What I Do</h2>
+                        <ul>
+                            <li><strong>Automate</strong> repetitive tasks — data extraction, notifications, reporting.</li>
+                            <li><strong>Build web apps</strong> that solve operational problems (POS, dashboards, internal tools).</li>
+                            <li><strong>Integrate APIs</strong> to connect platforms (Telegram, X/Twitter, YouTube, external data).</li>
+                            <li><strong>Turn raw data into insights</strong> with SQL, pandas, and Excel exports.</li>
+                            <li><strong>Document &amp; communicate</strong> technical work clearly for stakeholders and end users.</li>
+                        </ul>
+                    </div>
+
+                    <!-- ===== CARD 6: Recent Projects ===== -->
+                    <div class="about-card" style="grid-column: span 1;">
+                        <h2><span class="emoji">📁</span> Recent Projects</h2>
+                        <ul>
+                            <li><strong>WorldWatcher</strong> — automated news monitoring &amp; alert system via Telegram (Python, APIs).</li>
+                            <li><strong>Bizzy</strong> — small business POS and sales reporting web app (Django, SQL).</li>
+                            <li><strong>YouData</strong> — YouTube analytics scraper with Excel export (Python, YouTube API, pandas).</li>
+                            <li><strong>Navigoals</strong> — CLI task manager with Telegram bot interface (Python, SQLite, Telegram API).</li>
+                        </ul>
+                        <div class="tag-group">
+                            <a href="work.html" class="highlight-link" style="font-size: 14px;">View full portfolio →</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- ===== CTA ===== -->
+                <div class="about-cta">
+                    <a href="index.html#contact" class="btn-ghost" style="display:inline-block; padding: 14px 40px; font-size: 16px;">
+                        📬 Let's Work Together
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==================== WHATSAPP FLOAT ==================== -->
+    <a href="https://wa.me/527777777777?text=Hi%2C%20I%27m%20interested%20in%20working%20with%20you"
+       class="whatsapp-float"
+       target="_blank"
+       rel="noopener"
+       aria-label="Chat on WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.05-1.33A9.93 9.93 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18.18c-1.63 0-3.16-.46-4.46-1.25l-.32-.19-3.32.87.89-3.24-.21-.33A8.16 8.16 0 0 1 3.82 12c0-4.52 3.67-8.18 8.18-8.18s8.18 3.67 8.18 8.18-3.66 8.18-8.18 8.18zm4.49-6.13c-.25-.12-1.45-.71-1.67-.79-.22-.08-.39-.12-.55.13-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.99-1.22-.74-.65-1.23-1.46-1.38-1.71-.14-.24-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.31c-.22.24-.86.84-.86 2.05s.88 2.37 1 2.54c.13.16 1.74 2.65 4.21 3.71.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.21-.57.21-1.06.14-1.16-.06-.11-.22-.17-.47-.29z" />
+        </svg>
+    </a>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <span>© 2026 PxlCode Studio — by Ed Barron</span>
+        <span class="footer-tag">Turning Pixels Into Solutions</span>
+    </footer>
+
+    <!-- ============================================================
+         SCRIPTS
+         ============================================================ -->
+
+    <script>
+        // ---------- HEADER INJECTION ----------
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') {
+                    return '.';
+                }
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        // ---------- DROPDOWNS LOGIC ----------
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
