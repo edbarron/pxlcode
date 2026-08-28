@@ -1,3 +1,8 @@
+/* ============================================================
+   style.css — PxlCode Studio
+   Base + Header + Dropdowns + Todo lo demás
+   ============================================================ */
+
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -27,7 +32,7 @@ body {
     --pad-x:   clamp(24px, 6vw, 120px);
 }
 
-/* ─── HEADER ─────────────────────────────────── */
+/* ─── HEADER (estilos base, los dropdowns van más abajo) ── */
 .header {
     position: sticky;
     top: 0;
@@ -47,6 +52,9 @@ body {
     font-weight: 900;
     letter-spacing: 0.06em;
     line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .logo-pxl {
@@ -61,7 +69,7 @@ body {
     font-size: 12px;
     font-weight: 400;
     color: var(--muted);
-    margin-left: 8px;
+    margin-left: 4px;
 }
 
 .links {
@@ -98,105 +106,81 @@ body {
     color: var(--white);
 }
 
-.lang-dropdown {
+/* ============================================================
+   DROPDOWNS (para Services y Work)
+   ============================================================ */
+.has-dropdown {
     position: relative;
 }
 
-.lang-trigger {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 7px 12px;
-    color: var(--white);
-    font-size: 14px;
+.nav-toggle {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 15px;
     font-weight: 500;
     font-family: inherit;
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
 }
-
-.lang-trigger svg:first-child {
-    border-radius: 2px;
-    flex-shrink: 0;
+.nav-toggle:hover {
+    color: var(--white);
 }
-
-.lang-trigger:hover {
-    border-color: rgba(255,255,255,0.3);
-    background: rgba(255,255,255,0.04);
-}
-
-.lang-chevron {
-    color: var(--muted);
+.nav-toggle .dropdown-arrow {
+    font-size: 0.7rem;
     transition: transform 0.2s;
 }
-
-.lang-trigger[aria-expanded="true"] .lang-chevron {
+.has-dropdown.open .nav-toggle .dropdown-arrow {
     transform: rotate(180deg);
 }
 
-.lang-menu {
+.dropdown-menu {
+    display: none;
     position: absolute;
-    top: calc(100% + 8px);
-    right: 0;
-    min-width: 180px;
+    top: 100%;
+    left: 0;
     background: var(--navy);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 220px;
     list-style: none;
-    margin: 0;
-    padding: 6px;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-6px);
-    transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
     z-index: 200;
 }
-
-.lang-menu.is-open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.lang-menu-label {
+.has-dropdown.open .dropdown-menu {
     display: block;
-    padding: 8px 10px 6px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
 }
-
-.lang-option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 10px;
-    border-radius: 4px;
-    color: var(--white);
-    font-size: 14px;
+.dropdown-menu li {
+    margin: 0;
+}
+.dropdown-menu li a {
+    display: block;
+    padding: 8px 20px;
+    color: var(--text-secondary);
     text-decoration: none;
-    transition: background 0.15s;
+    font-size: 0.95rem;
+    transition: background 0.2s, color 0.2s;
 }
-
-.lang-option svg {
-    border-radius: 2px;
-    flex-shrink: 0;
-}
-
-.lang-option:hover {
+.dropdown-menu li a:hover {
     background: rgba(255,255,255,0.06);
+    color: var(--lime);
 }
-
-.lang-option.is-active {
-    background: rgba(91,63,255,0.15);
-    color: var(--indigo);
+.dropdown-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 12px;
+}
+.dropdown-viewall {
     font-weight: 600;
+    color: var(--lime) !important;
+}
+.dropdown-viewall:hover {
+    background: rgba(0,255,8,0.08) !important;
 }
 
 /* ─── HERO ───────────────────────────────────── */
@@ -635,46 +619,6 @@ body {
     align-self: flex-start;
 }
 
-/* ─── CLIENTS ────────────────────────────────── */
-.clients {
-    background: var(--navy);
-    padding: 100px var(--pad-x);
-}
-
-.client-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 48px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.client-list li {
-    padding: 10px 22px;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: 0.02em;
-    transition: border-color 0.2s, color 0.2s;
-}
-
-.client-list li:hover {
-    border-color: var(--indigo);
-    color: var(--white);
-}
-
-.clients-promise {
-    font-size: 20px;
-    color: var(--white);
-    max-width: 520px;
-    line-height: 1.65;
-    margin: 0;
-    font-weight: 500;
-}
-
 /* ─── QUOTE ──────────────────────────────────── */
 .quote-section {
     background: var(--black);
@@ -863,6 +807,8 @@ body {
 
     .links {
         gap: 16px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .links a.nav-cta {
