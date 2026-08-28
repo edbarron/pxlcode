@@ -7,6 +7,35 @@
     <link rel="icon" type="image/png" href="./logo_nobackground.png">
     <title>Work | PxlCode Studio</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo para las imágenes de los proyectos */
+        .project-thumb {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #1A1A2E;
+            border-bottom: 2px solid var(--lime);
+            display: block;
+        }
+        /* Fallback cuando no hay imagen */
+        .project-thumb-fallback {
+            background: #1A1A2E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+            border-bottom: 2px solid var(--lime);
+            font-family: monospace;
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--lime);
+        }
+        /* Ajuste para mantener consistencia */
+        .work-card-img {
+            background: #1A1A2E;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
 
@@ -60,8 +89,9 @@
 
                     <!-- Navigoals -->
                     <div class="work-card" id="navigoals">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">Navigoals</span>
+                        <div class="work-card-img">
+                            <img src="projects/navigoals/thumbnail.png" alt="Navigoals thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">Navigoals</div>
                         </div>
                         <div class="work-card-content">
                             <h3>Navigoals</h3>
@@ -80,8 +110,9 @@
 
                     <!-- WorldTimer -->
                     <div class="work-card" id="worldtimer">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">WorldTimer</span>
+                        <div class="work-card-img">
+                            <img src="projects/worldtimer/thumbnail.png" alt="WorldTimer thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">WorldTimer</div>
                         </div>
                         <div class="work-card-content">
                             <h3>WorldTimer</h3>
@@ -98,13 +129,14 @@
                         </div>
                     </div>
 
-                    <!-- PulsoBot -->
+                    <!-- PulsoBot (TelegramToX) -->
                     <div class="work-card" id="pulsobot">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">PulsoBot</span>
+                        <div class="work-card-img">
+                            <img src="projects/telegramtox/thumbnail.png" alt="telegramtox thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">PulsoBot</div>
                         </div>
                         <div class="work-card-content">
-                            <h3>PulsoBot</h3>
+                            <h3>Telegram to X bot</h3>
                             <p><strong>Telegram → X (Twitter) Bridge.</strong> Listens to a Telegram channel and automatically reposts messages (text, photos, videos) to Twitter using OAuth.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
@@ -120,8 +152,9 @@
 
                     <!-- WorldWatcher -->
                     <div class="work-card" id="worldwatcher">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">WorldWatcher</span>
+                        <div class="work-card-img">
+                            <img src="projects/worldwatcher/thumbnail.png" alt="WorldWatcher thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">WorldWatcher</div>
                         </div>
                         <div class="work-card-content">
                             <h3>WorldWatcher</h3>
@@ -153,10 +186,33 @@
                 </h2>
                 <div class="work-preview-grid">
 
+                    <!-- Bizzy (nuevo) -->
+                    <div class="work-card" id="bizzy">
+                        <div class="work-card-img">
+                            <img src="projects/bizzy/thumbnail.png" alt="Bizzy thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">Bizzy</div>
+                        </div>
+                        <div class="work-card-content">
+                            <h3>Bizzy POS</h3>
+                            <p><strong>Point of Sale for small businesses.</strong> Django web app with public menu, sales reports, and a full POS interface. Tracks transactions with cancellation/restore and owner-scoped data.</p>
+                            <div class="work-tags">
+                                <span class="tag">Django</span>
+                                <span class="tag">SQLite</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">Bootstrap</span>
+                            </div>
+                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                                <a href="projects/bizzy.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
+                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Solviem -->
                     <div class="work-card" id="solviem">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 20px; font-family: monospace;">Solviem</span>
+                        <div class="work-card-img">
+                            <img src="projects/solviem/thumbnail.png" alt="Solviem thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">Solviem</div>
                         </div>
                         <div class="work-card-content">
                             <h3>Solviem Consultoría</h3>
@@ -173,8 +229,28 @@
                         </div>
                     </div>
 
-                    <!-- (Optional: Add PxlCode Studio here later if you want) -->
 
+                    <!-- PxlCode Studio -->
+                    <div class="work-card" id="pxlcode">
+                        <div class="work-card-img">
+                            <img src="projects/pxlcode/thumbnail.png" alt="PxlCode Studio thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">PxlCode</div>
+                        </div>
+                        <div class="work-card-content">
+                            <h3>PxlCode Studio</h3>
+                            <p><strong>Professional Portfolio / Landing Page.</strong> A complete brand identity and showcase website for a development studio — with service listings, a project gallery, and a contact-first design. Built to convert visitors into clients.</p>
+                            <div class="work-tags">
+                                <span class="tag">HTML/CSS</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">UX Design</span>
+                                <span class="tag">Branding</span>
+                            </div>
+                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                                <a href="projects/pxlcode.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
+                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -191,8 +267,9 @@
 
                     <!-- DataBall -->
                     <div class="work-card" id="databall">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">DataBall</span>
+                        <div class="work-card-img">
+                            <img src="projects/databall/thumbnail.png" alt="DataBall thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">DataBall</div>
                         </div>
                         <div class="work-card-content">
                             <h3>DataBall</h3>
@@ -211,8 +288,9 @@
 
                     <!-- YouData -->
                     <div class="work-card" id="youdata">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">YouData</span>
+                        <div class="work-card-img">
+                            <img src="projects/youdata/thumbnail.png" alt="YouData thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="project-thumb-fallback" style="display:none;">YouData</div>
                         </div>
                         <div class="work-card-content">
                             <h3>YouData</h3>

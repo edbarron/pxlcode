@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Navigoals | PxlCode Studio</title>
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="icon" type="image/png" href="../../logo_nobackground.png" />
+    <style>
+        /* ===== Page Layout ===== */
+        .project-detail-hero {
+            min-height: 20vh;       
+            padding: 2px 0 0;      
+            padding-left: 20px;
+        }
+        .project-detail-hero h1 {
+            font-size: 3.5rem;
+        }
+        .project-detail-hero .hero-sub {
+            font-size: 1.5rem;
+        }
+        .project-detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .project-detail-card h2 {
+            color: var(--lime);
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        .project-detail-card h2:first-of-type {
+            margin-top: 0;
+        }
+        .project-detail-card ul {
+            padding-left: 20px;
+        }
+        .project-detail-card ul li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        /* ===== Links ===== */
+        .project-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .project-links a {
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .project-links a:hover {
+            opacity: 0.85;
+        }
+        .btn-github {
+            background: #24292e;
+            color: white;
+        }
+        .btn-github:hover {
+            background: #2f363d;
+        }
+        .btn-demo {
+            background: var(--indigo);
+            color: white;
+        }
+        .btn-demo:hover {
+            background: var(--indigo-dark);
+        }
+        .btn-demo-disabled {
+            background: #444;
+            color: #888;
+            cursor: not-allowed;
+            pointer-events: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        /* ===== Tech Tags ===== */
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .tech-tags .tag {
+            background: var(--bg-card-light);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+        }
+
+        /* ===== Carousel ===== */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #0d0d1a;
+        }
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0d0d1a;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            display: block;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            font-size: 28px;
+            padding: 12px 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            z-index: 10;
+            transition: background 0.2s;
+            user-select: none;
+        }
+        .carousel-btn:hover {
+            background: rgba(0,0,0,0.85);
+        }
+        .carousel-btn.prev {
+            left: 10px;
+        }
+        .carousel-btn.next {
+            right: 10px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 0 4px;
+        }
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #555;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .carousel-dot.active {
+            background: var(--lime);
+        }
+        .carousel-fallback {
+            padding: 60px 20px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--lime);
+            background: #1A1A2E;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .carousel-btn {
+                font-size: 20px;
+                padding: 8px 12px;
+            }
+            .carousel-slide img {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <a href="../../index.html" class="logo">
+            <img src="../../logo_nobackground.png" alt="Logo pxlcode" style="height:30px; width: auto;">
+            <span class="logo-pxl">PXL</span><span class="logo-code">CODE STUDIO</span>
+            <span class="logo-by">by Ed Barron</span>
+        </a>
+        <nav>
+            <ul class="links">
+                <li><a href="../../services.html">Services</a></li>
+                <li><a href="../../work.html">Work</a></li>
+                <li><a href="../../index.html#process">Process</a></li>
+                <li><a href="../../index.html#about">About</a></li>
+                <li><a href="../../index.html#contact" class="nav-cta">Contact me</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ===== HERO ===== -->
+        <section class="hero project-detail-hero">
+            <div class="hero-inner">
+                <p class="hero-eyebrow">Project</p>
+                <h1>Navigoals</h1>
+                <p class="hero-sub">Personal Goal Tracker (CLI + Telegram Bot)</p>
+            </div>
+            <div class="hero-grid-deco" aria-hidden="true">
+                <div class="pixel-block pb1"></div>
+                <div class="pixel-block pb2"></div>
+            </div>
+        </section>
+
+        <!-- ===== DETAILS ===== -->
+        <section style="padding: 20px 0 60px;">
+            <div class="section-inner">
+                <div class="project-detail-card">
+
+                    <!-- Carousel -->
+                    <div class="carousel-container" id="carousel">
+                        <div class="carousel-slides" id="slides"></div>
+                        <button class="carousel-btn prev" id="prevBtn">‹</button>
+                        <button class="carousel-btn next" id="nextBtn">›</button>
+                        <div class="carousel-dots" id="dots"></div>
+                    </div>
+
+                    <!-- Overview -->
+                    <h2>Overview</h2>
+                    <p>
+                        A productivity tool that helps you plan, manage, and track your tasks on a daily, weekly, and monthly basis. 
+                        Features a command‑line interface (CLI) and a Telegram bot with inline buttons, so you can manage your goals from anywhere. 
+                        Includes three lists (Daily, Master, Waiting), efficiency tracking, and detailed reports.
+                    </p>
+
+                    <!-- Key Features -->
+                    <h2>Key Features</h2>
+                    <ul>
+                        <li><strong>Task Management:</strong> Add, update, delete, and copy tasks with multi‑select support (comma-separated IDs or <code>*</code> for all).</li>
+                        <li><strong>Efficiency Tracking:</strong> Automatically calculates completion rates with daily/weekly/monthly reports.</li>
+                        <li><strong>Telegram Bot:</strong> Full bot interface with inline buttons, main menu snapshot, and <code>/restart</code> command for remote recovery.</li>
+                        <li><strong>Three Lists:</strong> Daily Tasks (dated), Master List (recurring), and Waiting List (non‑urgent).</li>
+                        <li><strong>Docker Support:</strong> Run the bot continuously with Docker Compose (auto‑restart).</li>
+                        <li><strong>SQLite Persistence:</strong> All tasks stored locally; no data loss between sessions.</li>
+                    </ul>
+
+                    <!-- Technologies -->
+                    <h2>Technologies</h2>
+                    <div class="tech-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">SQLite</span>
+                        <span class="tag">python-telegram-bot</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Tabulate</span>
+                    </div>
+
+                    <!-- Links -->
+                    <h2>Links</h2>
+                    <div class="project-links">
+                        <a href="https://github.com/edbarron/navigoals" class="btn-github" target="_blank">🐙 GitHub Repository</a>
+                        <span class="btn-demo-disabled">🔒 Private Bot (no public demo)</span>
+                    </div>
+                    <p style="margin-top: 12px; color: var(--text-secondary); font-size: 14px;">
+                        <em>The bot runs in long‑polling mode and only responds to a single configured Telegram chat ID, so there is no public instance available.</em>
+                    </p>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <span>© 2026 PxlCode Studio — by Ed Barron</span>
+        <span class="footer-tag">Turning Pixels Into Solutions</span>
+    </footer>
+
+    <!-- ===== CAROUSEL JAVASCRIPT ===== -->
+    <script>
+        (function() {
+            // =============================================
+            // CONFIGURE YOUR IMAGES HERE
+            // =============================================
+            // List of image paths (relative to this HTML file).
+            // Add more files as needed: "slide2.png", "screenshot.jpg", etc.
+            const imageList = [
+                "thumbnail.png",
+                "slide2.png"
+                // "screenshot1.jpg",
+                // "demo.gif"
+            ];
+            // =============================================
+
+            const slidesContainer = document.getElementById('slides');
+            const dotsContainer = document.getElementById('dots');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentIndex = 0;
+
+            // If no images, show fallback
+            if (!imageList || imageList.length === 0) {
+                slidesContainer.innerHTML = '<div class="carousel-fallback">Navigoals</div>';
+                return;
+            }
+
+            // Build slides
+            let slidesHTML = '';
+            imageList.forEach((src, idx) => {
+                slidesHTML += `
+                    <div class="carousel-slide" data-index="${idx}">
+                        <img src="${src}" alt="Screenshot ${idx + 1}" loading="lazy" onerror="this.src=''; this.alt='Image not found';" />
+                    </div>
+                `;
+            });
+            slidesContainer.innerHTML = slidesHTML;
+
+            // Build dots
+            let dotsHTML = '';
+            imageList.forEach((_, idx) => {
+                dotsHTML += `<button class="carousel-dot ${idx === 0 ? 'active' : ''}" data-index="${idx}"></button>`;
+            });
+            dotsContainer.innerHTML = dotsHTML;
+
+            // Update carousel position and active dot
+            function updateCarousel(index) {
+                const total = imageList.length;
+                if (index < 0) index = total - 1;
+                if (index >= total) index = 0;
+                currentIndex = index;
+
+                slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            // Event listeners
+            prevBtn.addEventListener('click', () => updateCarousel(currentIndex - 1));
+            nextBtn.addEventListener('click', () => updateCarousel(currentIndex + 1));
+
+            document.querySelectorAll('.carousel-dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    updateCarousel(parseInt(this.dataset.index));
+                });
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') updateCarousel(currentIndex - 1);
+                if (e.key === 'ArrowRight') updateCarousel(currentIndex + 1);
+            });
+
+            // Initialize
+            updateCarousel(0);
+        })();
+    </script>
+
+</body>
+</html>

@@ -20,7 +20,7 @@ body {
     --navy:    #1A1A2E;
     --indigo:  #5B3FFF;
     --indigo-dim: #3D2BB5;
-    --lime:    #C8FF00;
+    --lime:    #00ff08;
     --white:   #F0F0F0;
     --muted:   #8A8A9A;
     --border:  rgba(255,255,255,0.08);
@@ -217,7 +217,7 @@ body {
 }
 
 .hero-eyebrow {
-    font-size: 13px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
