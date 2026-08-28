@@ -73,14 +73,19 @@
         .btn-demo:hover {
             background: var(--indigo-dark);
         }
-        .btn-demo-disabled {
-            background: #444;
-            color: #888;
-            cursor: not-allowed;
-            pointer-events: none;
+        .btn-primary {
+            background: var(--indigo);
+            color: white;
+            border: none;
+            border-radius: 4px;
             padding: 10px 24px;
-            border-radius: 6px;
-            display: inline-block;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background: #7059FF;
         }
 
         /* ===== Tech Tags ===== */
@@ -243,23 +248,8 @@
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="header">
-        <a href="../../index.html" class="logo">
-            <img src="../../logo_nobackground.png" alt="Logo pxlcode" style="height:30px; width: auto;">
-            <span class="logo-pxl">PXL</span><span class="logo-code">CODE STUDIO</span>
-            <span class="logo-by">by Ed Barron</span>
-        </a>
-        <nav>
-            <ul class="links">
-                <li><a href="../../services.html">Services</a></li>
-                <li><a href="../../work.html">Work</a></li>
-                <li><a href="../../index.html#process">Process</a></li>
-                <li><a href="../../index.html#about">About</a></li>
-                <li><a href="../../index.html#contact" class="nav-cta">Contact me</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- ===== HEADER INJECTED ===== -->
+    <div id="header-placeholder"></div>
 
     <main>
         <!-- ===== HERO ===== -->
@@ -280,7 +270,7 @@
             <div class="section-inner">
                 <div class="project-detail-card">
 
-                    <!-- ===== CARRUSEL ===== -->
+                    <!-- ===== CAROUSEL ===== -->
                     <div class="carousel-container" id="carousel">
                         <div class="carousel-slides" id="slides"></div>
                         <button class="carousel-btn prev" id="prevBtn">‹</button>
@@ -291,7 +281,7 @@
                     <!-- Overview -->
                     <h2>Overview</h2>
                     <p>
-                        A Telegram bot that listens to groups/channels where your account is a member and forwards full messages (text + media) to one or more destination chats based on custom keyword rules (OR/NOT filters). 
+                        A Telegram bot that listens to groups/channels where your account is a member and forwards full messages (text + media) to one or more destination chats based on custom keyword rules (OR/NOT filters).
                         Supports multiple destinations via routing configuration, making it perfect for news aggregation, market monitoring, or team alerts.
                     </p>
 
@@ -322,6 +312,7 @@
                     <div class="project-links">
                         <a href="https://github.com/edbarron/worldwatcher" class="btn-github" target="_blank">🐙 GitHub Repository</a>
                         <a href="https://t.me/Worldwatcher" class="btn-demo" target="_blank">📡 Live Demo</a>
+                        <a href="../../contact.html" class="btn-primary">📬 I need something like this</a>
                     </div>
                     <p style="margin-top: 12px; color: var(--text-secondary); font-size: 14px;">
                         <em>The bot runs publicly on Telegram. Follow <strong>@Worldwatcher</strong> (main feed) or the topic channels: <strong>@Worldwatcher_Finz</strong> (Finance), <strong>@Worldwatcher_Pol</strong> (Politics), <strong>@Worldwatcher_Sci</strong> (Science), and <strong>@Worldwatcher_Nat</strong> (Natural Disasters).</em>
@@ -338,7 +329,11 @@
         <span class="footer-tag">Turning Pixels Into Solutions</span>
     </footer>
 
-    <!-- ===== CAROUSEL JAVASCRIPT ===== -->
+    <!-- ============================================================
+         SCRIPTS
+         ============================================================ -->
+
+    <!-- ===== CAROUSEL ===== -->
     <script>
         (function() {
             // =============================================
@@ -434,6 +429,82 @@
                 if (e.key === 'ArrowRight') updateCarousel(currentIndex + 1);
             });
         })();
+    </script>
+
+    <!-- ===== HEADER INJECTION ===== -->
+    <script>
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') return '.';
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                // For projects inside projects/nombre/, depth >= 2
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        // ---------- DROPDOWNS ----------
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
     </script>
 
 </body>

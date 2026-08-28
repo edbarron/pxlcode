@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio of Ed Barron (PxlCode Studio). Custom web development, automation bots, and data tools built with Python, APIs, and SQLite.">
-    <link rel="icon" type="image/png" href="./logo_nobackground.png">
+    <link rel="icon" type="image/png" href="logo_nobackground.png">
     <title>Work | PxlCode Studio</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilo para las imágenes de los proyectos */
+        /* ===== Thumbnail styles ===== */
         .project-thumb {
             width: 100%;
             height: 180px;
@@ -17,7 +17,6 @@
             border-bottom: 2px solid var(--lime);
             display: block;
         }
-        /* Fallback cuando no hay imagen */
         .project-thumb-fallback {
             background: #1A1A2E;
             display: flex;
@@ -30,43 +29,60 @@
             font-size: 24px;
             color: var(--lime);
         }
-        /* Ajuste para mantener consistencia */
         .work-card-img {
             background: #1A1A2E;
             overflow: hidden;
+        }
+        /* ===== Button adjustments ===== */
+        .work-card-actions .btn-primary {
+            background: var(--indigo);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+        .work-card-actions .btn-primary:hover {
+            background: #7059FF;
+        }
+        .btn-ghost {
+            display: inline-block;
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .btn-ghost:hover {
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.04);
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <a href="index.html" class="logo">
-            <img src="./logo_nobackground.png" alt="Logo pxlcode" style="height:30px; width: auto;">
-            <span class="logo-pxl">PXL</span><span class="logo-code">CODE STUDIO</span>
-            <span class="logo-by">by Ed Barron</span>
-        </a>
-
-        <nav>
-            <ul class="links">
-                <li><a href="services.html">Services</a></li>
-                <li><a href="work.html" class="nav-cta" style="color: var(--white); border-color: var(--indigo); background: var(--indigo);">Work</a></li>
-                <li><a href="index.html#process">How We Work</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#contact" class="nav-cta">Get Started</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- ============================================================
+         HEADER (injected from header.html)
+         ============================================================ -->
+    <div id="header-placeholder"></div>
 
     <main>
 
-        <!-- Page Header -->
+        <!-- ==================== HERO ==================== -->
         <section class="hero" style="min-height: 40vh; padding-bottom: 40px;">
             <div class="hero-inner">
                 <p class="hero-eyebrow">Portfolio</p>
                 <h1>Solutions I've <span class="accent">Built</span></h1>
                 <p class="hero-sub">
-                    Here are some of the tools, bots, and websites I've developed. 
+                    Here are some of the tools, bots, and websites I've developed.
                     Each one solves a real problem — maybe one of them is exactly what you need.
                 </p>
             </div>
@@ -77,9 +93,9 @@
             </div>
         </section>
 
-        <!-- ============================================ -->
-        <!-- CATEGORY 1: BOTS & AUTOMATION                -->
-        <!-- ============================================ -->
+        <!-- ============================================================
+             CATEGORY 1: BOTS & AUTOMATION
+             ============================================================ -->
         <section class="work-preview" style="padding-top: 0; padding-bottom: 20px;">
             <div class="section-inner">
                 <h2 style="color: var(--lime); font-size: 28px; margin-bottom: 30px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">
@@ -103,7 +119,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/navigoals/navigoals.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -124,7 +140,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/worldtimer/worldtimer.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -145,7 +161,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/telegramtox/telegramtox.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -167,7 +183,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/worldwatcher/worldwatcher.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -176,9 +192,9 @@
             </div>
         </section>
 
-        <!-- ============================================ -->
-        <!-- CATEGORY 2: WEB DESIGN & DIGITAL PRODUCTS    -->
-        <!-- ============================================ -->
+        <!-- ============================================================
+             CATEGORY 2: WEB DESIGN & DIGITAL PRODUCTS
+             ============================================================ -->
         <section class="work-preview" style="padding-top: 0; padding-bottom: 20px;">
             <div class="section-inner">
                 <h2 style="color: var(--lime); font-size: 28px; margin-bottom: 30px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">
@@ -203,7 +219,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/bizzy/bizzy.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -224,7 +240,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/solviem/solviem.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -246,7 +262,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/pxlcode/pxlcode.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -255,9 +271,9 @@
             </div>
         </section>
 
-        <!-- ============================================ -->
-        <!-- CATEGORY 3: DATA ANALYSIS & APIS             -->
-        <!-- ============================================ -->
+        <!-- ============================================================
+             CATEGORY 3: DATA ANALYSIS & APIS
+             ============================================================ -->
         <section class="work-preview" style="padding-top: 0; padding-bottom: 20px;">
             <div class="section-inner">
                 <h2 style="color: var(--lime); font-size: 28px; margin-bottom: 30px; border-bottom: 2px solid var(--border); padding-bottom: 10px;">
@@ -281,7 +297,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/databall/databall.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -302,7 +318,7 @@
                             </div>
                             <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
                                 <a href="projects/youdata/youdata.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
-                                <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need this</a>
+                                <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
                         </div>
                     </div>
@@ -313,11 +329,93 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- ==================== FOOTER ==================== -->
     <footer class="footer">
         <span>© 2026 PxlCode Studio — by Ed Barron</span>
         <span class="footer-tag">Turning Pixels Into Solutions</span>
     </footer>
+
+    <!-- ============================================================
+         SCRIPTS
+         ============================================================ -->
+
+    <script>
+        // ---------- HEADER INJECTION ----------
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') {
+                    return '.';
+                }
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        // ---------- DROPDOWNS LOGIC ----------
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>

@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PROJECT_NAME | PxlCode Studio</title>
-    <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="../../style.css" />    <!-- Sube 2 niveles hasta la raíz -->
     <link rel="icon" type="image/png" href="../../logo_nobackground.png" />
+    <!-- ===== Estilos específicos de la página ===== -->
     <style>
-        /* ===== Page Layout ===== */
         .project-detail-hero {
             min-height: 20vh;
             padding: 2px 0 0;
@@ -41,8 +41,6 @@
             margin-bottom: 8px;
             line-height: 1.6;
         }
-
-        /* ===== Links ===== */
         .project-links {
             display: flex;
             gap: 16px;
@@ -82,8 +80,6 @@
             border-radius: 6px;
             display: inline-block;
         }
-
-        /* ===== Tech Tags ===== */
         .tech-tags {
             display: flex;
             flex-wrap: wrap;
@@ -98,8 +94,6 @@
             font-size: 13px;
             border: 1px solid var(--border);
         }
-
-        /* ===== Carousel ===== */
         .carousel-container {
             position: relative;
             width: 100%;
@@ -184,8 +178,6 @@
             align-items: center;
             justify-content: center;
         }
-
-        /* Responsive */
         @media (max-width: 600px) {
             .carousel-btn {
                 font-size: 20px;
@@ -199,23 +191,8 @@
 </head>
 <body>
 
-    <!-- ===== HEADER ===== -->
-    <header class="header">
-        <a href="../../index.html" class="logo">
-            <img src="../../logo_nobackground.png" alt="Logo pxlcode" style="height:30px; width: auto;">
-            <span class="logo-pxl">PXL</span><span class="logo-code">CODE STUDIO</span>
-            <span class="logo-by">by Ed Barron</span>
-        </a>
-        <nav>
-            <ul class="links">
-                <li><a href="../../services.html">Services</a></li>
-                <li><a href="../../work.html">Work</a></li>
-                <li><a href="../../index.html#process">Process</a></li>
-                <li><a href="../../index.html#about">About</a></li>
-                <li><a href="../../index.html#contact" class="nav-cta">Contact me</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- ===== HEADER INJECTED ===== -->
+    <div id="header-placeholder"></div>
 
     <main>
         <!-- ===== HERO ===== -->
@@ -236,7 +213,7 @@
             <div class="section-inner">
                 <div class="project-detail-card">
 
-                    <!-- Carousel -->
+                    <!-- ===== CAROUSEL ===== -->
                     <div class="carousel-container" id="carousel">
                         <div class="carousel-slides" id="slides"></div>
                         <button class="carousel-btn prev" id="prevBtn">‹</button>
@@ -289,21 +266,18 @@
         <span class="footer-tag">Turning Pixels Into Solutions</span>
     </footer>
 
-    <!-- ===== CAROUSEL JAVASCRIPT ===== -->
+    <!-- ============================================================
+         SCRIPTS
+         ============================================================ -->
     <script>
+        // ---------- CAROUSEL ----------
         (function() {
-            // =============================================
-            // CONFIGURE YOUR IMAGES HERE
-            // =============================================
-            // List of image paths (relative to this HTML file).
-            // Add more files as needed: "slide2.png", "screenshot.jpg", etc.
             const imageList = [
                 "thumbnail.png"
                 // "slide2.png",
                 // "screenshot1.jpg",
                 // "demo.gif"
             ];
-            // =============================================
 
             const slidesContainer = document.getElementById('slides');
             const dotsContainer = document.getElementById('dots');
@@ -311,13 +285,11 @@
             const nextBtn = document.getElementById('nextBtn');
             let currentIndex = 0;
 
-            // If no images, show fallback
             if (!imageList || imageList.length === 0) {
                 slidesContainer.innerHTML = '<div class="carousel-fallback">PROJECT_NAME</div>';
                 return;
             }
 
-            // Build slides
             let slidesHTML = '';
             imageList.forEach((src, idx) => {
                 slidesHTML += `
@@ -328,14 +300,12 @@
             });
             slidesContainer.innerHTML = slidesHTML;
 
-            // Build dots
             let dotsHTML = '';
             imageList.forEach((_, idx) => {
                 dotsHTML += `<button class="carousel-dot ${idx === 0 ? 'active' : ''}" data-index="${idx}"></button>`;
             });
             dotsContainer.innerHTML = dotsHTML;
 
-            // Update carousel position and active dot
             function updateCarousel(index) {
                 const total = imageList.length;
                 if (index < 0) index = total - 1;
@@ -343,13 +313,11 @@
                 currentIndex = index;
 
                 slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-
                 document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
                     dot.classList.toggle('active', i === currentIndex);
                 });
             }
 
-            // Event listeners
             prevBtn.addEventListener('click', () => updateCarousel(currentIndex - 1));
             nextBtn.addEventListener('click', () => updateCarousel(currentIndex + 1));
 
@@ -359,15 +327,87 @@
                 });
             });
 
-            // Keyboard navigation
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowLeft') updateCarousel(currentIndex - 1);
                 if (e.key === 'ArrowRight') updateCarousel(currentIndex + 1);
             });
 
-            // Initialize
             updateCarousel(0);
         })();
+
+        // ---------- HEADER INJECTION ----------
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') return '.';
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                // Para proyectos dentro de projects/nombre/, depth >= 2
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        // ---------- DROPDOWNS ----------
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
     </script>
 
 </body>
