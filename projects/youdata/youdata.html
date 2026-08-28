@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Navigoals | PxlCode Studio</title>
+    <title>YouData | PxlCode Studio</title>
     <link rel="stylesheet" href="../../style.css" />
     <link rel="icon" type="image/png" href="../../logo_nobackground.png" />
     <style>
@@ -129,7 +129,6 @@
             object-fit: contain;
             display: block;
         }
-        /* Diapositiva de explicación (texto) */
         .carousel-slide-explain {
             padding: 40px 30px;
             background: #0d0d1a;
@@ -221,7 +220,6 @@
             justify-content: center;
         }
 
-        /* Responsive */
         @media (max-width: 600px) {
             .carousel-btn {
                 font-size: 20px;
@@ -268,8 +266,8 @@
         <section class="hero project-detail-hero">
             <div class="hero-inner">
                 <p class="hero-eyebrow">Project</p>
-                <h1>Navigoals</h1>
-                <p class="hero-sub">Personal Goal Tracker (CLI + Telegram Bot)</p>
+                <h1>YouData</h1>
+                <p class="hero-sub">YouTube Analytics Scraper (CLI)</p>
             </div>
             <div class="hero-grid-deco" aria-hidden="true">
                 <div class="pixel-block pb1"></div>
@@ -293,40 +291,40 @@
                     <!-- Overview -->
                     <h2>Overview</h2>
                     <p>
-                        A productivity tool that helps you plan, manage, and track your tasks on a daily, weekly, and monthly basis. 
-                        Features a command‑line interface (CLI) and a Telegram bot with inline buttons, so you can manage your goals from anywhere. 
-                        Includes three lists (Daily, Master, Waiting), efficiency tracking, and detailed reports.
+                        A CLI tool that fetches video statistics (views, likes, comments) from any YouTube channel, stores them in a SQLite database, and generates ranked reports in Excel. 
+                        Helps content creators spot trending topics, analyse successful content strategies, and refine their own approach.
                     </p>
 
                     <!-- Key Features -->
                     <h2>Key Features</h2>
                     <ul>
-                        <li><strong>Task Management:</strong> Add, update, delete, and copy tasks with multi‑select support (comma-separated IDs or <code>*</code> for all).</li>
-                        <li><strong>Efficiency Tracking:</strong> Automatically calculates completion rates with daily/weekly/monthly reports.</li>
-                        <li><strong>Telegram Bot:</strong> Full bot interface with inline buttons, main menu snapshot, and <code>/restart</code> command for remote recovery.</li>
-                        <li><strong>Three Lists:</strong> Daily Tasks (dated), Master List (recurring), and Waiting List (non‑urgent).</li>
-                        <li><strong>Docker Support:</strong> Run the bot continuously with Docker Compose (auto‑restart).</li>
-                        <li><strong>SQLite Persistence:</strong> All tasks stored locally; no data loss between sessions.</li>
+                        <li><strong>Fetch by Date Range:</strong> Download video data for a single day, week, month, or custom period.</li>
+                        <li><strong>Top Videos Dashboard:</strong> Shows the top 10 videos from today, yesterday, and 2 days ago with trending keyword extraction.</li>
+                        <li><strong>Excel Export:</strong> Generate single‑day or combined date range reports in `.xlsx` format, sorted by views.</li>
+                        <li><strong>Channel Management:</strong> Add, delete, and switch between multiple YouTube channels.</li>
+                        <li><strong>Trending Keywords:</strong> Extracts and ranks frequent words from top video titles to identify popular topics.</li>
+                        <li><strong>Timezone‑Aware:</strong> Converts UTC publication times to your local timezone for accurate daily tracking.</li>
                     </ul>
 
                     <!-- Technologies -->
                     <h2>Technologies</h2>
                     <div class="tech-tags">
                         <span class="tag">Python</span>
+                        <span class="tag">YouTube Data API v3</span>
                         <span class="tag">SQLite</span>
-                        <span class="tag">python-telegram-bot</span>
-                        <span class="tag">Docker</span>
-                        <span class="tag">Tabulate</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">pytz</span>
+                        <span class="tag">openpyxl</span>
                     </div>
 
                     <!-- Links -->
                     <h2>Links</h2>
                     <div class="project-links">
-                        <a href="https://github.com/edbarron/navigoals" class="btn-github" target="_blank">🐙 GitHub Repository</a>
-                        <span class="btn-demo-disabled">🔒 Private Bot (no public demo)</span>
+                        <a href="https://github.com/edbarron/youdata" class="btn-github" target="_blank">🐙 GitHub Repository</a>
+                        <span class="btn-demo-disabled">🔒 CLI tool (no web demo)</span>
                     </div>
                     <p style="margin-top: 12px; color: var(--text-secondary); font-size: 14px;">
-                        <em>The bot runs in long‑polling mode and only responds to a single configured Telegram chat ID, so there is no public instance available.</em>
+                        <em>YouData is a command‑line tool with no public web interface. Check the GitHub repo for installation and usage instructions.</em>
                     </p>
 
                 </div>
@@ -346,18 +344,14 @@
             // =============================================
             // CONFIGURE YOUR SLIDES HERE
             // =============================================
-            // Each entry can be:
-            //   - a string ending in .png/.jpg/.gif → image slide
-            //   - an object { type: "explain", title: "...", problem: "...", solution: "...", tags: [...] }
-            //     → explanatory text slide
             const slidesConfig = [
                 "thumbnail.png",   // slide 0: image
                 {
                     type: "explain",
                     title: "📌 What it does",
-                    problem: "People struggle to stay organized across multiple areas of life (work, health, personal). Manual to‑do lists get lost, and there's no way to track efficiency over time.",
-                    solution: "A personal goal tracker with three lists (Daily, Master, Waiting) + a Telegram bot. You can add/update/delete tasks from anywhere, and it calculates your daily efficiency automatically.",
-                    tags: ["Python", "SQLite", "Telegram Bot", "Docker", "Tabulate"]
+                    problem: "Content creators need to study trending topics and successful strategies, but manually checking each video's stats is tedious and unsystematic.",
+                    solution: "A CLI tool that scrapes YouTube video data (views, likes, comments) via API, stores it in SQLite, and generates ranked Excel reports. Extracts trending keywords from top videos to help creators refine their content strategy.",
+                    tags: ["Python", "YouTube API", "SQLite", "Pandas", "Data Analysis"]
                 }
             ];
             // =============================================
@@ -373,14 +367,12 @@
                 let html = '';
                 slidesConfig.forEach((item, idx) => {
                     if (typeof item === 'string') {
-                        // Image slide
                         html += `
                             <div class="carousel-slide" data-index="${idx}">
                                 <img src="${item}" alt="Screenshot ${idx + 1}" loading="lazy" onerror="this.src=''; this.alt='Image not found';" />
                             </div>
                         `;
                     } else if (item.type === 'explain') {
-                        // Explanation slide
                         const tagsHtml = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
                         html += `
                             <div class="carousel-slide" data-index="${idx}">
