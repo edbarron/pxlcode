@@ -50,6 +50,13 @@
         }
         .carousel-slide .service-card .service-icon {
             margin-bottom: 16px;
+            width: 44px;
+            height: 44px;
+            color: var(--indigo);
+        }
+        .carousel-slide .service-card .service-icon svg {
+            width: 100%;
+            height: 100%;
         }
         .carousel-slide .service-card h3 {
             font-size: 18px;
@@ -234,7 +241,7 @@
             margin-bottom: 40px;
         }
 
-        /* ===== Process / How I Work (Rediseñado) ===== */
+        /* ===== Process / How I Work (redesigned) ===== */
         .process {
             background: var(--black);
             padding: 60px var(--pad-x);
@@ -289,6 +296,229 @@
             .process-step {
                 padding: 20px;
             }
+        }
+
+        /* ===== Quote section (improved) ===== */
+        .quote-section {
+            background: var(--black);
+            padding: 80px var(--pad-x);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .quote-section blockquote {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: clamp(22px, 3vw, 34px);
+            font-style: italic;
+            font-weight: 300;
+            color: var(--white);
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            text-align: center;
+        }
+        .quote-section blockquote .highlight {
+            color: var(--indigo);
+        }
+        .quote-section footer {
+            margin-top: 24px;
+            font-style: normal;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--lime);
+            text-align: center;
+        }
+
+        /* ===== Contact / CTA (with WhatsApp & Contact page) ===== */
+        .cta-section {
+            background: var(--navy);
+            padding: 80px var(--pad-x);
+        }
+        .cta-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 60px;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .cta-text {
+            flex: 1;
+            min-width: 260px;
+        }
+        .cta-text h2 {
+            font-size: clamp(24px, 3.5vw, 40px);
+            font-weight: 900;
+            color: var(--white);
+            margin: 0 0 12px;
+            letter-spacing: -0.02em;
+        }
+        .cta-text p {
+            color: var(--muted);
+            font-size: 17px;
+            margin: 0 0 20px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-whatsapp-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn-whatsapp-cta:hover {
+            background: #1eb858;
+            transform: translateY(-1px);
+        }
+        .btn-whatsapp-cta svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        .btn-contact-page {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .btn-contact-page:hover {
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.04);
+        }
+        .contact-form {
+            flex: 1;
+            min-width: 280px;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .form-row label {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+        .form-row input,
+        .form-row textarea {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 12px 14px;
+            color: var(--white);
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .form-row input:focus,
+        .form-row textarea:focus {
+            outline: none;
+            border-color: var(--indigo);
+            background: rgba(255,255,255,0.06);
+        }
+        .form-status {
+            margin: 0;
+            font-size: 14px;
+            min-height: 18px;
+        }
+        .form-status.success {
+            color: var(--lime);
+        }
+        .form-status.error {
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .cta-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .cta-buttons {
+                justify-content: center;
+            }
+            .contact-form {
+                max-width: 100%;
+                text-align: left;
+            }
+            .quote-section blockquote {
+                font-size: 20px;
+            }
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            background: var(--black);
+            border-top: 1px solid var(--border);
+            padding: 28px var(--pad-x);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--muted);
+            font-size: 13px;
+            letter-spacing: 0.03em;
+        }
+        .footer-tag {
+            font-style: italic;
+        }
+        @media (max-width: 600px) {
+            .footer {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+        }
+
+        /* ===== WhatsApp Float ===== */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 26px;
+            right: 26px;
+            width: 58px;
+            height: 58px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+            z-index: 999;
+            transition: transform 0.2s;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.08);
+        }
+        .whatsapp-float svg {
+            width: 30px;
+            height: 30px;
+            color: var(--white);
         }
     </style>
 </head>
@@ -417,8 +647,9 @@
         <section class="quote-section">
             <div class="section-inner">
                 <blockquote>
-                    "The most advanced technology is the one that disappears. The best tool is the one that solves the problem without you having to think about it."
-                    <footer>— Mark Weiser</footer>
+                    "First, solve the <span class="highlight">problem</span>.<br />
+                    Then, write the <span class="highlight">code</span>"
+                    <footer>— John Johnson</footer>
                 </blockquote>
             </div>
         </section>
@@ -429,14 +660,16 @@
                 <div class="cta-text">
                     <h2>Ready to Build Something?</h2>
                     <p>Tell me about your project and I'll get back to you within 24 hours.</p>
-                    <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
-                        <a href="https://wa.me/527777777777?text=Hi%2C%20I%27m%20interested%20in%20a%20project" target="_blank" rel="noopener" class="btn-whatsapp" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #25D366; color: white; border-radius: 4px; text-decoration: none; font-weight: 600;">
-                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <div class="cta-buttons">
+                        <a href="https://wa.me/527777777777?text=Hi%2C%20I%27m%20interested%20in%20a%20project" target="_blank" rel="noopener" class="btn-whatsapp-cta">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.05-1.33A9.93 9.93 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18.18c-1.63 0-3.16-.46-4.46-1.25l-.32-.19-3.32.87.89-3.24-.21-.33A8.16 8.16 0 0 1 3.82 12c0-4.52 3.67-8.18 8.18-8.18s8.18 3.67 8.18 8.18-3.66 8.18-8.18 8.18zm4.49-6.13c-.25-.12-1.45-.71-1.67-.79-.22-.08-.39-.12-.55.13-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.99-1.22-.74-.65-1.23-1.46-1.38-1.71-.14-.24-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.31c-.22.24-.86.84-.86 2.05s.88 2.37 1 2.54c.13.16 1.74 2.65 4.21 3.71.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.21-.57.21-1.06.14-1.16-.06-.11-.22-.17-.47-.29z" />
                             </svg>
-                            Chat on WhatsApp
+                            WhatsApp
                         </a>
-                        <a href="contact.html" class="btn-ghost" style="padding: 12px 24px;">Visit Contact Page →</a>
+                        <a href="contact.html" class="btn-contact-page">
+                            📬 Contact Page
+                        </a>
                     </div>
                 </div>
 
@@ -458,6 +691,7 @@
                 </form>
             </div>
         </section>
+
     </main>
 
     <!-- ==================== WHATSAPP FLOAT ==================== -->
@@ -709,7 +943,7 @@
             return { init, goTo, next, prev, pauseAutoplay, resumeAutoplay, stopAutoplay };
         }
 
-        // ---------- SERVICES CAROUSEL ----------
+        // ---------- SERVICES CAROUSEL (4 services with unique icons) ----------
         (function() {
             const servicesData = [
                 {
@@ -718,7 +952,13 @@
                     tags: ['HTML/CSS', 'JavaScript', 'Responsive', 'SEO'],
                     link: 'work.html#websites',
                     cta: 'See examples →',
-                    ctaLink: 'work.html#websites'
+                    ctaLink: 'work.html#websites',
+                    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="4" y="8" width="32" height="22" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M13 30L12 36M28 30L29 36M8 36H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M10 16L15 20L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19 24H28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>`
                 },
                 {
                     title: 'Bots & Automations',
@@ -726,7 +966,11 @@
                     tags: ['Python', 'Telegram API', 'Twitter API', 'Async'],
                     link: 'work.html#bots',
                     cta: 'See examples →',
-                    ctaLink: 'work.html#bots'
+                    ctaLink: 'work.html#bots',
+                    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 6C20 6 10 12 10 22C10 27.5 14.5 32 20 32C25.5 32 30 27.5 30 22C30 12 20 6 20 6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M20 18V26M16 22H24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>`
                 },
                 {
                     title: 'Data Tools & APIs',
@@ -734,7 +978,12 @@
                     tags: ['Python', 'REST APIs', 'Pandas', 'SQLite'],
                     link: 'work.html#data',
                     cta: 'See examples →',
-                    ctaLink: 'work.html#data'
+                    ctaLink: 'work.html#data',
+                    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="2"/>
+                                <path d="M20 12V20L25 25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 8L12 12M32 8L28 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>`
                 },
                 {
                     title: 'Maintenance & Support',
@@ -742,7 +991,16 @@
                     tags: ['Monitoring', 'Backups', 'Support'],
                     link: '#contact',
                     cta: 'Get a quote →',
-                    ctaLink: '#contact'
+                    ctaLink: '#contact',
+                    icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="4" y="6" width="32" height="28" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M4 14H36" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+                                <circle cx="14" cy="10" r="1.5" fill="currentColor"/>
+                                <circle cx="19" cy="10" r="1.5" fill="currentColor"/>
+                                <rect x="10" y="20" width="20" height="3" rx="1" fill="currentColor" opacity="0.5"/>
+                                <rect x="10" y="26" width="14" height="3" rx="1" fill="currentColor" opacity="0.3"/>
+                            </svg>`
                 }
             ];
 
@@ -750,14 +1008,7 @@
                 const tagsHTML = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
                 return `
                     <div class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="4" y="8" width="32" height="22" rx="2" stroke="currentColor" stroke-width="2"/>
-                                <path d="M13 30L12 36M28 30L29 36M8 36H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M10 16L15 20L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M19 24H28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
+                        <div class="service-icon">${item.icon}</div>
                         <h3>${item.title}</h3>
                         <p>${item.desc}</p>
                         <div class="work-tags">${tagsHTML}</div>
