@@ -7,11 +7,295 @@
     <link rel="icon" type="image/png" href="logo_nobackground.png" />
     <title>PxlCode Studio | Web, Bots & Data Solutions</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+        /* ===== Carousel styles ===== */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: transparent;
+        }
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+            gap: 0;
+        }
+        .carousel-slide {
+            flex: 0 0 50%;
+            min-width: 50%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+        .carousel-slide .work-card,
+        .carousel-slide .service-card {
+            background: var(--navy);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .carousel-slide .work-card:hover,
+        .carousel-slide .service-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--indigo);
+        }
+        .carousel-slide .service-card {
+            padding: 30px 24px;
+        }
+        .carousel-slide .service-card .service-icon {
+            margin-bottom: 16px;
+        }
+        .carousel-slide .service-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            margin: 0 0 8px;
+        }
+        .carousel-slide .service-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0 0 16px;
+            flex: 1;
+        }
+        .project-thumb {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #1A1A2E;
+            border-bottom: 2px solid var(--lime);
+            display: block;
+        }
+        .project-thumb-fallback {
+            background: #1A1A2E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+            border-bottom: 2px solid var(--lime);
+            font-family: monospace;
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--lime);
+        }
+        .work-card-content {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .work-card-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+            margin: 0 0 8px;
+        }
+        .work-card-content p {
+            color: var(--muted);
+            font-size: 14px;
+            margin: 0 0 16px;
+            line-height: 1.6;
+            flex: 1;
+        }
+        .work-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .tag {
+            background: rgba(91,63,255,0.15);
+            color: var(--indigo);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .btn-ghost {
+            display: inline-block;
+            background: transparent;
+            color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .btn-ghost:hover {
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.04);
+        }
+        .btn-primary {
+            background: var(--indigo);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background: #7059FF;
+        }
+        .service-link {
+            color: var(--indigo);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        .service-link:hover {
+            color: var(--lime);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            font-size: 28px;
+            padding: 12px 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            z-index: 10;
+            transition: background 0.2s;
+            user-select: none;
+        }
+        .carousel-btn:hover {
+            background: rgba(0,0,0,0.85);
+        }
+        .carousel-btn.prev {
+            left: 10px;
+        }
+        .carousel-btn.next {
+            right: 10px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 0 4px;
+        }
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #555;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .carousel-dot.active {
+            background: var(--lime);
+        }
+
+        /* Mobile: 1 card per slide */
+        @media (max-width: 768px) {
+            .carousel-slide {
+                flex: 0 0 100%;
+                min-width: 100%;
+            }
+            .project-thumb,
+            .project-thumb-fallback {
+                height: 140px;
+            }
+            .work-card-content {
+                padding: 16px;
+            }
+            .carousel-slide .service-card {
+                padding: 20px 16px;
+            }
+        }
+
+        .services.carousel-section,
+        .work-preview.carousel-section {
+            padding: 60px var(--pad-x);
+        }
+        .carousel-section .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* ===== Process / How I Work (Rediseñado) ===== */
+        .process {
+            background: var(--black);
+            padding: 60px var(--pad-x);
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .process-step {
+            background: var(--navy);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px 28px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .process-step:hover {
+            border-color: var(--indigo);
+            transform: translateY(-2px);
+        }
+        .step-num {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--lime);
+            opacity: 0.9;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .step-content h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--white);
+            margin: 0 0 6px;
+        }
+        .step-content p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+        .process-connector {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .process-step {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
     <!-- ============================================================
-         HEADER (inyectado desde header.html)
+         HEADER (injected from header.html)
          ============================================================ -->
     <div id="header-placeholder"></div>
 
@@ -45,127 +329,45 @@
             </div>
         </section>
 
-        <!-- ==================== SERVICES ==================== -->
-        <section class="services" id="services">
+        <!-- ==================== SERVICES CAROUSEL ==================== -->
+        <section class="services carousel-section" id="services">
             <div class="section-inner">
                 <div class="section-header">
                     <p class="section-eyebrow">What I Offer</p>
                     <h2>Development &amp; Automation Services</h2>
                 </div>
 
-                <div class="service-grid">
-
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="4" y="8" width="32" height="22" rx="2" stroke="currentColor" stroke-width="2"/>
-                                <path d="M13 30L12 36M28 30L29 36M8 36H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M10 16L15 20L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M19 24H28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <h3>Professional Websites</h3>
-                        <p>High‑performance landing pages, business websites, and custom forms built to convert visitors into clients.</p>
-                        <a href="work.html#websites" class="service-link">See examples →</a>
-                    </div>
-
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M20 6C20 6 10 12 10 22C10 27.5 14.5 32 20 32C25.5 32 30 27.5 30 22C30 12 20 6 20 6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                                <path d="M20 18V26M16 22H24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <h3>Bots &amp; Automations</h3>
-                        <p>Telegram bots, X (Twitter) integrations, and workflow automation to save you hours of repetitive work.</p>
-                        <a href="work.html#bots" class="service-link">See examples →</a>
-                    </div>
-
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="2"/>
-                                <path d="M20 12V20L25 25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M8 8L12 12M32 8L28 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <h3>Data Tools &amp; APIs</h3>
-                        <p>Custom scrapers, data dashboards, and API integrations. Turn your data into actionable insights.</p>
-                        <a href="work.html#data" class="service-link">See examples →</a>
-                    </div>
-
-                    <div class="service-card">
-                        <div class="service-icon">
-                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="4" y="6" width="32" height="28" rx="2" stroke="currentColor" stroke-width="2"/>
-                                <path d="M4 14H36" stroke="currentColor" stroke-width="2"/>
-                                <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
-                                <circle cx="14" cy="10" r="1.5" fill="currentColor"/>
-                                <circle cx="19" cy="10" r="1.5" fill="currentColor"/>
-                                <rect x="10" y="20" width="20" height="3" rx="1" fill="currentColor" opacity="0.5"/>
-                                <rect x="10" y="26" width="14" height="3" rx="1" fill="currentColor" opacity="0.3"/>
-                            </svg>
-                        </div>
-                        <h3>Maintenance &amp; Support</h3>
-                        <p>Ongoing updates, monitoring, and technical support to keep your digital tools running smoothly.</p>
-                        <a href="#contact" class="service-link">Get a quote →</a>
-                    </div>
-
+                <div class="carousel-container" id="servicesCarousel">
+                    <div class="carousel-slides" id="servicesSlides"></div>
+                    <button class="carousel-btn prev" id="servicesPrev">‹</button>
+                    <button class="carousel-btn next" id="servicesNext">›</button>
+                    <div class="carousel-dots" id="servicesDots"></div>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== WORK PREVIEW ==================== -->
-        <section class="work-preview" id="work">
+        <!-- ==================== WORK PREVIEW CAROUSEL ==================== -->
+        <section class="work-preview carousel-section" id="work">
             <div class="section-inner">
                 <div class="section-header">
                     <p class="section-eyebrow">Recent Work</p>
                     <h2>Solutions I've Built</h2>
                 </div>
 
-                <div class="work-preview-grid">
-
-                    <div class="work-card">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px;">
-                            <span style="color: #C8FF00; font-weight:900; font-size:20px; font-family:monospace;">Navigoals</span>
-                        </div>
-                        <div class="work-card-content">
-                            <h3>Navigoals</h3>
-                            <p>CLI task manager with efficiency metrics and multi‑list organization.</p>
-                            <div class="work-tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">SQLite</span>
-                                <span class="tag">Productivity</span>
-                            </div>
-                            <a href="work.html#navigoals" class="service-link">View project →</a>
-                        </div>
-                    </div>
-
-                    <div class="work-card">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px;">
-                            <span style="color: #C8FF00; font-weight:900; font-size:20px; font-family:monospace;">WorldTimer</span>
-                        </div>
-                        <div class="work-card-content">
-                            <h3>WorldTimer</h3>
-                            <p>Telegram bot that sends market liquidity alerts across 4 timezones.</p>
-                            <div class="work-tags">
-                                <span class="tag">Python</span>
-                                <span class="tag">Telegram API</span>
-                                <span class="tag">Finance</span>
-                            </div>
-                            <a href="work.html#worldtimer" class="service-link">View project →</a>
-                        </div>
-                    </div>
-
+                <div class="carousel-container" id="workCarousel">
+                    <div class="carousel-slides" id="workSlides"></div>
+                    <button class="carousel-btn prev" id="workPrev">‹</button>
+                    <button class="carousel-btn next" id="workNext">›</button>
+                    <div class="carousel-dots" id="workDots"></div>
                 </div>
 
-                <div class="work-preview-cta">
+                <div style="text-align:center; margin-top: 20px;">
                     <a href="work.html" class="btn-ghost" style="display:inline-block;">View full portfolio →</a>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== PROCESS ==================== -->
+        <!-- ==================== PROCESS (How I Work) ==================== -->
         <section class="process" id="process">
             <div class="section-inner">
                 <div class="section-header">
@@ -183,8 +385,6 @@
                         </div>
                     </div>
 
-                    <div class="process-connector" aria-hidden="true"></div>
-
                     <div class="process-step">
                         <div class="step-num">02</div>
                         <div class="step-content">
@@ -193,8 +393,6 @@
                         </div>
                     </div>
 
-                    <div class="process-connector" aria-hidden="true"></div>
-
                     <div class="process-step">
                         <div class="step-num">03</div>
                         <div class="step-content">
@@ -202,8 +400,6 @@
                             <p>I develop your solution with clean, documented code and test it thoroughly before delivery.</p>
                         </div>
                     </div>
-
-                    <div class="process-connector" aria-hidden="true"></div>
 
                     <div class="process-step">
                         <div class="step-num">04</div>
@@ -221,8 +417,8 @@
         <section class="quote-section">
             <div class="section-inner">
                 <blockquote>
-                    "A well‑built tool should work as hard as you do — loading fast, automating the boring stuff, and helping you grow without you having to think about it."
-                    <footer>— Ed Barron, PxlCode Studio</footer>
+                    "The most advanced technology is the one that disappears. The best tool is the one that solves the problem without you having to think about it."
+                    <footer>— Mark Weiser</footer>
                 </blockquote>
             </div>
         </section>
@@ -233,6 +429,15 @@
                 <div class="cta-text">
                     <h2>Ready to Build Something?</h2>
                     <p>Tell me about your project and I'll get back to you within 24 hours.</p>
+                    <div style="display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap;">
+                        <a href="https://wa.me/527777777777?text=Hi%2C%20I%27m%20interested%20in%20a%20project" target="_blank" rel="noopener" class="btn-whatsapp" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: #25D366; color: white; border-radius: 4px; text-decoration: none; font-weight: 600;">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.05-1.33A9.93 9.93 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18.18c-1.63 0-3.16-.46-4.46-1.25l-.32-.19-3.32.87.89-3.24-.21-.33A8.16 8.16 0 0 1 3.82 12c0-4.52 3.67-8.18 8.18-8.18s8.18 3.67 8.18 8.18-3.66 8.18-8.18 8.18zm4.49-6.13c-.25-.12-1.45-.71-1.67-.79-.22-.08-.39-.12-.55.13-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.99-1.22-.74-.65-1.23-1.46-1.38-1.71-.14-.24-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.31c-.22.24-.86.84-.86 2.05s.88 2.37 1 2.54c.13.16 1.74 2.65 4.21 3.71.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.21-.57.21-1.06.14-1.16-.06-.11-.22-.17-.47-.29z" />
+                            </svg>
+                            Chat on WhatsApp
+                        </a>
+                        <a href="contact.html" class="btn-ghost" style="padding: 12px 24px;">Visit Contact Page →</a>
+                    </div>
                 </div>
 
                 <form id="contact-form" class="contact-form" action="https://formspree.io/f/mykqgkjj" method="POST">
@@ -240,24 +445,19 @@
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required />
                     </div>
-
                     <div class="form-row">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" required />
                     </div>
-
                     <div class="form-row">
                         <label for="message">Tell me about your project</label>
                         <textarea id="message" name="message" rows="4" required></textarea>
                     </div>
-
                     <button type="submit" id="form-submit" class="btn-lime">Send Message</button>
-
                     <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </section>
-
     </main>
 
     <!-- ==================== WHATSAPP FLOAT ==================== -->
@@ -322,19 +522,13 @@
 
         // ---------- HEADER INJECTION ----------
         (function() {
-            // Detecta si estamos en la raíz o en una subcarpeta
             function getBasePath() {
                 var path = window.location.pathname;
-                // Si es la raíz o index.html, usamos './'
                 if (path === '/' || path === '/index.html') {
                     return '.';
                 }
-                // Si es una ruta como /work.html, usamos './' también
                 var parts = path.split('/').filter(function(p) { return p !== ''; });
                 var depth = parts.length;
-                // Si estamos en /projects/... tendríamos depth > 1
-                // pero como index.html está en la raíz, esto nunca debería ocurrir.
-                // Por si acaso, calculamos la profundidad.
                 if (depth <= 1) return '.';
                 return '../'.repeat(depth - 1);
             }
@@ -361,7 +555,6 @@
 
         // ---------- DROPDOWNS LOGIC ----------
         function initDropdowns() {
-            // Delegación de eventos en el documento
             document.addEventListener('click', function(e) {
                 var toggle = e.target.closest('.nav-toggle');
                 if (toggle) {
@@ -370,14 +563,12 @@
                     if (!parentLi) return;
                     var isOpen = parentLi.classList.contains('open');
 
-                    // Cerrar todos los demás
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
                         openItem.classList.remove('open');
                         var btn = openItem.querySelector('.nav-toggle');
                         if (btn) btn.setAttribute('aria-expanded', 'false');
                     });
 
-                    // Abrir/cerrar el actual
                     if (!isOpen) {
                         parentLi.classList.add('open');
                         toggle.setAttribute('aria-expanded', 'true');
@@ -385,7 +576,6 @@
                     return;
                 }
 
-                // Si el clic fue fuera de cualquier dropdown, cerrar todo
                 if (!e.target.closest('.has-dropdown')) {
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
                         openItem.classList.remove('open');
@@ -395,7 +585,6 @@
                 }
             });
 
-            // Cerrar dropdowns con Escape
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
@@ -406,6 +595,301 @@
                 }
             });
         }
+
+        // ---------- CAROUSEL FACTORY (with autoplay & 2 cards per slide) ----------
+        function createCarousel(config) {
+            const {
+                slidesContainerId,
+                dotsContainerId,
+                prevBtnId,
+                nextBtnId,
+                slidesData,
+                buildSlideHTML,
+                autoplayInterval = 5000
+            } = config;
+
+            const slidesContainer = document.getElementById(slidesContainerId);
+            const dotsContainer = document.getElementById(dotsContainerId);
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+            let currentIndex = 0;
+            let autoplayTimer = null;
+            let isPaused = false;
+
+            const totalPages = Math.ceil(slidesData.length / 2);
+
+            function buildSlides() {
+                let html = '';
+                slidesData.forEach((item, idx) => {
+                    html += `<div class="carousel-slide" data-index="${idx}">${buildSlideHTML(item)}</div>`;
+                });
+                slidesContainer.innerHTML = html;
+
+                let dotsHTML = '';
+                for (let i = 0; i < totalPages; i++) {
+                    dotsHTML += `<button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></button>`;
+                }
+                dotsContainer.innerHTML = dotsHTML;
+            }
+
+            function updateCarousel(index) {
+                if (index < 0) index = totalPages - 1;
+                if (index >= totalPages) index = 0;
+                currentIndex = index;
+                slidesContainer.style.transform = `translateX(-${currentIndex * 50}%)`;
+
+                document.querySelectorAll(`#${dotsContainerId} .carousel-dot`).forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            function goTo(index) {
+                updateCarousel(index);
+                resetAutoplay();
+            }
+
+            function next() {
+                goTo(currentIndex + 1);
+            }
+
+            function prev() {
+                goTo(currentIndex - 1);
+            }
+
+            function startAutoplay() {
+                if (autoplayTimer) clearInterval(autoplayTimer);
+                if (isPaused) return;
+                autoplayTimer = setInterval(next, autoplayInterval);
+            }
+
+            function stopAutoplay() {
+                if (autoplayTimer) {
+                    clearInterval(autoplayTimer);
+                    autoplayTimer = null;
+                }
+            }
+
+            function resetAutoplay() {
+                stopAutoplay();
+                startAutoplay();
+            }
+
+            function pauseAutoplay() {
+                isPaused = true;
+                stopAutoplay();
+            }
+
+            function resumeAutoplay() {
+                isPaused = false;
+                startAutoplay();
+            }
+
+            function init() {
+                buildSlides();
+                updateCarousel(0);
+
+                prevBtn.addEventListener('click', prev);
+                nextBtn.addEventListener('click', next);
+
+                dotsContainer.addEventListener('click', function(e) {
+                    const dot = e.target.closest('.carousel-dot');
+                    if (dot) {
+                        const index = parseInt(dot.dataset.index);
+                        goTo(index);
+                    }
+                });
+
+                const container = slidesContainer.closest('.carousel-container');
+                container.addEventListener('mouseenter', pauseAutoplay);
+                container.addEventListener('mouseleave', resumeAutoplay);
+
+                startAutoplay();
+            }
+
+            return { init, goTo, next, prev, pauseAutoplay, resumeAutoplay, stopAutoplay };
+        }
+
+        // ---------- SERVICES CAROUSEL ----------
+        (function() {
+            const servicesData = [
+                {
+                    title: 'Professional Websites',
+                    desc: 'High‑performance landing pages, business websites, and custom forms built to convert visitors into clients.',
+                    tags: ['HTML/CSS', 'JavaScript', 'Responsive', 'SEO'],
+                    link: 'work.html#websites',
+                    cta: 'See examples →',
+                    ctaLink: 'work.html#websites'
+                },
+                {
+                    title: 'Bots & Automations',
+                    desc: 'Telegram bots, X (Twitter) integrations, and workflow automation to save you hours of repetitive work.',
+                    tags: ['Python', 'Telegram API', 'Twitter API', 'Async'],
+                    link: 'work.html#bots',
+                    cta: 'See examples →',
+                    ctaLink: 'work.html#bots'
+                },
+                {
+                    title: 'Data Tools & APIs',
+                    desc: 'Custom scrapers, data dashboards, and API integrations. Turn your data into actionable insights.',
+                    tags: ['Python', 'REST APIs', 'Pandas', 'SQLite'],
+                    link: 'work.html#data',
+                    cta: 'See examples →',
+                    ctaLink: 'work.html#data'
+                },
+                {
+                    title: 'Maintenance & Support',
+                    desc: 'Ongoing updates, monitoring, and technical support to keep your digital tools running smoothly.',
+                    tags: ['Monitoring', 'Backups', 'Support'],
+                    link: '#contact',
+                    cta: 'Get a quote →',
+                    ctaLink: '#contact'
+                }
+            ];
+
+            function buildServiceSlide(item) {
+                const tagsHTML = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
+                return `
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="4" y="8" width="32" height="22" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M13 30L12 36M28 30L29 36M8 36H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M10 16L15 20L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M19 24H28" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>${item.title}</h3>
+                        <p>${item.desc}</p>
+                        <div class="work-tags">${tagsHTML}</div>
+                        <div class="card-actions">
+                            <a href="${item.ctaLink}" class="service-link">${item.cta}</a>
+                            <a href="#contact" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">Start a project</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const carousel = createCarousel({
+                slidesContainerId: 'servicesSlides',
+                dotsContainerId: 'servicesDots',
+                prevBtnId: 'servicesPrev',
+                nextBtnId: 'servicesNext',
+                slidesData: servicesData,
+                buildSlideHTML: buildServiceSlide,
+                autoplayInterval: 5000
+            });
+            carousel.init();
+        })();
+
+        // ---------- WORK CAROUSEL ----------
+        (function() {
+            const workData = [
+                {
+                    title: 'Navigoals',
+                    desc: 'CLI task manager with efficiency metrics and multi‑list organization.',
+                    tags: ['Python', 'SQLite', 'Productivity'],
+                    thumb: 'projects/navigoals/thumbnail.png',
+                    fallback: 'Navigoals',
+                    link: 'projects/navigoals/navigoals.html'
+                },
+                {
+                    title: 'WorldTimer',
+                    desc: 'Telegram bot that sends market liquidity alerts across 4 timezones.',
+                    tags: ['Python', 'Telegram API', 'Finance'],
+                    thumb: 'projects/worldtimer/thumbnail.png',
+                    fallback: 'WorldTimer',
+                    link: 'projects/worldtimer/worldtimer.html'
+                },
+                {
+                    title: 'TelegramToX Bot',
+                    desc: 'Automated bridge that reposts Telegram messages to X (Twitter) with media support.',
+                    tags: ['Python', 'tweepy', 'OAuth'],
+                    thumb: 'projects/telegramtox/thumbnail.png',
+                    fallback: 'TelegramToX',
+                    link: 'projects/telegramtox/telegramtox.html'
+                },
+                {
+                    title: 'WorldWatcher',
+                    desc: 'Telegram news monitor that filters messages with custom keywords and forwards them to dedicated channels.',
+                    tags: ['Python', 'Telethon', 'Regex'],
+                    thumb: 'projects/worldwatcher/thumbnail.png',
+                    fallback: 'WorldWatcher',
+                    link: 'projects/worldwatcher/worldwatcher.html'
+                },
+                {
+                    title: 'DataBall',
+                    desc: 'CLI tool that fetches football fixtures, stores them in SQLite, and exports to Excel.',
+                    tags: ['Python', 'REST API', 'Pandas'],
+                    thumb: 'projects/databall/thumbnail.png',
+                    fallback: 'DataBall',
+                    link: 'projects/databall/databall.html'
+                },
+                {
+                    title: 'YouData',
+                    desc: 'YouTube analytics scraper that extracts video metrics and generates ranked Excel reports.',
+                    tags: ['Python', 'YouTube API', 'SQLite'],
+                    thumb: 'projects/youdata/thumbnail.png',
+                    fallback: 'YouData',
+                    link: 'projects/youdata/youdata.html'
+                },
+                {
+                    title: 'Bizzy POS',
+                    desc: 'Django web app with a full POS interface, public menu, and sales reports.',
+                    tags: ['Django', 'SQLite', 'JavaScript'],
+                    thumb: 'projects/bizzy/thumbnail.png',
+                    fallback: 'Bizzy',
+                    link: 'projects/bizzy/bizzy.html'
+                },
+                {
+                    title: 'Solviem',
+                    desc: 'Corporate landing page for a consultancy firm with blog and contact forms.',
+                    tags: ['HTML/CSS', 'JavaScript', 'SEO'],
+                    thumb: 'projects/solviem/thumbnail.png',
+                    fallback: 'Solviem',
+                    link: 'projects/solviem/solviem.html'
+                },
+                {
+                    title: 'PxlCode Studio',
+                    desc: 'Professional portfolio and landing page — you are looking at it right now.',
+                    tags: ['HTML/CSS', 'JavaScript', 'Responsive'],
+                    thumb: 'projects/pxlcode/thumbnail.png',
+                    fallback: 'PxlCode',
+                    link: 'projects/pxlcode/pxlcode.html'
+                }
+            ];
+
+            function buildWorkSlide(item) {
+                const tagsHTML = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
+                return `
+                    <div class="work-card">
+                        <div class="work-card-img">
+                            <img src="${item.thumb}" alt="${item.title} thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="project-thumb-fallback" style="display:none;">${item.fallback}</div>
+                        </div>
+                        <div class="work-card-content">
+                            <h3>${item.title}</h3>
+                            <p>${item.desc}</p>
+                            <div class="work-tags">${tagsHTML}</div>
+                            <div class="card-actions">
+                                <a href="${item.link}" class="btn-ghost">View Project →</a>
+                                <a href="#contact" class="btn-primary">I need this</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const carousel = createCarousel({
+                slidesContainerId: 'workSlides',
+                dotsContainerId: 'workDots',
+                prevBtnId: 'workPrev',
+                nextBtnId: 'workNext',
+                slidesData: workData,
+                buildSlideHTML: buildWorkSlide,
+                autoplayInterval: 5000
+            });
+            carousel.init();
+        })();
     </script>
 
 </body>
