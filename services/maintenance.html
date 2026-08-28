@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Maintenance & Support | PxlCode Studio</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="icon" type="image/png" href="../logo_nobackground.png" />
+    <style>
+        /* (same styles — reuse from the previous two) */
+        .project-detail-hero {
+            min-height: 20vh;
+            padding: 2px 0 0;
+            padding-left: 20px;
+        }
+        .project-detail-hero h1 {
+            font-size: 3.5rem;
+        }
+        .project-detail-hero .hero-sub {
+            font-size: 1.5rem;
+        }
+        .project-detail-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .project-detail-card h2 {
+            color: var(--lime);
+            margin-top: 30px;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        .project-detail-card h2:first-of-type {
+            margin-top: 0;
+        }
+        .project-detail-card ul {
+            padding-left: 20px;
+        }
+        .project-detail-card ul li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        .project-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .project-links a {
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .project-links a:hover {
+            opacity: 0.85;
+        }
+        .btn-primary {
+            background: var(--indigo);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background: #7059FF;
+        }
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .tech-tags .tag {
+            background: var(--bg-card-light);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+        }
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #0d0d1a;
+        }
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0d0d1a;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 450px;
+            object-fit: contain;
+            display: block;
+        }
+        .carousel-slide-explain {
+            padding: 40px 30px;
+            background: #0d0d1a;
+            text-align: left;
+            color: #e0e0e0;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+        }
+        .carousel-slide-explain h3 {
+            color: var(--lime);
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+        .carousel-slide-explain p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            max-width: 700px;
+        }
+        .carousel-slide-explain .explain-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .carousel-slide-explain .explain-tags .tag {
+            background: var(--bg-card-light);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            font-size: 28px;
+            padding: 12px 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            z-index: 10;
+            transition: background 0.2s;
+            user-select: none;
+        }
+        .carousel-btn:hover {
+            background: rgba(0,0,0,0.85);
+        }
+        .carousel-btn.prev {
+            left: 10px;
+        }
+        .carousel-btn.next {
+            right: 10px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 0 4px;
+        }
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #555;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .carousel-dot.active {
+            background: var(--lime);
+        }
+        .carousel-fallback {
+            padding: 60px 20px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--lime);
+            background: #1A1A2E;
+            min-height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 600px) {
+            .carousel-btn {
+                font-size: 20px;
+                padding: 8px 12px;
+            }
+            .carousel-slide img {
+                max-height: 300px;
+            }
+            .carousel-slide-explain {
+                padding: 20px;
+                min-height: 250px;
+            }
+            .carousel-slide-explain h3 {
+                font-size: 1.4rem;
+            }
+            .carousel-slide-explain p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <main>
+        <section class="hero project-detail-hero">
+            <div class="hero-inner">
+                <p class="hero-eyebrow">Service</p>
+                <h1>Maintenance &amp; Support</h1>
+                <p class="hero-sub">Keep Your Digital Tools Running Smoothly</p>
+            </div>
+            <div class="hero-grid-deco" aria-hidden="true">
+                <div class="pixel-block pb1"></div>
+                <div class="pixel-block pb2"></div>
+            </div>
+        </section>
+
+        <section style="padding: 20px 0 60px;">
+            <div class="section-inner">
+                <div class="project-detail-card">
+
+                    <div class="carousel-container" id="carousel">
+                        <div class="carousel-slides" id="slides"></div>
+                        <button class="carousel-btn prev" id="prevBtn">‹</button>
+                        <button class="carousel-btn next" id="nextBtn">›</button>
+                        <div class="carousel-dots" id="dots"></div>
+                    </div>
+
+                    <h2>Overview</h2>
+                    <p>
+                        Building a website or bot is just the beginning. I provide <strong>ongoing maintenance, monitoring, and technical support</strong>
+                        to keep your digital tools secure, up‑to‑date, and performing at their best. Whether you need regular updates,
+                        security patches, or troubleshooting, I offer reliable support so you can focus on your business.
+                    </p>
+
+                    <h2>What's Included</h2>
+                    <ul>
+                        <li><strong>Security Updates:</strong> Keep your dependencies and frameworks patched against vulnerabilities.</li>
+                        <li><strong>Performance Monitoring:</strong> Track uptime, response times, and error rates to catch issues early.</li>
+                        <li><strong>Bug Fixes & Patches:</strong> Address issues quickly, minimising downtime.</li>
+                        <li><strong>Backups:</strong> Regular database and file backups to prevent data loss.</li>
+                        <li><strong>Technical Support:</strong> Direct access for questions, troubleshooting, and small adjustments.</li>
+                    </ul>
+
+                    <h2>Ideal For</h2>
+                    <ul>
+                        <li><strong>Businesses with active websites or bots</strong> that need reliable operation.</li>
+                        <li><strong>Startups</strong> that want to focus on growth without worrying about technical debt.</li>
+                        <li><strong>Existing projects</strong> that need updates, refactoring, or a dedicated maintainer.</li>
+                    </ul>
+
+                    <h2>Technologies</h2>
+                    <div class="tech-tags">
+                        <span class="tag">Linux</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Docker</span>
+                        <span class="tag">Monitoring</span>
+                    </div>
+
+                    <h2>Get in Touch</h2>
+                    <div class="project-links">
+                        <a href="../contact.html" class="btn-primary">📬 Contact me for a quote</a>
+                    </div>
+                    <p style="margin-top: 12px; color: var(--text-secondary); font-size: 14px;">
+                        <em>I offer flexible maintenance plans tailored to your specific needs. Let's discuss what works best for you.</em>
+                    </p>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>© 2026 PxlCode Studio — by Ed Barron</span>
+        <span class="footer-tag">Turning Pixels Into Solutions</span>
+    </footer>
+
+    <script>
+        // ===== CAROUSEL =====
+        (function() {
+            const slidesConfig = [
+                "../maintance.png",
+                {
+                    type: "explain",
+                    title: "📌 What it does",
+                    problem: "Websites and bots require ongoing care — security patches, updates, and monitoring. Without it, they become vulnerable and unreliable.",
+                    solution: "Comprehensive maintenance and support services: regular updates, security monitoring, backups, and direct technical support. I keep your digital tools healthy so you can focus on your business.",
+                    tags: ["Linux", "Docker", "Monitoring", "Security", "Backups"]
+                }
+            ];
+
+            const slidesContainer = document.getElementById('slides');
+            const dotsContainer = document.getElementById('dots');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentIndex = 0;
+
+            function buildSlides() {
+                let html = '';
+                slidesConfig.forEach((item, idx) => {
+                    if (typeof item === 'string') {
+                        html += `
+                            <div class="carousel-slide" data-index="${idx}">
+                                <img src="${item}" alt="Screenshot ${idx + 1}" loading="lazy" onerror="this.src=''; this.alt='Image not found';" />
+                            </div>
+                        `;
+                    } else if (item.type === 'explain') {
+                        const tagsHtml = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
+                        html += `
+                            <div class="carousel-slide" data-index="${idx}">
+                                <div class="carousel-slide-explain">
+                                    <h3>${item.title}</h3>
+                                    <p>
+                                        <strong>🧩 Problem:</strong> ${item.problem}<br>
+                                        <strong>✅ Solution:</strong> ${item.solution}
+                                    </p>
+                                    <div class="explain-tags">
+                                        ${tagsHtml}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+                slidesContainer.innerHTML = html;
+
+                let dotsHTML = '';
+                slidesConfig.forEach((_, idx) => {
+                    dotsHTML += `<button class="carousel-dot ${idx === 0 ? 'active' : ''}" data-index="${idx}"></button>`;
+                });
+                dotsContainer.innerHTML = dotsHTML;
+            }
+
+            function updateCarousel(index) {
+                const total = slidesConfig.length;
+                if (index < 0) index = total - 1;
+                if (index >= total) index = 0;
+                currentIndex = index;
+                slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+                document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            buildSlides();
+            updateCarousel(0);
+
+            prevBtn.addEventListener('click', () => updateCarousel(currentIndex - 1));
+            nextBtn.addEventListener('click', () => updateCarousel(currentIndex + 1));
+
+            document.querySelectorAll('.carousel-dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    updateCarousel(parseInt(this.dataset.index));
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') updateCarousel(currentIndex - 1);
+                if (e.key === 'ArrowRight') updateCarousel(currentIndex + 1);
+            });
+        })();
+
+        // ===== HEADER INJECTION =====
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') return '.';
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
