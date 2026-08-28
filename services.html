@@ -1,37 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Services offered by PxlCode Studio. Custom websites, Telegram bots, data automation, and ongoing maintenance for modern businesses.">
-    <link rel="icon" type="image/png" href="./logo_nobackground.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Services offered by PxlCode Studio. Custom websites, Telegram bots, data automation, and ongoing maintenance for modern businesses." />
+    <link rel="icon" type="image/png" href="logo_nobackground.png" />
     <title>Services | PxlCode Studio</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* ===== Estilo para thumbnails de servicios ===== */
+        .service-thumb {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #1A1A2E;
+            border-bottom: 2px solid var(--lime);
+            display: block;
+        }
+        .service-thumb-fallback {
+            background: #1A1A2E;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+            border-bottom: 2px solid var(--lime);
+            font-family: monospace;
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--lime);
+        }
+        .service-card-img {
+            background: #1A1A2E;
+            overflow: hidden;
+        }
+        /* Ajustes para la grid de servicios */
+        .service-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .service-card-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <a href="index.html" class="logo">
-            <img src="./logo_nobackground.png" alt="Logo pxlcode" style="height:30px; width: auto;">
-            <span class="logo-pxl">PXL</span><span class="logo-code">CODE STUDIO</span>
-            <span class="logo-by">by Ed Barron</span>
-        </a>
-
-        <nav>
-            <ul class="links">
-                <li><a href="services.html" class="nav-cta" style="color: var(--white); border-color: var(--indigo); background: var(--indigo);">Services</a></li>
-                <li><a href="work.html">Work</a></li>
-                <li><a href="index.html#process">How We Work</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#contact" class="nav-cta">Get Started</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- ===== HEADER INYECTADO ===== -->
+    <div id="header-placeholder"></div>
 
     <main>
 
-        <!-- Page Header -->
+        <!-- ===== HERO ===== -->
         <section class="hero" style="min-height: 40vh; padding-bottom: 40px;">
             <div class="hero-inner">
                 <p class="hero-eyebrow">What I Do</p>
@@ -48,28 +73,29 @@
             </div>
         </section>
 
-        <!-- Services Grid (Estilo Tarjetas) -->
+        <!-- ===== SERVICES GRID ===== -->
         <section class="work-preview" id="services" style="padding-top: 0;">
             <div class="section-inner">
-                
-                <div class="work-preview-grid" style="grid-template-columns: 1fr; max-width: 800px; margin: 0 auto;">
+
+                <div class="service-grid-container">
 
                     <!-- Service 1: Professional Websites -->
                     <div class="work-card" id="websites">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">Websites</span>
+                        <div class="service-card-img">
+                            <img src="web.png" alt="Websites thumbnail" class="service-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="service-thumb-fallback" style="display:none;">🌐 Websites</div>
                         </div>
                         <div class="work-card-content">
                             <h3>Professional Websites</h3>
-                            <p><strong>High-performance landing pages & business websites.</strong> Mobile-first, SEO-optimized, and designed to convert visitors into clients.</p>
+                            <p><strong>High-performance landing pages &amp; business websites.</strong> Mobile-first, SEO-optimized, and designed to convert visitors into clients.</p>
                             <div class="work-tags">
                                 <span class="tag">HTML/CSS</span>
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">Responsive</span>
                                 <span class="tag">SEO</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
-                                <a href="work.html#solviem" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">See Example →</a>
+                            <div class="service-card-actions">
+                                <a href="work.html#solviem" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Service →</a>
                                 <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">Start a project</a>
                             </div>
                         </div>
@@ -77,11 +103,12 @@
 
                     <!-- Service 2: Bots & Automations -->
                     <div class="work-card" id="bots">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">Bots & Automation</span>
+                        <div class="service-card-img">
+                            <img src="bots.png" alt="Bots thumbnail" class="service-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="service-thumb-fallback" style="display:none;">🤖 Bots &amp; Automation</div>
                         </div>
                         <div class="work-card-content">
-                            <h3>Bots & Automations</h3>
+                            <h3>Bots &amp; Automations</h3>
                             <p><strong>Telegram bots, X (Twitter) integrations, and workflow automation.</strong> I save you hours of repetitive work by connecting your favorite platforms.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
@@ -89,8 +116,8 @@
                                 <span class="tag">Twitter API</span>
                                 <span class="tag">Async</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
-                                <a href="work.html#worldtimer" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">See Example →</a>
+                            <div class="service-card-actions">
+                                <a href="work.html#worldtimer" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Service →</a>
                                 <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">Start a project</a>
                             </div>
                         </div>
@@ -98,11 +125,12 @@
 
                     <!-- Service 3: Data Tools & APIs -->
                     <div class="work-card" id="data">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">Data Tools</span>
+                        <div class="service-card-img">
+                            <img src="data.png" alt="Data Tools thumbnail" class="service-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="service-thumb-fallback" style="display:none;">📊 Data Tools</div>
                         </div>
                         <div class="work-card-content">
-                            <h3>Data Tools & APIs</h3>
+                            <h3>Data Tools &amp; APIs</h3>
                             <p><strong>Custom scrapers, data dashboards, and API integrations.</strong> I turn raw data into actionable insights and build tools that help you make smarter decisions.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
@@ -110,27 +138,28 @@
                                 <span class="tag">Pandas</span>
                                 <span class="tag">SQLite</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
-                                <a href="work.html#databall" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">See Example →</a>
+                            <div class="service-card-actions">
+                                <a href="work.html#databall" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Service →</a>
                                 <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">Start a project</a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Service 4: Maintenance -->
+                    <!-- Service 4: Maintenance & Support -->
                     <div class="work-card" id="maintenance">
-                        <div class="work-card-img" style="background: #1A1A2E; display:flex; align-items:center; justify-content:center; padding:20px; border-bottom: 2px solid #C8FF00;">
-                            <span style="color: #C8FF00; font-weight:900; font-size: 24px; font-family: monospace;">Maintenance</span>
+                        <div class="service-card-img">
+                            <img src="maintance.png" alt="Maintenance thumbnail" class="service-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="service-thumb-fallback" style="display:none;">🔧 Maintenance</div>
                         </div>
                         <div class="work-card-content">
-                            <h3>Maintenance & Support</h3>
+                            <h3>Maintenance &amp; Support</h3>
                             <p><strong>Ongoing updates, monitoring, and technical support.</strong> I keep your website or bot running smoothly as your business grows.</p>
                             <div class="work-tags">
                                 <span class="tag">Monitoring</span>
                                 <span class="tag">Backups</span>
                                 <span class="tag">Support</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="service-card-actions">
                                 <a href="index.html#contact" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">Get a quote</a>
                             </div>
                         </div>
@@ -143,11 +172,92 @@
 
     </main>
 
-    <!-- Footer -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <span>© 2026 PxlCode Studio — by Ed Barron</span>
         <span class="footer-tag">Turning Pixels Into Solutions</span>
     </footer>
+
+    <!-- ============================================================
+         SCRIPTS (inyección del header)
+         ============================================================ -->
+    <script>
+        // ---------- HEADER INJECTION ----------
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') {
+                    return '.';
+                }
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        // ---------- DROPDOWNS LOGIC ----------
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
