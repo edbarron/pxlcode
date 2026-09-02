@@ -201,12 +201,67 @@ body {
 }
 
 .hero-eyebrow {
+    font-family: 'Press Start 2P', monospace;
+    line-height: 1.6;
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: limegreen;
     margin: 0 0 24px;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+}
+
+.main-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 2.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: #ffffff;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+}
+
+/* --- ANIMATION 1: PIXELS --- */
+.pixels-animated {
+    background-image: linear-gradient(90deg, #00e676, #5b31e6, #00e676);
+    background-size: 200% 100%;
+    
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    
+    animation: moverColorPixel 3s linear infinite;
+    display: inline-block;
+}
+
+/* --- ANIMATION 2: SOLUTIONS --- */
+.solutions-animated {
+    background-image: linear-gradient(90deg, #ff5500, #ffea00, #ff5500);
+    background-size: 200% 100%;
+    
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    
+    animation: moverColorPixel 3s linear infinite;
+    display: inline-block;
+}
+
+@keyframes moveColorPixel {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 200% 50%;
+    }
 }
 
 .hero h1 {

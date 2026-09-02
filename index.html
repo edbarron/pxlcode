@@ -6,6 +6,7 @@
     <meta name="description" content="Web design, automation, and data solutions by Ed Barron. Custom bots, dashboards, and high-performance websites for modern businesses." />
     <link rel="icon" type="image/png" href="logo_nobackground.png" />
     <title>PxlCode Studio | Web, Bots & Data Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
     <style>
         /* ===== Carousel styles ===== */
@@ -535,7 +536,10 @@
         <section class="hero" id="home">
             <div class="hero-inner">
                 <p class="hero-eyebrow">Web · Bots · Data</p>
-                <h1>Turning <span class="accent">Pixels</span><br />Into Solutions</h1>
+                <h1 class="main-title">
+                    Turning <span id="pixels-target" class="pixels-animated">Pixels</span><br>
+                    Into <span id="solutions-target" class="solutions-animated">Solutions</span>
+                </h1>
                 <p class="hero-sub">
                     Custom websites, automation bots, and data tools built for professionals
                     and businesses. I turn your ideas into reliable code.
@@ -717,6 +721,21 @@
 
     <script>
         // ---------- CONTACT FORM ----------
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const animatedWords = document.querySelectorAll(".pixels-animated, .solutions-animated");
+
+            animatedWords.forEach(word => {
+                word.addEventListener("mouseenter", () => {
+                    word.style.animationPlayState = "paused";
+                });
+
+                word.addEventListener("mouseleave", () => {
+                    word.style.animationPlayState = "running";
+                });
+            });
+        });
+        
         (function() {
             const form = document.getElementById('contact-form');
             const status = document.getElementById('form-status');
