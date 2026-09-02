@@ -203,12 +203,12 @@ body {
 .hero-eyebrow {
     font-family: 'Press Start 2P', monospace;
     line-height: 1.6;
-    font-size: 20px;
+    font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: limegreen;
-    margin: 0 0 24px;
+    margin: 0 0 16px;
     image-rendering: pixelated;
     -webkit-font-smoothing: none;
 }
@@ -265,11 +265,11 @@ body {
 }
 
 .hero h1 {
-    font-size: clamp(52px, 8vw, 96px);
+    font-size: clamp(28px, 4vw, 48px);
     font-weight: 900;
     letter-spacing: -0.02em;
-    line-height: 1.0;
-    margin: 0 0 28px;
+    line-height: 1.2;
+    margin: 0 0 24px;
     color: var(--white);
 }
 
