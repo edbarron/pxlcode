@@ -235,7 +235,7 @@ body {
     -webkit-text-fill-color: transparent;
     color: transparent;
     
-    animation: moverColorPixel 3s linear infinite;
+    animation: moveColorPixel 3s linear infinite;
     display: inline-block;
 }
 
@@ -251,7 +251,7 @@ body {
     -webkit-text-fill-color: transparent;
     color: transparent;
     
-    animation: moverColorPixel 3s linear infinite;
+    animation: moveColorPixel 3s linear infinite;
     display: inline-block;
 }
 
