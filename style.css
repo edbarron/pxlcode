@@ -213,6 +213,15 @@ body {
     -webkit-font-smoothing: none;
 }
 
+/*
+ * .main-title is the single source of truth for the hero <h1> sizing.
+ * (Previously a separate ".hero h1" rule below also set font-size/color/
+ * margin on this same element. Because "​.hero h1" — element + class — beats
+ * ".main-title" — a single class — in specificity, it silently overrode the
+ * intended 1.6rem pixel-font size with a much larger clamp() value. That
+ * rule has been removed below; this is now the only place the hero title
+ * is sized.)
+ */
 .main-title {
     font-family: 'Press Start 2P', monospace;
     font-size: 1.6rem;
@@ -256,17 +265,6 @@ body {
     100% {
         background-position: 200% 50%;
     }
-}
-
-.hero h1 {
-    font-size: clamp(28px, 4vw, 48px);
-    line-height: 1.2;
-    margin: 0 0 24px;
-    color: var(--white);
-}
-
-.accent {
-    color: var(--indigo);
 }
 
 .hero-sub {
@@ -669,7 +667,7 @@ body {
     }
 }
 
-/* Ajuste de tarjetas dentro del marquee */
+/* Card sizing inside the marquee */
 .carousel-marquee .work-card,
 .carousel-marquee .service-card {
     flex-shrink: 0;
@@ -731,10 +729,6 @@ body {
     font-size: 14px;
     line-height: 1.5;
     margin: 0;
-}
-
-.process-connector {
-    display: none;
 }
 
 @media (max-width: 600px) {
@@ -984,10 +978,6 @@ body {
         gap: 40px;
     }
 
-    .process-connector {
-        display: none;
-    }
-
     .cta-inner {
         flex-direction: column;
         text-align: center;
@@ -1023,8 +1013,8 @@ body {
         padding: 6px 14px;
     }
 
-    .hero h1 {
-        font-size: 44px;
+    .main-title {
+        font-size: 1.1rem;
     }
 
     .section-header {
