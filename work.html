@@ -8,32 +8,106 @@
     <title>Work | PxlCode Studio</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* ===== Thumbnail styles ===== */
-        .project-thumb {
+        /* ===== Mini carousel inside each card ===== */
+        .work-mini-carousel {
+            position: relative;
             width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #1A1A2E;
+            height: 220px;
+            overflow: hidden;
             border-bottom: 2px solid var(--lime);
-            display: block;
-        }
-        .project-thumb-fallback {
             background: #1A1A2E;
+        }
+        .work-mini-carousel-track {
+            display: flex;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        .work-mini-slide {
+            flex: 0 0 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 180px;
-            border-bottom: 2px solid var(--lime);
             font-family: monospace;
             font-weight: 900;
-            font-size: 24px;
+            font-size: 20px;
             color: var(--lime);
+            text-align: center;
+            padding: 12px;
+            box-sizing: border-box;
         }
-        .work-card-img {
-            background: #1A1A2E;
-            overflow: hidden;
+        .work-mini-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        /* ===== Button adjustments ===== */
+        .work-mini-slide.text-slide {
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: left;
+            padding: 16px 20px;
+            overflow-y: auto;
+            align-items: flex-start;
+        }
+        .work-mini-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            font-size: 24px;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            z-index: 5;
+            transition: background 0.2s;
+        }
+        .work-mini-btn:hover {
+            background: rgba(0,0,0,0.85);
+        }
+        .work-mini-btn.prev {
+            left: 8px;
+        }
+        .work-mini-btn.next {
+            right: 8px;
+        }
+        .work-mini-dots {
+            position: absolute;
+            bottom: 8px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            z-index: 5;
+        }
+        .work-mini-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.6);
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .work-mini-dot.active {
+            background: var(--lime);
+        }
+
+        /* ===== Layout adjustments ===== */
+        .work-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .work-card-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
         .work-card-actions .btn-primary {
             background: var(--indigo);
             color: white;
@@ -69,9 +143,7 @@
 </head>
 <body>
 
-    <!-- ============================================================
-         HEADER (injected from header.html)
-         ============================================================ -->
+    <!-- ===== Header injected dynamically ===== -->
     <div id="header-placeholder"></div>
 
     <main>
@@ -105,19 +177,27 @@
 
                     <!-- Navigoals -->
                     <div class="work-card" id="navigoals">
-                        <div class="work-card-img">
-                            <img src="projects/navigoals/thumbnail.png" alt="Navigoals thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">Navigoals</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/navigoals/thumbnail.png" alt="Navigoals thumbnail" onerror="this.parentNode.textContent='Navigoals';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Telegram Task Manager.</strong> Organize daily tasks, track efficiency, and manage projects across three lists (Daily, Master, Waiting) — now accessible from your phone via Telegram.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>Navigoals</h3>
-                            <p><strong>Telegram Task Manager.</strong> Organize daily tasks, track efficiency, and manage projects across three lists (Daily, Master, Waiting) — now accessible from your phone via Telegram.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
                                 <span class="tag">SQLite</span>
                                 <span class="tag">Telegram API</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/navigoals/navigoals.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -126,19 +206,27 @@
 
                     <!-- WorldTimer -->
                     <div class="work-card" id="worldtimer">
-                        <div class="work-card-img">
-                            <img src="projects/worldtimer/thumbnail.png" alt="WorldTimer thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">WorldTimer</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/worldtimer/thumbnail.png" alt="WorldTimer thumbnail" onerror="this.parentNode.textContent='WorldTimer';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Telegram Liquidity Bot.</strong> Sends automated alerts about market sessions (London, NY, Tokyo) with energy levels and timezone sync.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>WorldTimer</h3>
-                            <p><strong>Telegram Liquidity Bot.</strong> Sends automated alerts about market sessions (London, NY, Tokyo) with energy levels and timezone sync.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
                                 <span class="tag">Telegram API</span>
                                 <span class="tag">Async</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/worldtimer/worldtimer.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -147,19 +235,27 @@
 
                     <!-- TelegramToX Bot -->
                     <div class="work-card" id="telegramtox">
-                        <div class="work-card-img">
-                            <img src="projects/telegramtox/thumbnail.png" alt="telegramtox thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">TelegramToX</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/telegramtox/thumbnail.png" alt="TelegramToX thumbnail" onerror="this.parentNode.textContent='TelegramToX';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Telegram → X (Twitter) Bridge.</strong> Listens to a Telegram channel and automatically reposts messages (text, photos, videos) to Twitter using OAuth.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>Telegram to X Bot</h3>
-                            <p><strong>Telegram → X (Twitter) Bridge.</strong> Listens to a Telegram channel and automatically reposts messages (text, photos, videos) to Twitter using OAuth.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
                                 <span class="tag">Twitter API</span>
                                 <span class="tag">Automation</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/telegramtox/telegramtox.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -168,20 +264,28 @@
 
                     <!-- WorldWatcher -->
                     <div class="work-card" id="worldwatcher">
-                        <div class="work-card-img">
-                            <img src="projects/worldwatcher/thumbnail.png" alt="WorldWatcher thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">WorldWatcher</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/worldwatcher/thumbnail.png" alt="WorldWatcher thumbnail" onerror="this.parentNode.textContent='WorldWatcher';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Telegram News Monitor.</strong> Listens to groups/channels and forwards relevant messages to a destination based on custom keyword rules (OR/NOT filters). Handles text, photos, and videos.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>WorldWatcher</h3>
-                            <p><strong>Telegram News Monitor.</strong> Listens to groups/channels and forwards relevant messages to a destination based on custom keyword rules (OR/NOT filters). Handles text, photos, and videos.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
                                 <span class="tag">Telethon</span>
                                 <span class="tag">Regex</span>
                                 <span class="tag">Automation</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/worldwatcher/worldwatcher.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -204,20 +308,28 @@
 
                     <!-- Bizzy -->
                     <div class="work-card" id="bizzy">
-                        <div class="work-card-img">
-                            <img src="projects/bizzy/thumbnail.png" alt="Bizzy thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">Bizzy</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/bizzy/thumbnail.png" alt="Bizzy thumbnail" onerror="this.parentNode.textContent='Bizzy';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Point of Sale for small businesses.</strong> Django web app with public menu, sales reports, and a full POS interface. Tracks transactions with cancellation/restore and owner-scoped data.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>Bizzy POS</h3>
-                            <p><strong>Point of Sale for small businesses.</strong> Django web app with public menu, sales reports, and a full POS interface. Tracks transactions with cancellation/restore and owner-scoped data.</p>
                             <div class="work-tags">
                                 <span class="tag">Django</span>
                                 <span class="tag">SQLite</span>
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">Bootstrap</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/bizzy/bizzy.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -226,19 +338,27 @@
 
                     <!-- Solviem -->
                     <div class="work-card" id="solviem">
-                        <div class="work-card-img">
-                            <img src="projects/solviem/thumbnail.png" alt="Solviem thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">Solviem</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/solviem/thumbnail.png" alt="Solviem thumbnail" onerror="this.parentNode.textContent='Solviem';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Business Website.</strong> A complete corporate landing page for a consultancy firm, featuring a blog, contact forms, and embedded free tools (IVA Calculator).</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>Solviem Consultoría</h3>
-                            <p><strong>Business Website.</strong> A complete corporate landing page for a consultancy firm, featuring a blog, contact forms, and embedded free tools (IVA Calculator).</p>
                             <div class="work-tags">
                                 <span class="tag">HTML/CSS</span>
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">SEO</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/solviem/solviem.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -247,20 +367,28 @@
 
                     <!-- PxlCode Studio -->
                     <div class="work-card" id="pxlcode">
-                        <div class="work-card-img">
-                            <img src="projects/pxlcode/thumbnail.png" alt="PxlCode Studio thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">PxlCode</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/pxlcode/thumbnail.png" alt="PxlCode Studio thumbnail" onerror="this.parentNode.textContent='PxlCode';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Professional Portfolio / Landing Page.</strong> A complete brand identity and showcase website for a development studio — with service listings, a project gallery, and a contact-first design. Built to convert visitors into clients.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>PxlCode Studio</h3>
-                            <p><strong>Professional Portfolio / Landing Page.</strong> A complete brand identity and showcase website for a development studio — with service listings, a project gallery, and a contact-first design. Built to convert visitors into clients.</p>
                             <div class="work-tags">
                                 <span class="tag">HTML/CSS</span>
                                 <span class="tag">JavaScript</span>
                                 <span class="tag">UX Design</span>
                                 <span class="tag">Branding</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/pxlcode/pxlcode.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -283,19 +411,27 @@
 
                     <!-- DataBall -->
                     <div class="work-card" id="databall">
-                        <div class="work-card-img">
-                            <img src="projects/databall/thumbnail.png" alt="DataBall thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">DataBall</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/databall/thumbnail.png" alt="DataBall thumbnail" onerror="this.parentNode.textContent='DataBall';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>Sports Data & Simulator.</strong> Fetches football fixtures from an external API, stores them in SQLite, and simulates match outcomes with detailed stats.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>DataBall</h3>
-                            <p><strong>Sports Data & Simulator.</strong> Fetches football fixtures from an external API, stores them in SQLite, and simulates match outcomes with detailed stats.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
                                 <span class="tag">REST API</span>
                                 <span class="tag">Data Analysis</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/databall/databall.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -304,19 +440,27 @@
 
                     <!-- YouData -->
                     <div class="work-card" id="youdata">
-                        <div class="work-card-img">
-                            <img src="projects/youdata/thumbnail.png" alt="YouData thumbnail" class="project-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="project-thumb-fallback" style="display:none;">YouData</div>
+                        <div class="work-mini-carousel" data-carousel>
+                            <div class="work-mini-carousel-track">
+                                <div class="work-mini-slide">
+                                    <img src="projects/youdata/thumbnail.png" alt="YouData thumbnail" onerror="this.parentNode.textContent='YouData';">
+                                </div>
+                                <div class="work-mini-slide text-slide" style="background: #1A1A2E;">
+                                    <p><strong>YouTube Analytics Scraper.</strong> Extracts video metrics (views, likes, comments) from any channel, stores them in a database, and exports ranked reports to Excel.</p>
+                                </div>
+                            </div>
+                            <button class="work-mini-btn prev" aria-label="Previous image">‹</button>
+                            <button class="work-mini-btn next" aria-label="Next image">›</button>
+                            <div class="work-mini-dots"></div>
                         </div>
-                        <div class="work-card-content">
+                        <div class="work-card-content" style="padding-top: 16px;">
                             <h3>YouData</h3>
-                            <p><strong>YouTube Analytics Scraper.</strong> Extracts video metrics (views, likes, comments) from any channel, stores them in a database, and exports ranked reports to Excel.</p>
                             <div class="work-tags">
                                 <span class="tag">Python</span>
                                 <span class="tag">YouTube API</span>
                                 <span class="tag">Pandas</span>
                             </div>
-                            <div class="work-card-actions" style="display: flex; gap: 12px; margin-top: 12px;">
+                            <div class="work-card-actions">
                                 <a href="projects/youdata/youdata.html" class="btn-ghost" style="padding: 8px 16px; font-size: 14px;">View Project →</a>
                                 <a href="contact.html" class="btn-primary" style="padding: 8px 16px; font-size: 14px;">I need something like this</a>
                             </div>
@@ -338,21 +482,17 @@
     <!-- ============================================================
          SCRIPTS
          ============================================================ -->
-
     <script>
-        // ---------- HEADER INJECTION ----------
+        // ---------- Header injection ----------
         (function() {
             function getBasePath() {
                 var path = window.location.pathname;
-                if (path === '/' || path === '/index.html') {
-                    return '.';
-                }
+                if (path === '/' || path === '/index.html') return '.';
                 var parts = path.split('/').filter(function(p) { return p !== ''; });
                 var depth = parts.length;
                 if (depth <= 1) return '.';
                 return '../'.repeat(depth - 1);
             }
-
             var base = getBasePath();
             var headerUrl = base + '/header.html';
 
@@ -373,7 +513,7 @@
                 });
         })();
 
-        // ---------- DROPDOWNS LOGIC ----------
+        // ---------- Dropdowns ----------
         function initDropdowns() {
             document.addEventListener('click', function(e) {
                 var toggle = e.target.closest('.nav-toggle');
@@ -382,20 +522,17 @@
                     var parentLi = toggle.closest('.has-dropdown');
                     if (!parentLi) return;
                     var isOpen = parentLi.classList.contains('open');
-
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
                         openItem.classList.remove('open');
                         var btn = openItem.querySelector('.nav-toggle');
                         if (btn) btn.setAttribute('aria-expanded', 'false');
                     });
-
                     if (!isOpen) {
                         parentLi.classList.add('open');
                         toggle.setAttribute('aria-expanded', 'true');
                     }
                     return;
                 }
-
                 if (!e.target.closest('.has-dropdown')) {
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
                         openItem.classList.remove('open');
@@ -404,7 +541,6 @@
                     });
                 }
             });
-
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
@@ -415,6 +551,54 @@
                 }
             });
         }
+
+        // ---------- Mini carousel (manual) ----------
+        function initMiniCarousels() {
+            const carousels = document.querySelectorAll('[data-carousel]');
+            carousels.forEach(function(carousel) {
+                const track = carousel.querySelector('.work-mini-carousel-track');
+                const slides = carousel.querySelectorAll('.work-mini-slide');
+                const prevBtn = carousel.querySelector('.work-mini-btn.prev');
+                const nextBtn = carousel.querySelector('.work-mini-btn.next');
+                const dotsContainer = carousel.querySelector('.work-mini-dots');
+                let currentIndex = 0;
+
+                // Build dots
+                slides.forEach(function(_, i) {
+                    const dot = document.createElement('button');
+                    dot.classList.add('work-mini-dot');
+                    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+                    dot.addEventListener('click', function() {
+                        goTo(i);
+                    });
+                    dotsContainer.appendChild(dot);
+                });
+                const dots = dotsContainer.querySelectorAll('.work-mini-dot');
+
+                function goTo(index) {
+                    if (index < 0) index = slides.length - 1;
+                    if (index >= slides.length) index = 0;
+                    currentIndex = index;
+                    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+                    dots.forEach(function(dot, i) {
+                        dot.classList.toggle('active', i === index);
+                    });
+                }
+
+                prevBtn.addEventListener('click', function() {
+                    goTo(currentIndex - 1);
+                });
+                nextBtn.addEventListener('click', function() {
+                    goTo(currentIndex + 1);
+                });
+
+                goTo(0);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initMiniCarousels, 100);
+        });
     </script>
 
 </body>

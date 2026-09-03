@@ -426,6 +426,18 @@ body {
     cursor: not-allowed;
 }
 
+
+.text-slide {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    padding: 16px 20px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    align-items: flex-start; 
+}
+
 /* ─── WHATSAPP FLOAT ─────────────────────────── */
 .whatsapp-float {
     position: fixed;
