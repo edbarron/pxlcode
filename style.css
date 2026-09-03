@@ -191,7 +191,7 @@ body {
    HERO - SIDE BY SIDE
    ============================================================ */
 .hero {
-    min-height: 90vh;
+    min-height: 40vh;
     display: flex;
     flex-direction: row; /* Siempre en fila */
     align-items: center;
@@ -306,7 +306,7 @@ body {
    ============================================================ */
 .tetris-score {
     position: absolute;
-    top: -30px;
+    top: -40px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Press Start 2P', monospace;
@@ -325,7 +325,7 @@ body {
 
 .tetris-resets {
     position: absolute;
-    top: -50px;
+    top: -20px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Press Start 2P', monospace;
@@ -350,7 +350,7 @@ body {
 
 .tetris-message {
     position: absolute;
-    top: -75px;
+    bottom: -40px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Press Start 2P', monospace;
