@@ -1145,3 +1145,18 @@ body {
         transform: none !important;
     }
 }
+
+/* ============================================================
+   FORCE LOGO COLORS (fixes any specificity issues)
+   ============================================================ */
+.logo .logo-pxl {
+    color: var(--indigo) !important;
+}
+
+.logo .logo-code {
+    color: var(--white) !important;
+}
+
+.logo .logo-by {
+    color: var(--muted) !important;
+}
