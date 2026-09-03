@@ -28,7 +28,7 @@ body {
     --indigo:  #5B3FFF;
     --indigo-dim: #3D2BB5;
     --lime:    #00ff08;
-    --white:   #F0F0F0;
+    --white:   #F0FF0F0;
     --muted:   #8A8A9A;
     --border:  rgba(255,255,255,0.08);
     --pad-x:   clamp(24px, 6vw, 120px);
@@ -188,13 +188,15 @@ body {
 }
 
 /* ============================================================
-   HERO
+   HERO - SIDE BY SIDE
    ============================================================ */
 .hero {
     min-height: 90vh;
     display: flex;
+    flex-direction: row; /* Siempre en fila */
     align-items: center;
-    padding: 80px var(--pad-x);
+    justify-content: space-between;
+    padding: clamp(40px, 8vw, 100px) var(--pad-x);
     position: relative;
     overflow: hidden;
     background: var(--black);
@@ -203,28 +205,52 @@ body {
 .hero-inner {
     position: relative;
     z-index: 2;
+    flex: 1; /* Ocupa la mitad del espacio */
     max-width: 720px;
+    min-width: 0; /* Para que no desborde */
+    padding-right: clamp(10px, 3vw, 40px); /* Espacio entre texto y Tetris */
 }
 
+.hero-tetris {
+    position: relative;
+    flex: 1; /* Ocupa la otra mitad */
+    max-width: 300px;
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 0 28px rgba(91, 63, 255, 0.28));
+}
+
+.hero-tetris svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 280px; /* Máximo tamaño del tablero */
+    filter: drop-shadow(0 0 20px rgba(0,255,8,0.15));
+}
+
+/* ============================================================
+   HERO TEXT
+   ============================================================ */
 .hero-eyebrow {
     font-family: 'Press Start 2P', monospace;
     line-height: 1.6;
-    font-size: 12px;
+    font-size: clamp(10px, 1.2vw, 14px);
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: limegreen;
-    margin: 0 0 16px;
+    margin: 0 0 clamp(8px, 1.5vw, 16px);
     image-rendering: pixelated;
     -webkit-font-smoothing: none;
 }
 
-/* .main-title is the single source of truth for the hero <h1> sizing */
 .main-title {
     font-family: 'Press Start 2P', monospace;
-    font-size: 1.6rem;
+    font-size: clamp(0.9rem, 2.5vw, 1.6rem);
     line-height: 1.4;
-    margin-bottom: 1.5rem;
+    margin-bottom: clamp(0.8rem, 2vw, 1.5rem);
     color: #ffffff;
     image-rendering: pixelated;
     -webkit-font-smoothing: none;
@@ -257,55 +283,34 @@ body {
 }
 
 @keyframes moveColorPixel {
-    0% {
-        background-position: 0% 50%;
-    }
-    100% {
-        background-position: 200% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
 }
 
 .hero-sub {
-    font-size: 18px;
+    font-size: clamp(14px, 1.6vw, 18px);
     color: var(--muted);
     max-width: 520px;
-    margin: 0 0 40px;
+    margin: 0 0 clamp(20px, 4vw, 40px);
     line-height: 1.7;
 }
 
 .hero-actions {
     display: flex;
-    gap: 16px;
+    gap: clamp(8px, 1.5vw, 16px);
     flex-wrap: wrap;
 }
 
 /* ============================================================
-   HERO TETRIS (self-playing board animation)
+   TETRIS SCORE / RESETS / MESSAGE
    ============================================================ */
-.hero-tetris {
-    position: absolute;
-    right: 8%;
-    top: 50%;
-    transform: translateY(-50%);
-    width: min(230px, 20vw);
-    z-index: 1;
-    filter: drop-shadow(0 0 28px rgba(91, 63, 255, 0.28));
-}
-
-.hero-tetris svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    filter: drop-shadow(0 0 20px rgba(0,255,8,0.15));
-}
-
 .tetris-score {
     position: absolute;
-    top: -30px; 
+    top: -30px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
+    font-size: clamp(8px, 1.2vw, 10px);
     font-weight: 900;
     color: var(--lime);
     text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5);
@@ -318,35 +323,38 @@ body {
     animation: rainbow-colors 0.8s linear infinite;
 }
 
-/* Base cell style - no pop animation for regular cells */
-.tetris-cell {
-    transform-box: fill-box;
-    transform-origin: center;
-    opacity: 1;
-}
-
-/* Flash animation for completed lines: rainbow colors */
-.tetris-cell-flash {
-    animation: rainbow-flash 0.8s linear infinite;
-}
-
-@keyframes rainbow-flash {
-    0%   { fill: #ff0000; }
-    20%  { fill: #ffaa00; }
-    40%  { fill: #ffff00; }
-    60%  { fill: #00ff00; }
-    80%  { fill: #00aaff; }
-    100% { fill: #ff00ff; }
-}
-
-/* "PERFECT FIT" message - rainbow animation */
-.tetris-message {
+.tetris-resets {
     position: absolute;
-    bottom: -30px;
+    top: -50px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Press Start 2P', monospace;
-    font-size: 14px;
+    font-size: clamp(8px, 1.2vw, 10px);
+    font-weight: 900;
+    color: #FFAA00;
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    z-index: 10;
+    letter-spacing: 1px;
+}
+
+.tetris-resets.reset-flash {
+    animation: reset-flash 0.8s linear infinite;
+}
+
+@keyframes reset-flash {
+    0% { color: #FF5500; }
+    50% { color: #FFEA00; }
+    100% { color: #FF5500; }
+}
+
+.tetris-message {
+    position: absolute;
+    top: -75px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(10px, 1.5vw, 14px);
     font-weight: 900;
     white-space: nowrap;
     display: none;
@@ -357,12 +365,34 @@ body {
 }
 
 @keyframes rainbow-colors {
-    0%   { color: #ff0000; }
-    20%  { color: #ffaa00; }
-    40%  { color: #ffff00; }
-    60%  { color: #00ff00; }
-    80%  { color: #00aaff; }
+    0% { color: #ff0000; }
+    20% { color: #ffaa00; }
+    40% { color: #ffff00; }
+    60% { color: #00ff00; }
+    80% { color: #00aaff; }
     100% { color: #ff00ff; }
+}
+
+/* ============================================================
+   TETRIS BOARD CELLS
+   ============================================================ */
+.tetris-cell {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 1;
+}
+
+.tetris-cell-flash {
+    animation: rainbow-flash 0.8s linear infinite;
+}
+
+@keyframes rainbow-flash {
+    0% { fill: #ff0000; }
+    20% { fill: #ffaa00; }
+    40% { fill: #ffff00; }
+    60% { fill: #00ff00; }
+    80% { fill: #00aaff; }
+    100% { fill: #ff00ff; }
 }
 
 /* ============================================================
@@ -687,7 +717,7 @@ body {
 }
 
 /* ============================================================
-   MARQUEE (continuous scroll)
+   MARQUEE
    ============================================================ */
 .carousel-marquee {
     overflow: hidden;
@@ -708,15 +738,10 @@ body {
 }
 
 @keyframes scroll-marquee {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-/* Card sizing inside the marquee */
 .carousel-marquee .work-card,
 .carousel-marquee .service-card {
     flex-shrink: 0;
@@ -1019,70 +1044,71 @@ body {
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE - SMALL SCREENS (keep side by side)
    ============================================================ */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
     .hero {
-        min-height: auto;
-        padding: 80px var(--pad-x);
+        padding: 40px 24px;
+    }
+
+    .hero-inner {
+        padding-right: 12px;
     }
 
     .hero-tetris {
-        width: min(300px, 26vw); 
-        right: 8%;
-        top: 50%;
-        transform: translateY(-50%);
-    }
-
-    .process-steps {
-        flex-direction: column;
-        gap: 40px;
-    }
-
-    .cta-inner {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .contact-form {
-        text-align: left;
-        max-width: 100%;
-    }
-
-    .footer {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-    }
-}
-
-@media (max-width: 600px) {
-    .header {
-        flex-direction: column;
-        gap: 14px;
-        padding-top: 14px;
-        padding-bottom: 14px;
-    }
-
-    .links {
-        gap: 16px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .links a.nav-cta {
-        padding: 6px 14px;
+        max-width: 200px;
     }
 
     .main-title {
-        font-size: 1.1rem;
+        font-size: 0.9rem;
+        line-height: 1.3;
     }
 
-    .section-header {
-        margin-bottom: 40px;
+    .hero-sub {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+        width: 100%;
+        text-align: center;
     }
 }
 
+@media (max-width: 480px) {
+    .hero-tetris {
+        max-width: 150px;
+    }
+
+    .main-title {
+        font-size: 0.8rem;
+    }
+
+    .hero-eyebrow {
+        font-size: 9px;
+    }
+
+    .tetris-score {
+        top: -25px;
+    }
+    .tetris-resets {
+        top: -45px;
+    }
+    .tetris-message {
+        top: -65px;
+    }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
     * {
         transition: none !important;
@@ -1096,31 +1122,4 @@ body {
         opacity: 1 !important;
         transform: none !important;
     }
-}
-
-
-.tetris-resets {
-    position: absolute;
-    top: -15px; 
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    font-weight: 900;
-    color: #FFAA00;
-    text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5);
-    white-space: nowrap;
-    z-index: 10;
-    letter-spacing: 1px;
-}
-
-/* Flash del contador de resets (amarillo/naranja) */
-.tetris-resets.reset-flash {
-    animation: reset-flash 0.8s linear infinite;
-}
-
-@keyframes reset-flash {
-    0%   { color: #FF5500; }
-    50%  { color: #FFEA00; }
-    100% { color: #FF5500; }
 }
