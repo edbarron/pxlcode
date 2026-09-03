@@ -43,12 +43,14 @@
                     <a href="#contact" class="btn-ghost">Start a Project</a>
                 </div>
             </div>
-            <div class="hero-grid-deco" aria-hidden="true">
-                <div class="grid-lines"></div>
-                <div class="pixel-block pb1"></div>
-                <div class="pixel-block pb2"></div>
-                <div class="pixel-block pb3"></div>
-                <div class="pixel-block pb4"></div>
+            <div class="hero-tetris" aria-hidden="true">
+                <!-- Score Display -->
+                <div id="tetris-score" class="tetris-score">SCORE: 0</div>
+                <!-- Resets Display -->
+                <div id="tetris-resets" class="tetris-resets">RESETS: 0</div>
+                <!-- Mensaje "PERFECT FIT" -->
+                <div id="tetris-message" class="tetris-message">PERFECT FIT</div>
+                <svg id="heroTetrisBoard" viewBox="0 0 128 224" xmlns="http://www.w3.org/2000/svg"></svg>
             </div>
         </section>
 
@@ -192,9 +194,6 @@
     <!-- SCRIPTS -->
     <script>
         // ---------- SITE CONFIG ----------
-        // Single source of truth for the WhatsApp number + default message.
-        // Update here and every WhatsApp link on the page (hero, CTA, float
-        // button) picks up the change automatically.
         const SITE_CONFIG = {
             whatsappNumber: '527777777777',
             whatsappMessage: "Hi, I'm interested in a project"
@@ -205,6 +204,347 @@
             document.querySelectorAll('.js-whatsapp-link').forEach(function(link) {
                 link.href = url;
             });
+        })();
+
+        // ---------- HERO TETRIS ----------
+        (function buildHeroTetris() {
+            const svg = document.getElementById('heroTetrisBoard');
+            if (!svg) return;
+
+            const COLS = 8;
+            const ROWS = 14;
+            const CELL = 16;
+            const svgNS = 'http://www.w3.org/2000/svg';
+
+            // Piezas fáciles (I, O, T, L, J)
+            const PIECES = [
+                { color: 'var(--lime)', shapes: [
+                    [[0, 0], [0, 1], [0, 2], [0, 3]],
+                    [[0, 0], [1, 0], [2, 0], [3, 0]]
+                ] },
+                { color: 'var(--indigo)', shapes: [
+                    [[0, 0], [0, 1], [1, 0], [1, 1]]
+                ] },
+                { color: '#7059FF', shapes: [
+                    [[0, 0], [0, 1], [0, 2], [1, 1]],
+                    [[0, 1], [1, 0], [1, 1], [2, 1]],
+                    [[1, 0], [1, 1], [1, 2], [0, 1]],
+                    [[0, 0], [1, 0], [1, 1], [2, 0]]
+                ] },
+                { color: 'var(--indigo-dim)', shapes: [
+                    [[0, 1], [0, 2], [1, 0], [1, 1]],
+                    [[0, 0], [1, 0], [1, 1], [2, 1]]
+                ] },
+                { color: '#F0F0F0', shapes: [
+                    [[0, 0], [1, 0], [1, 1], [1, 2]],
+                    [[0, 0], [0, 1], [1, 0], [2, 0]],
+                    [[0, 0], [0, 1], [0, 2], [1, 2]],
+                    [[0, 1], [1, 1], [2, 0], [2, 1]]
+                ] }
+            ];
+
+            const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+            const createEmptyGrid = () => Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+            const shapeWidth = (shape) => Math.max(...shape.map((cell) => cell[1])) + 1;
+
+            function fits(grid, shape, row, col) {
+                return shape.every(([r, c]) => {
+                    const rr = row + r;
+                    const cc = col + c;
+                    if (cc < 0 || cc >= COLS || rr >= ROWS) return false;
+                    if (rr < 0) return true;
+                    return grid[rr][cc] === null;
+                });
+            }
+
+            function dropRow(grid, shape, col) {
+                if (!fits(grid, shape, 0, col)) return null;
+                let row = 0;
+                while (fits(grid, shape, row + 1, col)) row++;
+                return row;
+            }
+
+            function placeShape(grid, shape, row, col, color) {
+                const next = grid.map((r) => r.slice());
+                shape.forEach(([r, c]) => { next[row + r][col + c] = color; });
+                return next;
+            }
+
+            function completedRows(grid) {
+                const rows = [];
+                grid.forEach((row, idx) => { if (row.every((cell) => cell !== null)) rows.push(idx); });
+                return rows;
+            }
+
+            // Heurística avanzada
+            function holesAndHeight(grid) {
+                let holes = 0;
+                let aggHeight = 0;
+                let maxHeight = 0;
+                let bumpiness = 0;
+                let wells = 0;
+
+                const heights = Array(COLS).fill(0);
+                for (let c = 0; c < COLS; c++) {
+                    let h = 0;
+                    for (let r = 0; r < ROWS; r++) {
+                        if (grid[r][c] !== null) {
+                            h = ROWS - r;
+                            break;
+                        }
+                    }
+                    heights[c] = h;
+                    aggHeight += h;
+                    maxHeight = Math.max(maxHeight, h);
+                }
+
+                for (let c = 0; c < COLS; c++) {
+                    let seenBlock = false;
+                    for (let r = 0; r < ROWS; r++) {
+                        if (grid[r][c] !== null) {
+                            seenBlock = true;
+                        } else if (seenBlock) {
+                            holes++;
+                        }
+                    }
+                }
+
+                for (let c = 0; c < COLS - 1; c++) {
+                    bumpiness += Math.abs(heights[c] - heights[c + 1]);
+                }
+
+                for (let c = 0; c < COLS; c++) {
+                    let wellDepth = 0;
+                    for (let r = ROWS - 1; r >= 0; r--) {
+                        if (grid[r][c] === null) {
+                            if ((c === 0 || grid[r][c - 1] !== null) && (c === COLS - 1 || grid[r][c + 1] !== null)) {
+                                wellDepth++;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                    if (wellDepth > 0) {
+                        wells += wellDepth;
+                    }
+                }
+
+                return { holes, aggHeight, maxHeight, bumpiness, wells };
+            }
+
+            function evaluate(grid, shape, col) {
+                const landingRow = dropRow(grid, shape, col);
+                if (landingRow === null) return null;
+                const placed = placeShape(grid, shape, landingRow, col, 'x');
+                const rows = completedRows(placed);
+                let scored = placed;
+                if (rows.length) {
+                    scored = placed.filter((_, idx) => !rows.includes(idx));
+                    while (scored.length < ROWS) scored.unshift(Array(COLS).fill(null));
+                }
+                const { holes, aggHeight, maxHeight, bumpiness, wells } = holesAndHeight(scored);
+                const heightFactor = aggHeight / (ROWS * COLS);
+                const lineWeight = 50 + heightFactor * 500;
+                const score = (rows.length * lineWeight) - (holes * 10) - (aggHeight * 0.7) 
+                              - (maxHeight * 1.5) - (bumpiness * 0.5) - (wells * 5);
+                return { landingRow, col, score };
+            }
+
+            function chooseBestPlacement(grid, piece) {
+                let options = [];
+                piece.shapes.forEach((shape) => {
+                    const maxCol = COLS - shapeWidth(shape);
+                    for (let col = 0; col <= maxCol; col++) {
+                        const result = evaluate(grid, shape, col);
+                        if (result) options.push(Object.assign({ shape }, result));
+                    }
+                });
+                if (options.length === 0) return null;
+                
+                if (Math.random() < 0.2 && options.length > 3) {
+                    options.sort((a, b) => b.score - a.score);
+                    const top3 = options.slice(0, 3);
+                    return top3[Math.floor(Math.random() * top3.length)];
+                }
+                
+                options.sort((a, b) => b.score - a.score);
+                return options[0];
+            }
+
+            function makeCellRect(row, col, color, flash) {
+                const rect = document.createElementNS(svgNS, 'rect');
+                rect.setAttribute('x', col * CELL + 1);
+                rect.setAttribute('y', row * CELL + 1);
+                rect.setAttribute('width', CELL - 2);
+                rect.setAttribute('height', CELL - 2);
+                rect.setAttribute('rx', 2);
+                rect.setAttribute('fill', flash ? '#FF5500' : color);
+                rect.classList.add('tetris-cell');
+                if (flash) rect.classList.add('tetris-cell-flash');
+                return rect;
+            }
+
+            let grid = createEmptyGrid();
+            let active = null;
+            let flashRows = [];
+            let score = 0;
+            let resets = 0;
+            const scoreEl = document.getElementById('tetris-score');
+            const resetsEl = document.getElementById('tetris-resets');
+
+            function updateScore(amount) {
+                score += amount;
+                if (scoreEl) {
+                    scoreEl.textContent = 'SCORE: ' + score;
+                    scoreEl.classList.remove('score-flash');
+                    void scoreEl.offsetWidth;
+                    scoreEl.classList.add('score-flash');
+                    setTimeout(() => {
+                        scoreEl.classList.remove('score-flash');
+                    }, 1500);
+                }
+            }
+
+            function updateResets() {
+                resets++;
+                if (resetsEl) {
+                    resetsEl.textContent = 'RESETS: ' + resets;
+                    resetsEl.classList.remove('reset-flash');
+                    void resetsEl.offsetWidth;
+                    resetsEl.classList.add('reset-flash');
+                    setTimeout(() => {
+                        resetsEl.classList.remove('reset-flash');
+                    }, 1000);
+                }
+            }
+
+            function render() {
+                while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+                const board = document.createElementNS(svgNS, 'rect');
+                board.setAttribute('x', 0);
+                board.setAttribute('y', 0);
+                board.setAttribute('width', COLS * CELL);
+                board.setAttribute('height', ROWS * CELL);
+                board.setAttribute('rx', 4);
+                board.setAttribute('fill', 'rgba(255,255,255,0.02)');
+                board.setAttribute('stroke', 'var(--border)');
+                board.setAttribute('stroke-width', 2);
+                svg.appendChild(board);
+
+                const frag = document.createDocumentFragment();
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        if (grid[r][c]) frag.appendChild(makeCellRect(r, c, grid[r][c], flashRows.includes(r)));
+                    }
+                }
+                if (active) {
+                    active.shape.forEach(([dr, dc]) => {
+                        const r = active.row + dr;
+                        const c = active.col + dc;
+                        if (r >= 0) frag.appendChild(makeCellRect(r, c, active.color, false));
+                    });
+                }
+                svg.appendChild(frag);
+            }
+
+            function renderReducedMotionSnapshot() {
+                const colors = ['var(--lime)', 'var(--indigo)', '#7059FF', 'var(--indigo-dim)', '#F0F0F0'];
+                for (let r = ROWS - 3; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        grid[r][c] = colors[(r + c) % colors.length];
+                    }
+                }
+                render();
+            }
+
+            const prefersReducedMotion = window.matchMedia
+                && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            if (prefersReducedMotion) {
+                renderReducedMotionSnapshot();
+                return;
+            }
+
+            const FALL_MS = 260;
+            const LOCK_PAUSE_MS = 140;
+            const RESET_PAUSE_MS = 500;
+
+            async function runLoop() {
+                while (true) {
+                    if (document.hidden) { await sleep(300); continue; }
+
+                    if (!active) {
+                        const piece = PIECES[Math.floor(Math.random() * PIECES.length)];
+                        const placement = chooseBestPlacement(grid, piece);
+
+                        if (!placement) {
+                            // Board topped out: flash everything, then start clean.
+                            flashRows = Array.from({ length: ROWS }, (_, i) => i);
+                            render();
+                            await sleep(240);
+                            grid = createEmptyGrid();
+                            flashRows = [];
+                            render();
+                            await sleep(RESET_PAUSE_MS);
+                            // Increment resets counter
+                            updateResets();
+                            continue;
+                        }
+
+                        active = {
+                            shape: placement.shape,
+                            color: piece.color,
+                            col: placement.col,
+                            row: 0,
+                            landingRow: placement.landingRow
+                        };
+                        render();
+                        await sleep(FALL_MS);
+                        continue;
+                    }
+
+                    if (active.row < active.landingRow) {
+                        active.row++;
+                        render();
+                        await sleep(FALL_MS);
+                        continue;
+                    }
+
+                    grid = placeShape(grid, active.shape, active.row, active.col, active.color);
+                    active = null;
+                    const rowsToClear = completedRows(grid);
+                    render();
+
+                    if (rowsToClear.length) {
+                        // Show "PERFECT FIT" message
+                        const messageEl = document.getElementById('tetris-message');
+                        if (messageEl) messageEl.style.display = 'block';
+
+                        flashRows = rowsToClear;
+                        render();
+                        
+                        // Update score (with flash)
+                        updateScore(rowsToClear.length * 100);
+                        
+                        // Wait 1.5 seconds to appreciate
+                        await sleep(1500);
+                        
+                        grid = grid.filter((_, idx) => !rowsToClear.includes(idx));
+                        while (grid.length < ROWS) grid.unshift(Array(COLS).fill(null));
+                        flashRows = [];
+                        render();
+                        
+                        // Hide message after a small pause
+                        await sleep(300);
+                        if (messageEl) messageEl.style.display = 'none';
+                        
+                        await sleep(LOCK_PAUSE_MS);
+                    }
+                }
+            }
+
+            runLoop();
         })();
 
         // ---------- CONTACT FORM ----------
@@ -256,10 +596,6 @@
 
             var placeholder = document.getElementById('header-placeholder');
 
-            // Minimal fallback header shown if the fetch below fails (e.g. wrong
-            // path, offline, or the page opened directly via file:// where
-            // fetch() cannot load local files). Keeps the logo/home link and
-            // WhatsApp CTA usable instead of leaving an empty nav.
             function renderFallbackHeader() {
                 if (!placeholder) return;
                 placeholder.innerHTML =
@@ -278,8 +614,6 @@
             var headerUrl = base + '/header.html';
 
             if (window.location.protocol === 'file:') {
-                // fetch() cannot read local files under file://, so skip
-                // straight to the fallback instead of letting the request fail silently.
                 renderFallbackHeader();
                 return;
             }
@@ -341,15 +675,15 @@
             });
         }
 
-        // ---------- MARQUEE (continuous scroll) ----------
+        // ---------- MARQUEE ----------
         function createMarquee(trackId, items, buildCardHTML) {
             const track = document.getElementById(trackId);
             if (!track) return;
             const itemsHTML = items.map(item => buildCardHTML(item)).join('');
-            track.innerHTML = itemsHTML + itemsHTML; // duplicate for infinite loop
+            track.innerHTML = itemsHTML + itemsHTML;
         }
 
-        // ---------- SERVICES DATA & BUILD ----------
+        // ---------- SERVICES ----------
         (function() {
             const servicesData = [
                 {
@@ -416,7 +750,7 @@
             createMarquee('servicesTrack', servicesData, buildServiceCard);
         })();
 
-        // ---------- WORK DATA & BUILD ----------
+        // ---------- WORK ----------
         (function() {
             const workData = [
                 {

@@ -1,6 +1,6 @@
 /* ============================================================
-   style.css — PxlCode Studio
-   Base + Header + Dropdowns + Marquee
+   style.css - PxlCode Studio
+   Base + Header + Dropdowns + Marquee + Hero Tetris
    ============================================================ */
 
 *, *::before, *::after {
@@ -19,7 +19,9 @@ body {
     line-height: 1.6;
 }
 
-/* ─── TOKENS ─────────────────────────────────── */
+/* ============================================================
+   TOKENS
+   ============================================================ */
 :root {
     --black:   #0D0D0D;
     --navy:    #1A1A2E;
@@ -32,7 +34,9 @@ body {
     --pad-x:   clamp(24px, 6vw, 120px);
 }
 
-/* ─── HEADER ─────────────────────────────────── */
+/* ============================================================
+   HEADER
+   ============================================================ */
 .header {
     position: sticky;
     top: 0;
@@ -183,7 +187,9 @@ body {
     background: rgba(0,255,8,0.08) !important;
 }
 
-/* ─── HERO ───────────────────────────────────── */
+/* ============================================================
+   HERO
+   ============================================================ */
 .hero {
     min-height: 90vh;
     display: flex;
@@ -213,15 +219,7 @@ body {
     -webkit-font-smoothing: none;
 }
 
-/*
- * .main-title is the single source of truth for the hero <h1> sizing.
- * (Previously a separate ".hero h1" rule below also set font-size/color/
- * margin on this same element. Because "​.hero h1" — element + class — beats
- * ".main-title" — a single class — in specificity, it silently overrode the
- * intended 1.6rem pixel-font size with a much larger clamp() value. That
- * rule has been removed below; this is now the only place the hero title
- * is sized.)
- */
+/* .main-title is the single source of truth for the hero <h1> sizing */
 .main-title {
     font-family: 'Press Start 2P', monospace;
     font-size: 1.6rem;
@@ -232,7 +230,7 @@ body {
     -webkit-font-smoothing: none;
 }
 
-/* --- ANIMATION: PIXELS --- */
+/* --- Animation: PIXELS --- */
 .pixels-animated {
     background-image: linear-gradient(90deg, #00e676, #5b31e6, #00e676);
     background-size: 200% 100%;
@@ -245,7 +243,7 @@ body {
     display: inline-block;
 }
 
-/* --- ANIMATION: SOLUTIONS --- */
+/* --- Animation: SOLUTIONS --- */
 .solutions-animated {
     background-image: linear-gradient(90deg, #ff5500, #ffea00, #ff5500);
     background-size: 200% 100%;
@@ -281,56 +279,95 @@ body {
     flex-wrap: wrap;
 }
 
-/* ─── PIXEL DECO ─────────────────────────────── */
-.hero-grid-deco {
+/* ============================================================
+   HERO TETRIS (self-playing board animation)
+   ============================================================ */
+.hero-tetris {
     position: absolute;
-    right: 0;
-    top: 0;
-    width: 50%;
-    height: 100%;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(230px, 20vw);
     z-index: 1;
+    filter: drop-shadow(0 0 28px rgba(91, 63, 255, 0.28));
 }
 
-.grid-lines {
+.hero-tetris svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 0 20px rgba(0,255,8,0.15));
+}
+
+.tetris-score {
     position: absolute;
-    inset: 0;
-    background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 48px 48px;
+    top: -30px; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    font-weight: 900;
+    color: var(--lime);
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    z-index: 10;
+    letter-spacing: 1px;
 }
 
-.pixel-block {
+.tetris-score.score-flash {
+    animation: rainbow-colors 0.8s linear infinite;
+}
+
+/* Base cell style - no pop animation for regular cells */
+.tetris-cell {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 1;
+}
+
+/* Flash animation for completed lines: rainbow colors */
+.tetris-cell-flash {
+    animation: rainbow-flash 0.8s linear infinite;
+}
+
+@keyframes rainbow-flash {
+    0%   { fill: #ff0000; }
+    20%  { fill: #ffaa00; }
+    40%  { fill: #ffff00; }
+    60%  { fill: #00ff00; }
+    80%  { fill: #00aaff; }
+    100% { fill: #ff00ff; }
+}
+
+/* "PERFECT FIT" message - rainbow animation */
+.tetris-message {
     position: absolute;
-    border-radius: 4px;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    font-weight: 900;
+    white-space: nowrap;
+    display: none;
+    z-index: 10;
+    letter-spacing: 1px;
+    animation: rainbow-colors 0.8s linear infinite;
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5);
 }
 
-.pb1 {
-    width: 96px; height: 96px;
-    background: var(--indigo);
-    opacity: 0.7;
-    top: 20%; right: 28%;
-}
-.pb2 {
-    width: 48px; height: 48px;
-    background: var(--lime);
-    opacity: 0.9;
-    top: calc(20% + 96px); right: 28%;
-}
-.pb3 {
-    width: 48px; height: 48px;
-    background: var(--indigo-dim);
-    opacity: 0.5;
-    top: 20%; right: calc(28% - 48px);
-}
-.pb4 {
-    width: 144px; height: 144px;
-    border: 2px solid var(--indigo);
-    opacity: 0.2;
-    top: calc(20% - 30px); right: calc(28% - 50px);
+@keyframes rainbow-colors {
+    0%   { color: #ff0000; }
+    20%  { color: #ffaa00; }
+    40%  { color: #ffff00; }
+    60%  { color: #00ff00; }
+    80%  { color: #00aaff; }
+    100% { color: #ff00ff; }
 }
 
-/* ─── BUTTONS ────────────────────────────────── */
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 .btn-primary {
     background: var(--indigo);
     color: var(--white);
@@ -424,7 +461,9 @@ body {
     cursor: not-allowed;
 }
 
-
+/* ============================================================
+   TEXT SLIDE (for mini carousels inside cards)
+   ============================================================ */
 .text-slide {
     font-family: inherit;
     font-size: 14px;
@@ -436,7 +475,9 @@ body {
     align-items: flex-start; 
 }
 
-/* ─── WHATSAPP FLOAT ─────────────────────────── */
+/* ============================================================
+   WHATSAPP FLOAT
+   ============================================================ */
 .whatsapp-float {
     position: fixed;
     bottom: 26px;
@@ -463,7 +504,9 @@ body {
     color: var(--white);
 }
 
-/* ─── SECTION COMMON ─────────────────────────── */
+/* ============================================================
+   SECTION COMMON
+   ============================================================ */
 .section-inner {
     max-width: 1100px;
     margin: 0 auto;
@@ -491,7 +534,9 @@ body {
     color: var(--white);
 }
 
-/* ─── SERVICES ───────────────────────────────── */
+/* ============================================================
+   SERVICES
+   ============================================================ */
 .services {
     background: var(--navy);
     padding: 100px var(--pad-x);
@@ -541,7 +586,9 @@ body {
     flex: 1;
 }
 
-/* ─── WORK PREVIEW (PORTFOLIO) ───────────────── */
+/* ============================================================
+   WORK PREVIEW (PORTFOLIO)
+   ============================================================ */
 .work-preview {
     background: var(--black);
     padding: 100px var(--pad-x);
@@ -639,7 +686,9 @@ body {
     flex-wrap: wrap;
 }
 
-/* ─── MARQUEE ────────────────────────────────── */
+/* ============================================================
+   MARQUEE (continuous scroll)
+   ============================================================ */
 .carousel-marquee {
     overflow: hidden;
     position: relative;
@@ -681,7 +730,9 @@ body {
     }
 }
 
-/* ─── PROCESS ────────────────────────────────── */
+/* ============================================================
+   PROCESS
+   ============================================================ */
 .process {
     background: var(--black);
     padding: 60px var(--pad-x);
@@ -741,7 +792,9 @@ body {
     }
 }
 
-/* ─── QUOTE ──────────────────────────────────── */
+/* ============================================================
+   QUOTE
+   ============================================================ */
 .quote-section {
     background: var(--black);
     padding: 80px var(--pad-x);
@@ -776,7 +829,9 @@ body {
     text-align: center;
 }
 
-/* ─── CTA ────────────────────────────────────── */
+/* ============================================================
+   CTA
+   ============================================================ */
 .cta-section {
     background: var(--navy);
     padding: 80px var(--pad-x);
@@ -936,7 +991,9 @@ body {
     }
 }
 
-/* ─── FOOTER ─────────────────────────────────── */
+/* ============================================================
+   FOOTER
+   ============================================================ */
 .footer {
     background: var(--black);
     border-top: 1px solid var(--border);
@@ -961,16 +1018,20 @@ body {
     }
 }
 
-/* ─── RESPONSIVE ─────────────────────────────── */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 900px) {
     .hero {
         min-height: auto;
-        padding-top: 80px;
-        padding-bottom: 80px;
+        padding: 80px var(--pad-x);
     }
 
-    .hero-grid-deco {
-        display: none;
+    .hero-tetris {
+        width: min(300px, 26vw); 
+        right: 8%;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .process-steps {
@@ -1029,4 +1090,37 @@ body {
     html {
         scroll-behavior: auto;
     }
+    .tetris-cell,
+    .tetris-cell-flash {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}
+
+
+.tetris-resets {
+    position: absolute;
+    top: -15px; 
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    font-weight: 900;
+    color: #FFAA00;
+    text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    z-index: 10;
+    letter-spacing: 1px;
+}
+
+/* Flash del contador de resets (amarillo/naranja) */
+.tetris-resets.reset-flash {
+    animation: reset-flash 0.8s linear infinite;
+}
+
+@keyframes reset-flash {
+    0%   { color: #FF5500; }
+    50%  { color: #FFEA00; }
+    100% { color: #FF5500; }
 }
