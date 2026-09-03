@@ -8,526 +8,10 @@
     <title>PxlCode Studio | Web, Bots & Data Solutions</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
-    <style>
-        /* ===== Carousel styles ===== */
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto 20px;
-            border-radius: 8px;
-            overflow: hidden;
-            background: transparent;
-        }
-        .carousel-slides {
-            display: flex;
-            transition: transform 0.4s ease-in-out;
-            gap: 0;
-        }
-        .carousel-slide {
-            flex: 0 0 50%;
-            min-width: 50%;
-            box-sizing: border-box;
-            padding: 10px;
-        }
-        .carousel-slide .work-card,
-        .carousel-slide .service-card {
-            background: var(--navy);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.2s, border-color 0.2s;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        .carousel-slide .work-card:hover,
-        .carousel-slide .service-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--indigo);
-        }
-        .carousel-slide .service-card {
-            padding: 30px 24px;
-        }
-        .carousel-slide .service-card .service-icon {
-            margin-bottom: 16px;
-            width: 44px;
-            height: 44px;
-            color: var(--indigo);
-        }
-        .carousel-slide .service-card .service-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-        .carousel-slide .service-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--white);
-            margin: 0 0 8px;
-        }
-        .carousel-slide .service-card p {
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 0 0 16px;
-            flex: 1;
-        }
-        .project-thumb {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            background: #1A1A2E;
-            border-bottom: 2px solid var(--lime);
-            display: block;
-        }
-        .project-thumb-fallback {
-            background: #1A1A2E;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 180px;
-            border-bottom: 2px solid var(--lime);
-            font-family: monospace;
-            font-weight: 900;
-            font-size: 24px;
-            color: var(--lime);
-        }
-        .work-card-content {
-            padding: 24px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .work-card-content h3 {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--white);
-            margin: 0 0 8px;
-        }
-        .work-card-content p {
-            color: var(--muted);
-            font-size: 14px;
-            margin: 0 0 16px;
-            line-height: 1.6;
-            flex: 1;
-        }
-        .work-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        .tag {
-            background: rgba(91,63,255,0.15);
-            color: var(--indigo);
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .card-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
-        .btn-ghost {
-            display: inline-block;
-            background: transparent;
-            color: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .btn-ghost:hover {
-            border-color: rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.04);
-        }
-        .btn-primary {
-            background: var(--indigo);
-            color: var(--white);
-            border: none;
-            border-radius: 4px;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-        .btn-primary:hover {
-            background: #7059FF;
-        }
-        .service-link {
-            color: var(--indigo);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-        .service-link:hover {
-            color: var(--lime);
-        }
-
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.6);
-            color: #fff;
-            border: none;
-            font-size: 28px;
-            padding: 12px 18px;
-            cursor: pointer;
-            border-radius: 4px;
-            z-index: 10;
-            transition: background 0.2s;
-            user-select: none;
-        }
-        .carousel-btn:hover {
-            background: rgba(0,0,0,0.85);
-        }
-        .carousel-btn.prev {
-            left: 10px;
-        }
-        .carousel-btn.next {
-            right: 10px;
-        }
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 0 4px;
-        }
-        .carousel-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #555;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .carousel-dot.active {
-            background: var(--lime);
-        }
-
-        /* Mobile: 1 card per slide */
-        @media (max-width: 768px) {
-            .carousel-slide {
-                flex: 0 0 100%;
-                min-width: 100%;
-            }
-            .project-thumb,
-            .project-thumb-fallback {
-                height: 140px;
-            }
-            .work-card-content {
-                padding: 16px;
-            }
-            .carousel-slide .service-card {
-                padding: 20px 16px;
-            }
-        }
-
-        .services.carousel-section,
-        .work-preview.carousel-section {
-            padding: 60px var(--pad-x);
-        }
-        .carousel-section .section-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        /* ===== Process / How I Work (redesigned) ===== */
-        .process {
-            background: var(--black);
-            padding: 60px var(--pad-x);
-        }
-        .process-steps {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-        .process-step {
-            background: var(--navy);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 24px 28px;
-            display: flex;
-            flex-direction: column;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-        .process-step:hover {
-            border-color: var(--indigo);
-            transform: translateY(-2px);
-        }
-        .step-num {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--lime);
-            opacity: 0.9;
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-        .step-content h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--white);
-            margin: 0 0 6px;
-        }
-        .step-content p {
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.5;
-            margin: 0;
-        }
-        .process-connector {
-            display: none;
-        }
-
-        @media (max-width: 600px) {
-            .process-steps {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .process-step {
-                padding: 20px;
-            }
-        }
-
-        /* ===== Quote section (improved) ===== */
-        .quote-section {
-            background: var(--black);
-            padding: 80px var(--pad-x);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-        .quote-section blockquote {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: clamp(22px, 3vw, 34px);
-            font-style: italic;
-            font-weight: 300;
-            color: var(--white);
-            line-height: 1.5;
-            letter-spacing: -0.01em;
-            text-align: center;
-        }
-        .quote-section blockquote .highlight {
-            color: var(--indigo);
-        }
-        .quote-section footer {
-            margin-top: 24px;
-            font-style: normal;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--lime);
-            text-align: center;
-        }
-
-        /* ===== Contact / CTA (with WhatsApp & Contact page) ===== */
-        .cta-section {
-            background: var(--navy);
-            padding: 80px var(--pad-x);
-        }
-        .cta-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 60px;
-            flex-wrap: wrap;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .cta-text {
-            flex: 1;
-            min-width: 260px;
-        }
-        .cta-text h2 {
-            font-size: clamp(24px, 3.5vw, 40px);
-            font-weight: 900;
-            color: var(--white);
-            margin: 0 0 12px;
-            letter-spacing: -0.02em;
-        }
-        .cta-text p {
-            color: var(--muted);
-            font-size: 17px;
-            margin: 0 0 20px;
-        }
-        .cta-buttons {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-        .btn-whatsapp-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #25D366;
-            color: var(--white);
-            border: none;
-            border-radius: 4px;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: background 0.2s, transform 0.15s;
-        }
-        .btn-whatsapp-cta:hover {
-            background: #1eb858;
-            transform: translateY(-1px);
-        }
-        .btn-whatsapp-cta svg {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-        .btn-contact-page {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: transparent;
-            color: var(--white);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 14px 28px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .btn-contact-page:hover {
-            border-color: rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.04);
-        }
-        .contact-form {
-            flex: 1;
-            min-width: 280px;
-            max-width: 440px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .form-row {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .form-row label {
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-        }
-        .form-row input,
-        .form-row textarea {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 12px 14px;
-            color: var(--white);
-            font-size: 15px;
-            font-family: inherit;
-            resize: vertical;
-            transition: border-color 0.2s, background 0.2s;
-        }
-        .form-row input:focus,
-        .form-row textarea:focus {
-            outline: none;
-            border-color: var(--indigo);
-            background: rgba(255,255,255,0.06);
-        }
-        .form-status {
-            margin: 0;
-            font-size: 14px;
-            min-height: 18px;
-        }
-        .form-status.success {
-            color: var(--lime);
-        }
-        .form-status.error {
-            color: #ff6b6b;
-        }
-
-        @media (max-width: 768px) {
-            .cta-inner {
-                flex-direction: column;
-                text-align: center;
-            }
-            .cta-buttons {
-                justify-content: center;
-            }
-            .contact-form {
-                max-width: 100%;
-                text-align: left;
-            }
-            .quote-section blockquote {
-                font-size: 20px;
-            }
-        }
-
-        /* ===== Footer ===== */
-        .footer {
-            background: var(--black);
-            border-top: 1px solid var(--border);
-            padding: 28px var(--pad-x);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--muted);
-            font-size: 13px;
-            letter-spacing: 0.03em;
-        }
-        .footer-tag {
-            font-style: italic;
-        }
-        @media (max-width: 600px) {
-            .footer {
-                flex-direction: column;
-                gap: 8px;
-                text-align: center;
-            }
-        }
-
-        /* ===== WhatsApp Float ===== */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 26px;
-            right: 26px;
-            width: 58px;
-            height: 58px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.4);
-            z-index: 999;
-            transition: transform 0.2s;
-            text-decoration: none;
-        }
-        .whatsapp-float:hover {
-            transform: scale(1.08);
-        }
-        .whatsapp-float svg {
-            width: 30px;
-            height: 30px;
-            color: var(--white);
-        }
-    </style>
 </head>
 <body>
 
-    <!-- ============================================================
-         HEADER (injected from header.html)
-         ============================================================ -->
+    <!-- HEADER (injected dynamically) -->
     <div id="header-placeholder"></div>
 
     <main>
@@ -563,36 +47,30 @@
             </div>
         </section>
 
-        <!-- ==================== SERVICES CAROUSEL ==================== -->
-        <section class="services carousel-section" id="services">
+        <!-- ==================== SERVICES MARQUEE ==================== -->
+        <section class="services marquee-section" id="services">
             <div class="section-inner">
                 <div class="section-header">
                     <p class="section-eyebrow">What I Offer</p>
                     <h2>Development &amp; Automation Services</h2>
                 </div>
 
-                <div class="carousel-container" id="servicesCarousel">
-                    <div class="carousel-slides" id="servicesSlides"></div>
-                    <button class="carousel-btn prev" id="servicesPrev">‹</button>
-                    <button class="carousel-btn next" id="servicesNext">›</button>
-                    <div class="carousel-dots" id="servicesDots"></div>
+                <div class="carousel-marquee" id="servicesCarousel">
+                    <div class="carousel-marquee-track" id="servicesTrack"></div>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== WORK PREVIEW CAROUSEL ==================== -->
-        <section class="work-preview carousel-section" id="work">
+        <!-- ==================== WORK MARQUEE ==================== -->
+        <section class="work-preview marquee-section" id="work">
             <div class="section-inner">
                 <div class="section-header">
                     <p class="section-eyebrow">Portfolio</p>
                     <h2>Solutions I've Built</h2>
                 </div>
 
-                <div class="carousel-container" id="workCarousel">
-                    <div class="carousel-slides" id="workSlides"></div>
-                    <button class="carousel-btn prev" id="workPrev">‹</button>
-                    <button class="carousel-btn next" id="workNext">›</button>
-                    <div class="carousel-dots" id="workDots"></div>
+                <div class="carousel-marquee" id="workCarousel">
+                    <div class="carousel-marquee-track" id="workTrack"></div>
                 </div>
 
                 <div style="text-align:center; margin-top: 20px;">
@@ -601,7 +79,7 @@
             </div>
         </section>
 
-        <!-- ==================== PROCESS (How I Work) ==================== -->
+        <!-- ==================== PROCESS ==================== -->
         <section class="process" id="process">
             <div class="section-inner">
                 <div class="section-header">
@@ -610,7 +88,6 @@
                 </div>
 
                 <div class="process-steps">
-
                     <div class="process-step">
                         <div class="step-num">01</div>
                         <div class="step-content">
@@ -618,7 +95,6 @@
                             <p>We define your goals, audience, and technical requirements to build the right solution.</p>
                         </div>
                     </div>
-
                     <div class="process-step">
                         <div class="step-num">02</div>
                         <div class="step-content">
@@ -626,7 +102,6 @@
                             <p>I design the interface and plan the code architecture to ensure performance and scalability.</p>
                         </div>
                     </div>
-
                     <div class="process-step">
                         <div class="step-num">03</div>
                         <div class="step-content">
@@ -634,7 +109,6 @@
                             <p>I develop your solution with clean, documented code and test it thoroughly before delivery.</p>
                         </div>
                     </div>
-
                     <div class="process-step">
                         <div class="step-num">04</div>
                         <div class="step-content">
@@ -642,7 +116,6 @@
                             <p>I deploy your solution, monitor its performance, and provide ongoing maintenance as you grow.</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -698,7 +171,7 @@
 
     </main>
 
-    <!-- ==================== WHATSAPP FLOAT ==================== -->
+    <!-- WHATSAPP FLOAT -->
     <a href="https://wa.me/527777777777?text=Hi%2C%20I%27m%20interested%20in%20a%20project"
        class="whatsapp-float"
        target="_blank"
@@ -709,33 +182,15 @@
         </svg>
     </a>
 
-    <!-- ==================== FOOTER ==================== -->
+    <!-- FOOTER -->
     <footer class="footer">
         <span>© 2026 PxlCode Studio — by Ed Barron</span>
         <span class="footer-tag">Turning Pixels Into Solutions</span>
     </footer>
 
-    <!-- ============================================================
-         SCRIPTS
-         ============================================================ -->
-
+    <!-- SCRIPTS -->
     <script>
         // ---------- CONTACT FORM ----------
-
-        document.addEventListener("DOMContentLoaded", () => {
-            const animatedWords = document.querySelectorAll(".pixels-animated, .solutions-animated");
-
-            animatedWords.forEach(word => {
-                word.addEventListener("mouseenter", () => {
-                    word.style.animationPlayState = "paused";
-                });
-
-                word.addEventListener("mouseleave", () => {
-                    word.style.animationPlayState = "running";
-                });
-            });
-        });
-        
         (function() {
             const form = document.getElementById('contact-form');
             const status = document.getElementById('form-status');
@@ -743,7 +198,6 @@
 
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
-
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Sending...';
                 status.textContent = '';
@@ -755,7 +209,6 @@
                         body: new FormData(form),
                         headers: { 'Accept': 'application/json' }
                     });
-
                     if (response.ok) {
                         form.reset();
                         status.textContent = "Thanks! Your message was sent — I'll be in touch soon.";
@@ -777,18 +230,14 @@
         (function() {
             function getBasePath() {
                 var path = window.location.pathname;
-                if (path === '/' || path === '/index.html') {
-                    return '.';
-                }
+                if (path === '/' || path === '/index.html') return '.';
                 var parts = path.split('/').filter(function(p) { return p !== ''; });
                 var depth = parts.length;
                 if (depth <= 1) return '.';
                 return '../'.repeat(depth - 1);
             }
-
             var base = getBasePath();
             var headerUrl = base + '/header.html';
-
             fetch(headerUrl)
                 .then(function(response) {
                     if (!response.ok) throw new Error('Header not found at ' + headerUrl);
@@ -806,7 +255,7 @@
                 });
         })();
 
-        // ---------- DROPDOWNS LOGIC ----------
+        // ---------- DROPDOWNS ----------
         function initDropdowns() {
             document.addEventListener('click', function(e) {
                 var toggle = e.target.closest('.nav-toggle');
@@ -815,20 +264,17 @@
                     var parentLi = toggle.closest('.has-dropdown');
                     if (!parentLi) return;
                     var isOpen = parentLi.classList.contains('open');
-
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
                         openItem.classList.remove('open');
                         var btn = openItem.querySelector('.nav-toggle');
                         if (btn) btn.setAttribute('aria-expanded', 'false');
                     });
-
                     if (!isOpen) {
                         parentLi.classList.add('open');
                         toggle.setAttribute('aria-expanded', 'true');
                     }
                     return;
                 }
-
                 if (!e.target.closest('.has-dropdown')) {
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
                         openItem.classList.remove('open');
@@ -837,7 +283,6 @@
                     });
                 }
             });
-
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
@@ -849,129 +294,21 @@
             });
         }
 
-        // ---------- CAROUSEL FACTORY (with autoplay & 2 cards per slide) ----------
-        function createCarousel(config) {
-            const {
-                slidesContainerId,
-                dotsContainerId,
-                prevBtnId,
-                nextBtnId,
-                slidesData,
-                buildSlideHTML,
-                autoplayInterval = 5000
-            } = config;
-
-            const slidesContainer = document.getElementById(slidesContainerId);
-            const dotsContainer = document.getElementById(dotsContainerId);
-            const prevBtn = document.getElementById(prevBtnId);
-            const nextBtn = document.getElementById(nextBtnId);
-            let currentIndex = 0;
-            let autoplayTimer = null;
-            let isPaused = false;
-
-            const totalPages = Math.ceil(slidesData.length / 2);
-
-            function buildSlides() {
-                let html = '';
-                slidesData.forEach((item, idx) => {
-                    html += `<div class="carousel-slide" data-index="${idx}">${buildSlideHTML(item)}</div>`;
-                });
-                slidesContainer.innerHTML = html;
-
-                let dotsHTML = '';
-                for (let i = 0; i < totalPages; i++) {
-                    dotsHTML += `<button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></button>`;
-                }
-                dotsContainer.innerHTML = dotsHTML;
-            }
-
-            function updateCarousel(index) {
-                if (index < 0) index = totalPages - 1;
-                if (index >= totalPages) index = 0;
-                currentIndex = index;
-                slidesContainer.style.transform = `translateX(-${currentIndex * 50}%)`;
-
-                document.querySelectorAll(`#${dotsContainerId} .carousel-dot`).forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentIndex);
-                });
-            }
-
-            function goTo(index) {
-                updateCarousel(index);
-                resetAutoplay();
-            }
-
-            function next() {
-                goTo(currentIndex + 1);
-            }
-
-            function prev() {
-                goTo(currentIndex - 1);
-            }
-
-            function startAutoplay() {
-                if (autoplayTimer) clearInterval(autoplayTimer);
-                if (isPaused) return;
-                autoplayTimer = setInterval(next, autoplayInterval);
-            }
-
-            function stopAutoplay() {
-                if (autoplayTimer) {
-                    clearInterval(autoplayTimer);
-                    autoplayTimer = null;
-                }
-            }
-
-            function resetAutoplay() {
-                stopAutoplay();
-                startAutoplay();
-            }
-
-            function pauseAutoplay() {
-                isPaused = true;
-                stopAutoplay();
-            }
-
-            function resumeAutoplay() {
-                isPaused = false;
-                startAutoplay();
-            }
-
-            function init() {
-                buildSlides();
-                updateCarousel(0);
-
-                prevBtn.addEventListener('click', prev);
-                nextBtn.addEventListener('click', next);
-
-                dotsContainer.addEventListener('click', function(e) {
-                    const dot = e.target.closest('.carousel-dot');
-                    if (dot) {
-                        const index = parseInt(dot.dataset.index);
-                        goTo(index);
-                    }
-                });
-
-                const container = slidesContainer.closest('.carousel-container');
-                container.addEventListener('mouseenter', pauseAutoplay);
-                container.addEventListener('mouseleave', resumeAutoplay);
-
-                startAutoplay();
-            }
-
-            return { init, goTo, next, prev, pauseAutoplay, resumeAutoplay, stopAutoplay };
+        // ---------- MARQUEE (continuous scroll) ----------
+        function createMarquee(trackId, items, buildCardHTML) {
+            const track = document.getElementById(trackId);
+            if (!track) return;
+            const itemsHTML = items.map(item => buildCardHTML(item)).join('');
+            track.innerHTML = itemsHTML + itemsHTML; // duplicate for infinite loop
         }
 
-        // ---------- SERVICES CAROUSEL (4 services with unique icons) ----------
+        // ---------- SERVICES DATA & BUILD ----------
         (function() {
             const servicesData = [
                 {
                     title: 'Professional Websites',
-                    desc: 'High‑performance landing pages, business websites, and custom forms built to convert visitors into clients.',
+                    desc: 'High-performance landing pages, business websites, and custom forms built to convert visitors into clients.',
                     tags: ['HTML/CSS', 'JavaScript', 'Responsive', 'SEO'],
-                    link: 'work.html#websites',
-                    cta: 'See examples →',
-                    ctaLink: 'work.html#websites',
                     icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="4" y="8" width="32" height="22" rx="2" stroke="currentColor" stroke-width="2"/>
                                 <path d="M13 30L12 36M28 30L29 36M8 36H32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -983,9 +320,6 @@
                     title: 'Bots & Automations',
                     desc: 'Telegram bots, X (Twitter) integrations, and workflow automation to save you hours of repetitive work.',
                     tags: ['Python', 'Telegram API', 'Twitter API', 'Async'],
-                    link: 'work.html#bots',
-                    cta: 'See examples →',
-                    ctaLink: 'work.html#bots',
                     icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M20 6C20 6 10 12 10 22C10 27.5 14.5 32 20 32C25.5 32 30 27.5 30 22C30 12 20 6 20 6Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
                                 <path d="M20 18V26M16 22H24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -995,9 +329,6 @@
                     title: 'Data Tools & APIs',
                     desc: 'Custom scrapers, data dashboards, and API integrations. Turn your data into actionable insights.',
                     tags: ['Python', 'REST APIs', 'Pandas', 'SQLite'],
-                    link: 'work.html#data',
-                    cta: 'See examples →',
-                    ctaLink: 'work.html#data',
                     icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="20" cy="20" r="14" stroke="currentColor" stroke-width="2"/>
                                 <path d="M20 12V20L25 25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1008,9 +339,6 @@
                     title: 'Maintenance & Support',
                     desc: 'Ongoing updates, monitoring, and technical support to keep your digital tools running smoothly.',
                     tags: ['Monitoring', 'Backups', 'Support'],
-                    link: '#contact',
-                    cta: 'Get a quote →',
-                    ctaLink: '#contact',
                     icon: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="4" y="6" width="32" height="28" rx="2" stroke="currentColor" stroke-width="2"/>
                                 <path d="M4 14H36" stroke="currentColor" stroke-width="2"/>
@@ -1023,7 +351,7 @@
                 }
             ];
 
-            function buildServiceSlide(item) {
+            function buildServiceCard(item) {
                 const tagsHTML = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
                 return `
                     <div class="service-card">
@@ -1032,31 +360,21 @@
                         <p>${item.desc}</p>
                         <div class="work-tags">${tagsHTML}</div>
                         <div class="card-actions">
-                            <a href="${item.ctaLink}" class="service-link">${item.cta}</a>
                             <a href="#contact" class="btn-primary" style="padding: 6px 14px; font-size: 13px;">Start a project</a>
                         </div>
                     </div>
                 `;
             }
 
-            const carousel = createCarousel({
-                slidesContainerId: 'servicesSlides',
-                dotsContainerId: 'servicesDots',
-                prevBtnId: 'servicesPrev',
-                nextBtnId: 'servicesNext',
-                slidesData: servicesData,
-                buildSlideHTML: buildServiceSlide,
-                autoplayInterval: 5000
-            });
-            carousel.init();
+            createMarquee('servicesTrack', servicesData, buildServiceCard);
         })();
 
-        // ---------- WORK CAROUSEL ----------
+        // ---------- WORK DATA & BUILD ----------
         (function() {
             const workData = [
                 {
                     title: 'Navigoals',
-                    desc: 'CLI task manager with efficiency metrics and multi‑list organization.',
+                    desc: 'CLI task manager with efficiency metrics and multi-list organization.',
                     tags: ['Python', 'SQLite', 'Productivity'],
                     thumb: 'projects/navigoals/thumbnail.png',
                     fallback: 'Navigoals',
@@ -1128,7 +446,7 @@
                 }
             ];
 
-            function buildWorkSlide(item) {
+            function buildWorkCard(item) {
                 const tagsHTML = item.tags.map(t => `<span class="tag">${t}</span>`).join('');
                 return `
                     <div class="work-card">
@@ -1149,16 +467,7 @@
                 `;
             }
 
-            const carousel = createCarousel({
-                slidesContainerId: 'workSlides',
-                dotsContainerId: 'workDots',
-                prevBtnId: 'workPrev',
-                nextBtnId: 'workNext',
-                slidesData: workData,
-                buildSlideHTML: buildWorkSlide,
-                autoplayInterval: 5000
-            });
-            carousel.init();
+            createMarquee('workTrack', workData, buildWorkCard);
         })();
     </script>
 
