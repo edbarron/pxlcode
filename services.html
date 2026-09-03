@@ -8,7 +8,85 @@
     <title>Services | PxlCode Studio</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-        /* ===== Mini carousel inside each card ===== */
+        /* ===== Hero: compacto, ancho completo, alineado a la izquierda ===== */
+        .hero {
+            min-height: auto;
+            padding: 60px var(--pad-x) 40px;
+            display: block;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            background: var(--black);
+        }
+
+        .hero-inner {
+            max-width: 100%;
+            margin: 0;
+            padding-right: 0;
+        }
+
+        .hero-sub {
+            max-width: none; /* Elimina el límite de 520px */
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        /* ===== Bloques de píxeles flotantes (animación) ===== */
+        .hero-grid-deco {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .grid-lines {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+
+        .pixel-block {
+            position: absolute;
+            border-radius: 4px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .pb1 {
+            width: 96px; height: 96px;
+            background: var(--indigo);
+            opacity: 0.6;
+            top: 20%; right: 20%;
+            animation-delay: 0s;
+        }
+
+        .pb2 {
+            width: 48px; height: 48px;
+            background: var(--lime);
+            opacity: 0.8;
+            top: 30%; right: 40%;
+            animation-delay: 1s;
+        }
+
+        .pb3 {
+            width: 32px; height: 32px;
+            background: var(--indigo-dim);
+            opacity: 0.5;
+            top: 50%; right: 30%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ===== Mini carousel inside each card (se mantiene) ===== */
         .service-mini-carousel {
             position: relative;
             width: 100%;
@@ -96,7 +174,7 @@
             background: var(--lime);
         }
 
-        /* ===== Layout adjustments ===== */
+        /* ===== Layout adjustments (grid compacta como antes) ===== */
         .service-grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -141,6 +219,13 @@
             border-color: rgba(255,255,255,0.3);
             background: rgba(255,255,255,0.04);
         }
+
+        /* ===== Responsive: ocultar bloques en móvil ===== */
+        @media (max-width: 768px) {
+            .hero-grid-deco {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -150,8 +235,8 @@
 
     <main>
 
-        <!-- ===== HERO ===== -->
-        <section class="hero" style="min-height: 40vh; padding-bottom: 40px;">
+        <!-- ===== HERO (compacto, ancho completo, con animación) ===== -->
+        <section class="hero">
             <div class="hero-inner">
                 <p class="hero-eyebrow">What I Do</p>
                 <h1>Services I <span class="accent">Offer</span></h1>
@@ -164,10 +249,11 @@
                 <div class="grid-lines"></div>
                 <div class="pixel-block pb1"></div>
                 <div class="pixel-block pb2"></div>
+                <div class="pixel-block pb3"></div>
             </div>
         </section>
 
-        <!-- ===== SERVICES GRID ===== -->
+        <!-- ===== SERVICES GRID (compacta) ===== -->
         <section class="work-preview" id="services" style="padding-top: 0;">
             <div class="section-inner">
 

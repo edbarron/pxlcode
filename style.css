@@ -1210,3 +1210,7 @@ body {
         transform: none !important;
     }
 }
+
+.accent {
+    color: var(--indigo);
+}
