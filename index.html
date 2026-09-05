@@ -8,6 +8,17 @@
     <title>PxlCode Studio | Web, Bots & Data Solutions</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
+    <style>
+        /* ===== Tetris polish additions ===== */
+        @keyframes tetris-shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+        .tetris-shake {
+            animation: tetris-shake 0.15s ease-in-out;
+        }
+    </style>
 </head>
 <body>
 
@@ -43,16 +54,26 @@
                     <a href="#contact" class="btn-ghost">Start a Project</a>
                 </div>
             </div>
-            <div class="hero-tetris" aria-hidden="true">
+            <div class="hero-tetris">
                 <!-- Score Display -->
-                <div id="tetris-score" class="tetris-score">SCORE: 0</div>
+                <div id="tetris-score" class="tetris-score" aria-live="off">SCORE: 0</div>
                 <!-- Resets Display -->
-                <div id="tetris-resets" class="tetris-resets">RESETS: 0</div>
+                <div id="tetris-resets" class="tetris-resets" aria-live="off">RESETS: 0</div>
                 <!-- Mensaje "PERFECT FIT" -->
-                <div id="tetris-message" class="tetris-message">PERFECT FIT</div>
-                <svg id="heroTetrisBoard" viewBox="0 0 128 224" xmlns="http://www.w3.org/2000/svg"></svg>
-            </div>
-        </section>
+                <div id="tetris-message" class="tetris-message" role="status">PERFECT FIT</div>
+
+                <!-- Botón para iniciar juego -->
+                <button id="playBtn" class="tetris-play-btn">Let me play!</button>
+                <!-- Controles -->
+                <div id="tetrisControls" class="tetris-controls">
+                    <button id="btnLeft" class="tetris-control-btn" aria-label="Move left">←</button>
+                    <button id="btnRotate" class="tetris-control-btn" aria-label="Rotate piece">⟳</button>
+                    <button id="btnRight" class="tetris-control-btn" aria-label="Move right">→</button>
+                    <button id="btnAuto" class="tetris-control-btn tetris-auto-btn" aria-label="Return to auto mode">AUTO</button>
+                </div>
+
+                <svg id="heroTetrisBoard" viewBox="0 0 128 224" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+            </div>        </section>
 
         <!-- ==================== SERVICES MARQUEE ==================== -->
         <section class="services marquee-section" id="services">
@@ -61,7 +82,6 @@
                     <p class="section-eyebrow">What I Offer</p>
                     <h2>Development &amp; Automation Services</h2>
                 </div>
-
                 <div class="carousel-marquee" id="servicesCarousel">
                     <div class="carousel-marquee-track" id="servicesTrack"></div>
                 </div>
@@ -75,11 +95,9 @@
                     <p class="section-eyebrow">Portfolio</p>
                     <h2>Solutions I've Built</h2>
                 </div>
-
                 <div class="carousel-marquee" id="workCarousel">
                     <div class="carousel-marquee-track" id="workTrack"></div>
                 </div>
-
                 <div style="text-align:center; margin-top: 20px;">
                     <a href="work.html" class="btn-ghost" style="display:inline-block;">View full portfolio →</a>
                 </div>
@@ -93,7 +111,6 @@
                     <p class="section-eyebrow">How I Work</p>
                     <h2>From Brief to Deployment</h2>
                 </div>
-
                 <div class="process-steps">
                     <div class="process-step">
                         <div class="step-num">01</div>
@@ -154,7 +171,6 @@
                         </a>
                     </div>
                 </div>
-
                 <form id="contact-form" class="contact-form" action="https://formspree.io/f/mykqgkjj" method="POST">
                     <div class="form-row">
                         <label for="name">Name</label>
@@ -177,11 +193,7 @@
     </main>
 
     <!-- WHATSAPP FLOAT -->
-    <a href="#"
-       class="whatsapp-float js-whatsapp-link"
-       target="_blank"
-       rel="noopener"
-       aria-label="Chat on WhatsApp">
+    <a href="#" class="whatsapp-float js-whatsapp-link" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
         <svg viewBox="0 0 24 24"><use href="#icon-whatsapp"></use></svg>
     </a>
 
@@ -206,7 +218,7 @@
             });
         })();
 
-        // ---------- HERO TETRIS ----------
+        // ---------- HERO TETRIS (interactive) ----------
         (function buildHeroTetris() {
             const svg = document.getElementById('heroTetrisBoard');
             if (!svg) return;
@@ -216,7 +228,6 @@
             const CELL = 16;
             const svgNS = 'http://www.w3.org/2000/svg';
 
-            // Piezas fáciles (I, O, T, L, J)
             const PIECES = [
                 { color: 'var(--lime)', shapes: [
                     [[0, 0], [0, 1], [0, 2], [0, 3]],
@@ -276,7 +287,6 @@
                 return rows;
             }
 
-            // Heurística avanzada
             function holesAndHeight(grid) {
                 let holes = 0;
                 let aggHeight = 0;
@@ -345,7 +355,7 @@
                 const { holes, aggHeight, maxHeight, bumpiness, wells } = holesAndHeight(scored);
                 const heightFactor = aggHeight / (ROWS * COLS);
                 const lineWeight = 50 + heightFactor * 500;
-                const score = (rows.length * lineWeight) - (holes * 10) - (aggHeight * 0.7) 
+                const score = (rows.length * lineWeight) - (holes * 10) - (aggHeight * 0.7)
                               - (maxHeight * 1.5) - (bumpiness * 0.5) - (wells * 5);
                 return { landingRow, col, score };
             }
@@ -360,13 +370,13 @@
                     }
                 });
                 if (options.length === 0) return null;
-                
+
                 if (Math.random() < 0.2 && options.length > 3) {
                     options.sort((a, b) => b.score - a.score);
                     const top3 = options.slice(0, 3);
                     return top3[Math.floor(Math.random() * top3.length)];
                 }
-                
+
                 options.sort((a, b) => b.score - a.score);
                 return options[0];
             }
@@ -389,8 +399,18 @@
             let flashRows = [];
             let score = 0;
             let resets = 0;
+            let isManual = false;
             const scoreEl = document.getElementById('tetris-score');
             const resetsEl = document.getElementById('tetris-resets');
+            const playBtn = document.getElementById('playBtn');
+            const controls = document.getElementById('tetrisControls');
+            const btnLeft = document.getElementById('btnLeft');
+            const btnRight = document.getElementById('btnRight');
+            const btnRotate = document.getElementById('btnRotate');
+
+            // Inicialización: si no hay score elements (porque se usa en work.html), no romper.
+            if (!scoreEl) return; // Solo funciona si existe el elemento de score. (Si no, no inicializamos el juego)
+            // Esta condición es solo para evitar errores en páginas sin el contador.
 
             function updateScore(amount) {
                 score += amount;
@@ -416,6 +436,12 @@
                         resetsEl.classList.remove('reset-flash');
                     }, 1000);
                 }
+            }
+
+            function shakeBoard() {
+                svg.classList.remove('tetris-shake');
+                void svg.offsetWidth;
+                svg.classList.add('tetris-shake');
             }
 
             function render() {
@@ -476,10 +502,22 @@
 
                     if (!active) {
                         const piece = PIECES[Math.floor(Math.random() * PIECES.length)];
-                        const placement = chooseBestPlacement(grid, piece);
+                        let placement;
+                        if (isManual) {
+                            // El jugador empieza en la columna central, con la rotación base (índice 0)
+                            const startCol = Math.floor((COLS - shapeWidth(piece.shapes[0])) / 2);
+                            const landing = dropRow(grid, piece.shapes[0], startCol);
+                            // FIX: si no hay espacio (landing === null), placement debe quedar null,
+                            // igual que en modo automático, para que dispare el reset del tablero.
+                            placement = landing === null
+                                ? null
+                                : { shape: piece.shapes[0], col: startCol, landingRow: landing };
+                        } else {
+                            placement = chooseBestPlacement(grid, piece);
+                        }
 
                         if (!placement) {
-                            // Board topped out: flash everything, then start clean.
+                            // Tablero lleno: flash y reset
                             flashRows = Array.from({ length: ROWS }, (_, i) => i);
                             render();
                             await sleep(240);
@@ -487,12 +525,13 @@
                             flashRows = [];
                             render();
                             await sleep(RESET_PAUSE_MS);
-                            // Increment resets counter
                             updateResets();
                             continue;
                         }
 
                         active = {
+                            piece: piece,
+                            shapeIndex: isManual ? 0 : null,
                             shape: placement.shape,
                             color: piece.color,
                             col: placement.col,
@@ -517,31 +556,103 @@
                     render();
 
                     if (rowsToClear.length) {
-                        // Show "PERFECT FIT" message
                         const messageEl = document.getElementById('tetris-message');
                         if (messageEl) messageEl.style.display = 'block';
 
                         flashRows = rowsToClear;
                         render();
-                        
-                        // Update score (with flash)
                         updateScore(rowsToClear.length * 100);
-                        
-                        // Wait 1.5 seconds to appreciate
                         await sleep(1500);
-                        
                         grid = grid.filter((_, idx) => !rowsToClear.includes(idx));
                         while (grid.length < ROWS) grid.unshift(Array(COLS).fill(null));
                         flashRows = [];
                         render();
-                        
-                        // Hide message after a small pause
                         await sleep(300);
                         if (messageEl) messageEl.style.display = 'none';
-                        
                         await sleep(LOCK_PAUSE_MS);
                     }
                 }
+            }
+
+            // Eventos del botón play
+            playBtn.addEventListener('click', function() {
+                isManual = true;
+                playBtn.style.display = 'none';
+                controls.style.display = 'flex';
+            });
+
+            // Eventos de movimiento
+            btnLeft.addEventListener('click', function() {
+                if (!active) return;
+                const newCol = active.col - 1;
+                if (fits(grid, active.shape, active.row, newCol)) {
+                    active.col = newCol;
+                    active.landingRow = dropRow(grid, active.shape, active.col);
+                    render();
+                } else {
+                    shakeBoard();
+                }
+            });
+
+            btnRight.addEventListener('click', function() {
+                if (!active) return;
+                const newCol = active.col + 1;
+                if (fits(grid, active.shape, active.row, newCol)) {
+                    active.col = newCol;
+                    active.landingRow = dropRow(grid, active.shape, active.col);
+                    render();
+                } else {
+                    shakeBoard();
+                }
+            });
+
+            // Rotación: usa las formas ya predefinidas en cada pieza (PIECES[].shapes)
+            // con un wall-kick simple (prueba la misma columna y desplazamientos cercanos).
+            function tryRotate() {
+                if (!active || !active.piece || active.piece.shapes.length <= 1) return;
+
+                const nextIndex = (active.shapeIndex + 1) % active.piece.shapes.length;
+                const nextShape = active.piece.shapes[nextIndex];
+
+                const kicks = [0, -1, 1, -2, 2];
+                for (const kick of kicks) {
+                    const testCol = active.col + kick;
+                    if (fits(grid, nextShape, active.row, testCol)) {
+                        active.shape = nextShape;
+                        active.shapeIndex = nextIndex;
+                        active.col = testCol;
+                        active.landingRow = dropRow(grid, nextShape, testCol);
+                        if (active.landingRow !== null && active.row > active.landingRow) {
+                            active.row = active.landingRow;
+                        }
+                        render();
+                        return;
+                    }
+                }
+                // No cupo en ninguna posición cercana: feedback visual
+                shakeBoard();
+            }
+
+            if (btnRotate) {
+                btnRotate.addEventListener('click', tryRotate);
+            }
+
+            // Soporte de teclado en modo manual: flechas para mover, arriba/espacio para rotar
+            document.addEventListener('keydown', function(e) {
+                if (!isManual || !active) return;
+                if (e.key === 'ArrowLeft') { e.preventDefault(); btnLeft.click(); }
+                if (e.key === 'ArrowRight') { e.preventDefault(); btnRight.click(); }
+                if (e.key === 'ArrowUp' || e.key === ' ') { e.preventDefault(); tryRotate(); }
+            });
+
+            const btnAuto = document.getElementById('btnAuto');
+
+            if (btnAuto) {
+                btnAuto.addEventListener('click', function() {
+                    isManual = false;
+                    controls.style.display = 'none';
+                    playBtn.style.display = '';   // vuelve al display definido en el CSS
+                });
             }
 
             runLoop();
@@ -683,7 +794,7 @@
             track.innerHTML = itemsHTML + itemsHTML;
         }
 
-        // ---------- SERVICES ----------
+        // ---------- SERVICES DATA & BUILD ----------
         (function() {
             const servicesData = [
                 {
@@ -750,7 +861,7 @@
             createMarquee('servicesTrack', servicesData, buildServiceCard);
         })();
 
-        // ---------- WORK ----------
+        // ---------- WORK DATA & BUILD ----------
         (function() {
             const workData = [
                 {
