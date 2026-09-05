@@ -1297,6 +1297,25 @@ body {
         font-size: 13px;
     }
 
+    .btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+}
+
+
     /* --- Tetris: variante aún más compacta para el tablero de 130px --- */
     .tetris-score {
         top: -20px;
