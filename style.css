@@ -1023,9 +1023,9 @@ body {
     }
 
     .tetris-play-btn {
-        bottom: -90px; 
-        padding: 8px 16px;
-        font-size: 9px;
+        bottom: -50px; 
+        padding: 4px 8px;
+        font-size: 5px;
     }
 
 
