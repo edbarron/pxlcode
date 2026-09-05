@@ -46,6 +46,9 @@
                     Custom websites, automation bots, and data tools built for professionals
                     and businesses. I turn your ideas into reliable code.
                 </p>
+                <div class="hero-console" id="heroConsole" aria-live="polite" aria-label="Interactive console commentary">
+                    <div class="hero-console-inner" id="heroConsoleInner"></div>
+                </div>
                 <div class="hero-actions">
                     <a href="#" class="btn-whatsapp js-whatsapp-link" target="_blank" rel="noopener">
                         <svg viewBox="0 0 24 24"><use href="#icon-whatsapp"></use></svg>
@@ -216,6 +219,80 @@
             document.querySelectorAll('.js-whatsapp-link').forEach(function(link) {
                 link.href = url;
             });
+        })();
+
+        // ---------- HERO CONSOLE (typewriter engine, "problem fixer" commentary) ----------
+        window.HeroConsole = (function buildHeroConsole() {
+            const wrap = document.getElementById('heroConsole');
+            const inner = document.getElementById('heroConsoleInner');
+            if (!wrap || !inner) return { say: function() {} };
+
+            const sleepMs = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+            let queue = Promise.resolve();
+            let cursorEl = null;
+
+            function ensureCursor(lineEl) {
+                if (cursorEl) cursorEl.remove();
+                cursorEl = document.createElement('span');
+                cursorEl.className = 'console-cursor';
+                cursorEl.textContent = '_';
+                lineEl.appendChild(cursorEl);
+            }
+
+            function scrollToBottom() {
+                wrap.scrollTop = wrap.scrollHeight;
+            }
+
+            function typeLine(text, variant) {
+                return new Promise((resolve) => {
+                    const lineEl = document.createElement('div');
+                    lineEl.className = 'console-line' + (variant ? ' ' + variant : '');
+                    inner.appendChild(lineEl);
+                    const textNode = document.createTextNode('');
+                    lineEl.appendChild(textNode);
+
+                    let i = 0;
+                    function step() {
+                        textNode.textContent = text.slice(0, i);
+                        scrollToBottom();
+                        i++;
+                        if (i <= text.length) {
+                            setTimeout(step, 16);
+                        } else {
+                            resolve(lineEl);
+                        }
+                    }
+                    step();
+                });
+            }
+
+            // say(lines, opts): agrega una o varias líneas a la cola de la consola.
+            // Se procesan en orden, con efecto de tecleo y un pequeño respiro entre líneas.
+            // El cursor parpadeante siempre queda al final de la última línea escrita.
+            function say(lines, opts) {
+                const list = Array.isArray(lines) ? lines : [lines];
+                const variant = (opts && opts.variant) || null;
+                const gap = (opts && opts.gap) || 450;
+
+                queue = queue.then(async () => {
+                    for (const line of list) {
+                        if (cursorEl) cursorEl.remove();
+                        const lineEl = await typeLine(line, variant);
+                        ensureCursor(lineEl);
+                        scrollToBottom();
+                        await sleepMs(gap);
+                    }
+                });
+                return queue;
+            }
+
+            // Mensajes de arranque, independientes del estado del juego.
+            say([
+                "Like in tetris, to solve a problem we most often need the perfect fit \u2014 or sometimes, a fresh start.",
+                'Want to think it over while you play? Click "I want to play!" and see how high you can score.'
+            ]);
+
+            return { say };
         })();
 
         // ---------- HERO TETRIS (interactive) ----------
@@ -400,6 +477,7 @@
             let score = 0;
             let resets = 0;
             let isManual = false;
+            let hasPlayedOnce = false; // los mensajes de juego (hitos/reset) solo suenan tras el primer "I want to play!"
             const scoreEl = document.getElementById('tetris-score');
             const resetsEl = document.getElementById('tetris-resets');
             const playBtn = document.getElementById('playBtn');
@@ -413,6 +491,37 @@
             if (!scoreEl) return; // Solo funciona si existe el elemento de score. (Si no, no inicializamos el juego)
             // Esta condición es solo para evitar errores en páginas sin el contador.
 
+            const console_ = window.HeroConsole || { say: function() {} };
+            const SCORE_MILESTONES = [
+                { at: 100, msg: "Good — but that's just the start." },
+                { at: 500, msg: "Now we're getting somewhere. Keep stacking the pieces." },
+                { at: 1000, msg: "That's the kind of persistence that solves real problems." },
+                { at: 2000, msg: "Look at you go. Now imagine that focus on your project." },
+                { at: 5000, msg: "You're not just clearing lines anymore — you're building a score." },
+                { at: 10000, msg: "Patterns, momentum, precision. This is what solving problems actually looks like." },
+                { at: 20000, msg: "You're a Tetris Master for sure!. There's no ceiling above this one...or is it?" },
+                { at: 100000, msg: "Okay, this stopped being about the game a while ago. That's raw tetris hunger — respect." }
+            ];
+            const firedMilestones = new Set();
+
+            // Mensajes según cuántas líneas se eliminan de una sola pieza (2 a 4, el máximo posible).
+            // El caso de 1 línea no lleva mensaje de consola: ya tiene su propio "PERFECT FIT" visual.
+            const LINE_CLEAR_MESSAGES = {
+                2: "That's a double kill. Nice.",
+                3: "Triple clear \u2014 that's efficiency.",
+                4: 'A pure, by-the-book Tetris perfection. Delicious.'
+            };
+
+            function checkMilestones() {
+                if (!hasPlayedOnce) return; // el modo demo/auto no debe disparar comentarios de juego
+                SCORE_MILESTONES.forEach((m) => {
+                    if (score >= m.at && !firedMilestones.has(m.at)) {
+                        firedMilestones.add(m.at);
+                        console_.say(m.msg, { variant: 'console-milestone' });
+                    }
+                });
+            }
+
             function updateScore(amount) {
                 score += amount;
                 if (scoreEl) {
@@ -424,6 +533,7 @@
                         scoreEl.classList.remove('score-flash');
                     }, 1500);
                 }
+                checkMilestones();
             }
 
             function updateResets() {
@@ -436,6 +546,9 @@
                     setTimeout(() => {
                         resetsEl.classList.remove('reset-flash');
                     }, 1000);
+                }
+                if (hasPlayedOnce) {
+                    console_.say('Sometimes solving a problem needs a fresh start.', { variant: 'console-reset' });
                 }
             }
 
@@ -500,8 +613,8 @@
                 return;
             }
 
-            const FALL_MS_AUTO = 200;
-            const FALL_MS_MANUAL = 320; 
+            const FALL_MS_AUTO = 260;
+            const FALL_MS_MANUAL = 520; // el doble de tiempo = mitad de velocidad, más jugable
             const LOCK_PAUSE_MS = 140;
             const RESET_PAUSE_MS = 500;
             const currentFallDelay = () => (isManual ? FALL_MS_MANUAL : FALL_MS_AUTO);
@@ -585,6 +698,10 @@
                         flashRows = rowsToClear;
                         render();
                         updateScore(rowsToClear.length * 100);
+                        if (hasPlayedOnce) {
+                            const clearMsg = LINE_CLEAR_MESSAGES[rowsToClear.length];
+                            if (clearMsg) console_.say(clearMsg, { variant: 'console-milestone' });
+                        }
                         await sleep(1500);
                         grid = grid.filter((_, idx) => !rowsToClear.includes(idx));
                         while (grid.length < ROWS) grid.unshift(Array(COLS).fill(null));
@@ -600,8 +717,10 @@
             // Eventos del botón play
             playBtn.addEventListener('click', function() {
                 isManual = true;
+                hasPlayedOnce = true;
                 playBtn.style.display = 'none';
                 controls.style.display = 'flex';
+                console_.say("You're in control now \u2014 let's see how you handle it.");
             });
 
             // Eventos de movimiento
@@ -666,6 +785,7 @@
                 isManual = false;
                 controls.style.display = 'none';
                 playBtn.style.display = '';
+                console_.say("Isn't it nice to automate the solution of your problems? let us help you with that...");
             }
 
             if (btnAuto) {
