@@ -1275,6 +1275,8 @@ body {
     animation: reset-flash 0.8s linear infinite;
 }
 
+
+
 /* ===== Controles del juego ===== */
 .tetris-controls {
     position: absolute;
