@@ -517,7 +517,14 @@
                         }
 
                         if (!placement) {
-                            // Tablero lleno: flash y reset
+                            // Tablero lleno: mensaje + flash + reset
+                            const messageEl = document.getElementById('tetris-message');
+                            if (messageEl) {
+                                messageEl.textContent = "LET'S START FRESH!";
+                                messageEl.classList.add('reset-message');
+                                messageEl.style.display = 'block';
+                            }
+
                             flashRows = Array.from({ length: ROWS }, (_, i) => i);
                             render();
                             await sleep(240);
@@ -526,9 +533,14 @@
                             render();
                             await sleep(RESET_PAUSE_MS);
                             updateResets();
-                            continue;
-                        }
 
+                            if (messageEl) {
+                                messageEl.style.display = 'none';
+                                messageEl.classList.remove('reset-message');
+                                messageEl.textContent = 'PERFECT FIT'; 
+                            }
+                            continue;
+}
                         active = {
                             piece: piece,
                             shapeIndex: isManual ? 0 : null,

@@ -1271,6 +1271,10 @@ body {
     border-radius: 8px;
 }
 
+.tetris-message.reset-message {
+    animation: reset-flash 0.8s linear infinite;
+}
+
 /* ===== Controles del juego ===== */
 .tetris-controls {
     position: absolute;
