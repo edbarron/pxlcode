@@ -62,12 +62,12 @@
                 <div id="tetris-score" class="tetris-score" aria-live="off">SCORE: 0</div>
                 <!-- Resets Display -->
                 <div id="tetris-resets" class="tetris-resets" aria-live="off">RESETS: 0</div>
-                <!-- Mensaje "PERFECT FIT" -->
+                <!-- Message "PERFECT FIT" -->
                 <div id="tetris-message" class="tetris-message" role="status">PERFECT FIT</div>
 
-                <!-- Botón para iniciar juego -->
+                <!-- Button to start game -->
                 <button id="playBtn" class="tetris-play-btn">I want to play!</button>
-                <!-- Controles -->
+                <!-- Controls -->
                 <div id="tetrisControls" class="tetris-controls">
                     <button id="btnLeft" class="tetris-control-btn" aria-label="Move left">←</button>
                     <button id="btnRotate" class="tetris-control-btn" aria-label="Rotate piece">⟳</button>
@@ -76,7 +76,8 @@
                 </div>
 
                 <svg id="heroTetrisBoard" viewBox="0 0 128 224" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
-            </div>        </section>
+            </div>
+        </section>
 
         <!-- ==================== SERVICES MARQUEE ==================== -->
         <section class="services marquee-section" id="services">
@@ -266,9 +267,9 @@
                 });
             }
 
-            // say(lines, opts): agrega una o varias líneas a la cola de la consola.
-            // Se procesan en orden, con efecto de tecleo y un pequeño respiro entre líneas.
-            // El cursor parpadeante siempre queda al final de la última línea escrita.
+            // say(lines, opts): adds one or more lines to the console queue.
+            // They are processed in order, with a typing effect and a small pause between lines.
+            // The blinking cursor always stays at the end of the last written line.
             function say(lines, opts) {
                 const list = Array.isArray(lines) ? lines : [lines];
                 const variant = (opts && opts.variant) || null;
@@ -286,7 +287,7 @@
                 return queue;
             }
 
-            // Mensajes de arranque, independientes del estado del juego.
+            // Startup messages, independent of game state.
             say([
                 "Like in tetris, to solve a problem we most often need the perfect fit \u2014 or sometimes, a fresh start.",
                 'Want to think it over while you play? Click "I want to play!" and see how high you can score.'
@@ -477,7 +478,7 @@
             let score = 0;
             let resets = 0;
             let isManual = false;
-            let hasPlayedOnce = false; // los mensajes de juego (hitos/reset) solo suenan tras el primer "I want to play!"
+            let hasPlayedOnce = false; // game messages (milestones/reset) only play after the first "I want to play!"
             const scoreEl = document.getElementById('tetris-score');
             const resetsEl = document.getElementById('tetris-resets');
             const playBtn = document.getElementById('playBtn');
@@ -487,9 +488,9 @@
             const btnRotate = document.getElementById('btnRotate');
             const btnAuto = document.getElementById('btnAuto');
 
-            // Inicialización: si no hay score elements (porque se usa en work.html), no romper.
-            if (!scoreEl) return; // Solo funciona si existe el elemento de score. (Si no, no inicializamos el juego)
-            // Esta condición es solo para evitar errores en páginas sin el contador.
+            // Initialization: if there are no score elements (e.g., in work.html), do not break.
+            if (!scoreEl) return; // Only works if score element exists. (If not, we don't initialize the game)
+            // This condition is only to avoid errors on pages without the counter.
 
             const console_ = window.HeroConsole || { say: function() {} };
             const SCORE_MILESTONES = [
@@ -503,8 +504,8 @@
                 { at: 100000, msg: "Okay, this stopped being about the game a while ago. That's raw tetris determination — respect." }            ];
             const firedMilestones = new Set();
 
-            // Mensajes según cuántas líneas se eliminan de una sola pieza (2 a 4, el máximo posible).
-            // El caso de 1 línea no lleva mensaje de consola: ya tiene su propio "PERFECT FIT" visual.
+            // Messages according to how many lines are cleared in one piece (2 to 4, the maximum possible).
+            // The case of 1 line has no console message: it has its own "PERFECT FIT" visual.
             const LINE_CLEAR_MESSAGES = {
                 2: "That's a double kill. Nice.",
                 3: "Triple clear \u2014 that's efficiency.",
@@ -512,9 +513,9 @@
             };
 
             function checkMilestones() {
-                // Siempre marcamos el hito como cumplido (incluso en modo auto), para que no
-                // se "acumule" y se dispare de golpe al dar play más tarde. Solo lo anunciamos
-                // en la consola si el jugador ya interactuó al menos una vez.
+                // Always mark the milestone as reached (even in auto mode), so it doesn't
+                // "accumulate" and fire all at once when the player later presses play. We only
+                // announce it in the console if the player has already interacted at least once.
                 SCORE_MILESTONES.forEach((m) => {
                     if (score >= m.at && !firedMilestones.has(m.at)) {
                         firedMilestones.add(m.at);
@@ -556,10 +557,10 @@
             }
 
             function shakeBoard() {
-                // Doble requestAnimationFrame: más confiable que "remove + offsetWidth + add"
-                // para reiniciar una animación CSS en repetidos clicks seguidos, sobre todo
-                // en navegadores/webviews móviles que pueden agrupar el remove+add en un
-                // mismo recálculo de estilos si ocurren de forma síncrona.
+                // Double requestAnimationFrame: more reliable than "remove + offsetWidth + add"
+                // for restarting a CSS animation on repeated rapid clicks, especially on
+                // mobile browsers/webviews that may batch the remove+add into a single style
+                // recomputation if they happen synchronously.
                 svg.classList.remove('tetris-shake');
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
@@ -617,7 +618,7 @@
             }
 
             const FALL_MS_AUTO = 260;
-            const FALL_MS_MANUAL = 520; // el doble de tiempo = mitad de velocidad, más jugable
+            const FALL_MS_MANUAL = 520; // double time = half speed, more playable
             const LOCK_PAUSE_MS = 140;
             const RESET_PAUSE_MS = 500;
             const currentFallDelay = () => (isManual ? FALL_MS_MANUAL : FALL_MS_AUTO);
@@ -630,11 +631,11 @@
                         const piece = PIECES[Math.floor(Math.random() * PIECES.length)];
                         let placement;
                         if (isManual) {
-                            // El jugador empieza en la columna central, con la rotación base (índice 0)
+                            // The player starts at the central column, with the base rotation (index 0)
                             const startCol = Math.floor((COLS - shapeWidth(piece.shapes[0])) / 2);
                             const landing = dropRow(grid, piece.shapes[0], startCol);
-                            // FIX: si no hay espacio (landing === null), placement debe quedar null,
-                            // igual que en modo automático, para que dispare el reset del tablero.
+                            // FIX: if there is no space (landing === null), placement must be null,
+                            // just like in auto mode, so that it triggers the board reset.
                             placement = landing === null
                                 ? null
                                 : { shape: piece.shapes[0], col: startCol, landingRow: landing };
@@ -643,7 +644,7 @@
                         }
 
                         if (!placement) {
-                            // Tablero lleno: mensaje + flash + reset
+                            // Board full: message + flash + reset
                             const messageEl = document.getElementById('tetris-message');
                             if (messageEl) {
                                 messageEl.textContent = "LET'S START FRESH!";
@@ -663,7 +664,7 @@
                             if (messageEl) {
                                 messageEl.style.display = 'none';
                                 messageEl.classList.remove('reset-message');
-                                messageEl.textContent = 'PERFECT FIT'; // restaura el texto para la próxima línea completada
+                                messageEl.textContent = 'PERFECT FIT'; // restore text for the next cleared line
                             }
                             continue;
                         }
@@ -717,7 +718,7 @@
                 }
             }
 
-            // Eventos del botón play
+            // Play button events
             playBtn.addEventListener('click', function() {
                 isManual = true;
                 hasPlayedOnce = true;
@@ -726,7 +727,7 @@
                 console_.say("You're in control now \u2014 let's see how you handle it.");
             });
 
-            // Eventos de movimiento
+            // Movement events
             btnLeft.addEventListener('click', function() {
                 if (!active) return;
                 const newCol = active.col - 1;
@@ -751,8 +752,8 @@
                 }
             });
 
-            // Rotación: usa las formas ya predefinidas en cada pieza (PIECES[].shapes)
-            // con un wall-kick simple (prueba la misma columna y desplazamientos cercanos).
+            // Rotation: uses the shapes already predefined in each piece (PIECES[].shapes)
+            // with a simple wall-kick (tries the same column and nearby offsets).
             function tryRotate() {
                 if (!active || !active.piece || active.piece.shapes.length <= 1) return;
 
@@ -774,7 +775,7 @@
                         return;
                     }
                 }
-                // No cupo en ninguna posición cercana: feedback visual
+                // Couldn't fit in any nearby position: visual feedback
                 shakeBoard();
             }
 
@@ -782,8 +783,8 @@
                 btnRotate.addEventListener('click', tryRotate);
             }
 
-            // Volver a modo automático: la pieza que está cayendo termina su caída
-            // normalmente; la próxima pieza ya nace decidida por chooseBestPlacement.
+            // Return to auto mode: the falling piece finishes its fall normally; the next piece
+            // will be chosen by chooseBestPlacement.
             function returnToAuto() {
                 isManual = false;
                 controls.style.display = 'none';
@@ -795,8 +796,8 @@
                 btnAuto.addEventListener('click', returnToAuto);
             }
 
-            // Soporte de teclado en modo manual: flechas para mover, arriba/espacio para rotar,
-            // Escape para devolver el control al modo automático
+            // Keyboard support in manual mode: arrows to move, up/space to rotate,
+            // Escape to return control to auto mode
             document.addEventListener('keydown', function(e) {
                 if (!isManual) return;
                 if (e.key === 'Escape') { e.preventDefault(); returnToAuto(); return; }
@@ -806,8 +807,8 @@
                 if (e.key === 'ArrowUp' || e.key === ' ') { e.preventDefault(); tryRotate(); }
             });
 
-            // Si el tablero se reinicia en modo manual, el botón de play no reaparece.
-            // El usuario puede seguir jugando.
+            // If the board resets in manual mode, the play button does not reappear.
+            // The user can keep playing.
 
             runLoop();
         })();
