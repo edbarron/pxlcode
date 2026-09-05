@@ -1050,6 +1050,91 @@ body {
     }
 }
 
+/* ===== Botón para jugar ===== */
+.tetris-play-btn {
+    width: auto;
+    position: absolute;
+    bottom: -90px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--lime);
+    color: #000;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    font-weight: 900;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 255, 8, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tetris-play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 255, 8, 0.6);
+}
+
+/* ===== Controles del juego ===== */
+.tetris-controls {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 12px;
+    z-index: 10;
+}
+
+.tetris-control-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    background: transparent;
+    border: 2px solid var(--indigo);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.tetris-control-btn:hover {
+    background: rgba(91, 63, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.tetris-control-btn:active {
+    transform: scale(0.9);
+}
+
+/* ===== Botón AUTO (mismo estilo que tetris-play-btn) =====
+   Selector combinado .tetris-control-btn.tetris-auto-btn para ganar
+   especificidad sobre .tetris-control-btn y no depender del orden en el archivo. */
+.tetris-control-btn.tetris-auto-btn {
+    width: auto;
+    min-width: 45px;
+    padding: 0 14px;
+    background: var(--lime);
+    color: #000;
+    border: none;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 15px rgba(0, 255, 8, 0.4);
+}
+
+.tetris-control-btn.tetris-auto-btn:hover {
+    background: var(--lime);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 255, 8, 0.6);
+}
+
+.tetris-control-btn.tetris-auto-btn:active {
+    transform: scale(0.95);
+    border-radius: 8px;
+}
+
 /* ============================================================
    RESPONSIVE - MOBILE HEADER & HERO
    ============================================================ */
@@ -1273,89 +1358,4 @@ body {
 
 .accent {
     color: var(--indigo);
-}
-
-/* ===== Botón para jugar ===== */
-.tetris-play-btn {
-    width: auto;
-    position: absolute;
-    bottom: -90px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--lime);
-    color: #000;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 12px;
-    font-weight: 900;
-    cursor: pointer;
-    z-index: 10;
-    box-shadow: 0 4px 15px rgba(0, 255, 8, 0.4);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.tetris-play-btn:hover {
-    transform: translate(-50%, -50%) scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 255, 8, 0.6);
-}
-
-/* ===== Controles del juego ===== */
-.tetris-controls {
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
-    gap: 12px;
-    z-index: 10;
-}
-
-.tetris-control-btn {
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
-    background: transparent;
-    border: 2px solid var(--indigo);
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-}
-
-.tetris-control-btn:hover {
-    background: rgba(91, 63, 255, 0.2);
-    transform: scale(1.1);
-}
-
-.tetris-control-btn:active {
-    transform: scale(0.9);
-}
-
-/* ===== Botón AUTO (mismo estilo que tetris-play-btn) =====
-   Selector combinado .tetris-control-btn.tetris-auto-btn para ganar
-   especificidad sobre .tetris-control-btn y no depender del orden en el archivo. */
-.tetris-control-btn.tetris-auto-btn {
-    width: auto;
-    min-width: 45px;
-    padding: 0 14px;
-    background: var(--lime);
-    color: #000;
-    border: none;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 15px rgba(0, 255, 8, 0.4);
-}
-
-.tetris-control-btn.tetris-auto-btn:hover {
-    background: var(--lime);
-    transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 255, 8, 0.6);
-}
-
-.tetris-control-btn.tetris-auto-btn:active {
-    transform: scale(0.95);
-    border-radius: 8px;
 }
