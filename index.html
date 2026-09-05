@@ -496,12 +496,11 @@
                 { at: 100, msg: "Good — but that's just the start." },
                 { at: 500, msg: "Now we're getting somewhere. Keep stacking the pieces." },
                 { at: 1000, msg: "That's the kind of persistence that solves real problems." },
-                { at: 2000, msg: "Look at you go. Now imagine that focus on your project." },
-                { at: 5000, msg: "You're not just clearing lines anymore — you're building a score." },
+                { at: 2000, msg: "Look at that score go. Now imagine that focus on your project." },
+                { at: 5000, msg: "You're not just clearing lines anymore — you're building a record." },
                 { at: 10000, msg: "Patterns, momentum, precision. This is what solving problems actually looks like." },
-                { at: 20000, msg: "You're a Tetris Master for sure!. There's no ceiling above this one...or is it?" },
-                { at: 100000, msg: "Okay, this stopped being about the game a while ago. That's raw tetris hunger — respect." }
-            ];
+                { at: 20000, msg: "You are a Tetris Master! There's no ceiling above this one, or is it...?" },
+                { at: 100000, msg: "Okay, this stopped being about the game a while ago. That's raw tetris determination — respect." }            ];
             const firedMilestones = new Set();
 
             // Mensajes según cuántas líneas se eliminan de una sola pieza (2 a 4, el máximo posible).
@@ -509,15 +508,19 @@
             const LINE_CLEAR_MESSAGES = {
                 2: "That's a double kill. Nice.",
                 3: "Triple clear \u2014 that's efficiency.",
-                4: 'A pure, by-the-book Tetris perfection. Delicious.'
+                4: 'A pure, by-the-book Tetris clear. Delicious.'
             };
 
             function checkMilestones() {
-                if (!hasPlayedOnce) return; // el modo demo/auto no debe disparar comentarios de juego
+                // Siempre marcamos el hito como cumplido (incluso en modo auto), para que no
+                // se "acumule" y se dispare de golpe al dar play más tarde. Solo lo anunciamos
+                // en la consola si el jugador ya interactuó al menos una vez.
                 SCORE_MILESTONES.forEach((m) => {
                     if (score >= m.at && !firedMilestones.has(m.at)) {
                         firedMilestones.add(m.at);
-                        console_.say(m.msg, { variant: 'console-milestone' });
+                        if (hasPlayedOnce) {
+                            console_.say(m.msg, { variant: 'console-milestone' });
+                        }
                     }
                 });
             }
@@ -785,7 +788,7 @@
                 isManual = false;
                 controls.style.display = 'none';
                 playBtn.style.display = '';
-                console_.say("Isn't it nice to automate the solution of your problems? let us help you with that...");
+                console_.say("Isn't it nice to automate the solution of your problems?");
             }
 
             if (btnAuto) {
