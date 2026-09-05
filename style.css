@@ -1021,6 +1021,14 @@ body {
     .quote-section blockquote {
         font-size: 20px;
     }
+
+    .tetris-play-btn {
+        bottom: -90px; 
+        padding: 8px 16px;
+        font-size: 9px;
+    }
+
+
 }
 
 /* ============================================================
