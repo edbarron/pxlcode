@@ -63,7 +63,7 @@
                 <div id="tetris-message" class="tetris-message" role="status">PERFECT FIT</div>
 
                 <!-- Botón para iniciar juego -->
-                <button id="playBtn" class="tetris-play-btn">Let me play!</button>
+                <button id="playBtn" class="tetris-play-btn">I want to play!</button>
                 <!-- Controles -->
                 <div id="tetrisControls" class="tetris-controls">
                     <button id="btnLeft" class="tetris-control-btn" aria-label="Move left">←</button>
@@ -407,6 +407,7 @@
             const btnLeft = document.getElementById('btnLeft');
             const btnRight = document.getElementById('btnRight');
             const btnRotate = document.getElementById('btnRotate');
+            const btnAuto = document.getElementById('btnAuto');
 
             // Inicialización: si no hay score elements (porque se usa en work.html), no romper.
             if (!scoreEl) return; // Solo funciona si existe el elemento de score. (Si no, no inicializamos el juego)
@@ -439,9 +440,16 @@
             }
 
             function shakeBoard() {
+                // Doble requestAnimationFrame: más confiable que "remove + offsetWidth + add"
+                // para reiniciar una animación CSS en repetidos clicks seguidos, sobre todo
+                // en navegadores/webviews móviles que pueden agrupar el remove+add en un
+                // mismo recálculo de estilos si ocurren de forma síncrona.
                 svg.classList.remove('tetris-shake');
-                void svg.offsetWidth;
-                svg.classList.add('tetris-shake');
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        svg.classList.add('tetris-shake');
+                    });
+                });
             }
 
             function render() {
@@ -492,9 +500,11 @@
                 return;
             }
 
-            const FALL_MS = 260;
+            const FALL_MS_AUTO = 200;
+            const FALL_MS_MANUAL = 320; 
             const LOCK_PAUSE_MS = 140;
             const RESET_PAUSE_MS = 500;
+            const currentFallDelay = () => (isManual ? FALL_MS_MANUAL : FALL_MS_AUTO);
 
             async function runLoop() {
                 while (true) {
@@ -537,10 +547,11 @@
                             if (messageEl) {
                                 messageEl.style.display = 'none';
                                 messageEl.classList.remove('reset-message');
-                                messageEl.textContent = 'PERFECT FIT'; 
+                                messageEl.textContent = 'PERFECT FIT'; // restaura el texto para la próxima línea completada
                             }
                             continue;
-}
+                        }
+
                         active = {
                             piece: piece,
                             shapeIndex: isManual ? 0 : null,
@@ -551,14 +562,14 @@
                             landingRow: placement.landingRow
                         };
                         render();
-                        await sleep(FALL_MS);
+                        await sleep(currentFallDelay());
                         continue;
                     }
 
                     if (active.row < active.landingRow) {
                         active.row++;
                         render();
-                        await sleep(FALL_MS);
+                        await sleep(currentFallDelay());
                         continue;
                     }
 
@@ -649,23 +660,31 @@
                 btnRotate.addEventListener('click', tryRotate);
             }
 
-            // Soporte de teclado en modo manual: flechas para mover, arriba/espacio para rotar
+            // Volver a modo automático: la pieza que está cayendo termina su caída
+            // normalmente; la próxima pieza ya nace decidida por chooseBestPlacement.
+            function returnToAuto() {
+                isManual = false;
+                controls.style.display = 'none';
+                playBtn.style.display = '';
+            }
+
+            if (btnAuto) {
+                btnAuto.addEventListener('click', returnToAuto);
+            }
+
+            // Soporte de teclado en modo manual: flechas para mover, arriba/espacio para rotar,
+            // Escape para devolver el control al modo automático
             document.addEventListener('keydown', function(e) {
-                if (!isManual || !active) return;
+                if (!isManual) return;
+                if (e.key === 'Escape') { e.preventDefault(); returnToAuto(); return; }
+                if (!active) return;
                 if (e.key === 'ArrowLeft') { e.preventDefault(); btnLeft.click(); }
                 if (e.key === 'ArrowRight') { e.preventDefault(); btnRight.click(); }
                 if (e.key === 'ArrowUp' || e.key === ' ') { e.preventDefault(); tryRotate(); }
             });
 
-            const btnAuto = document.getElementById('btnAuto');
-
-            if (btnAuto) {
-                btnAuto.addEventListener('click', function() {
-                    isManual = false;
-                    controls.style.display = 'none';
-                    playBtn.style.display = '';   // vuelve al display definido en el CSS
-                });
-            }
+            // Si el tablero se reinicia en modo manual, el botón de play no reaparece.
+            // El usuario puede seguir jugando.
 
             runLoop();
         })();

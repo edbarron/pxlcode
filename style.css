@@ -350,7 +350,7 @@ body {
 
 .tetris-message {
     position: absolute;
-    top: -60px;          /* antes: bottom: -40px; */
+    top: -60px;
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Press Start 2P', monospace;
@@ -362,6 +362,13 @@ body {
     letter-spacing: 1px;
     animation: rainbow-colors 0.8s linear infinite;
     text-shadow: 2px 2px 0px #000, 4px 4px 0px rgba(0,0,0,0.5);
+}
+
+/* Variante de color para el mensaje de reset ("LET'S START FRESH!"),
+   usa el mismo esquema naranja/amarillo que .tetris-resets.reset-flash.
+   Selector combinado para ganar especificidad sobre .tetris-message base. */
+.tetris-message.reset-message {
+    animation: reset-flash 0.8s linear infinite;
 }
 
 @keyframes rainbow-colors {
@@ -1131,6 +1138,39 @@ body {
         font-size: 14px;
         text-align: left;
     }
+
+    /* --- Tetris: reescalar todo el HUD y controles para el tablero más chico --- */
+    .tetris-score {
+        top: -26px;
+        font-size: 8px;
+    }
+    .tetris-resets {
+        top: -13px;
+        font-size: 8px;
+    }
+    .tetris-message {
+        top: -40px;
+        font-size: 9px;
+    }
+    .tetris-controls {
+        gap: 6px;
+        bottom: -42px;
+    }
+    .tetris-control-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 15px;
+    }
+    .tetris-control-btn.tetris-auto-btn {
+        font-size: 6px;
+        padding: 0 8px;
+        min-width: 34px;
+    }
+    .tetris-play-btn {
+        bottom: -62px;
+        padding: 8px 16px;
+        font-size: 9px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1164,17 +1204,37 @@ body {
         font-size: 13px;
     }
 
+    /* --- Tetris: variante aún más compacta para el tablero de 130px --- */
     .tetris-score {
         top: -20px;
-        font-size: 9px;
+        font-size: 7px;
     }
     .tetris-resets {
-        top: -38px;
-        font-size: 9px;
+        top: -10px;
+        font-size: 7px;
     }
     .tetris-message {
-        top: -56px;
-        font-size: 11px;
+        top: -32px;
+        font-size: 8px;
+    }
+    .tetris-controls {
+        gap: 4px;
+        bottom: -34px;
+    }
+    .tetris-control-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+    }
+    .tetris-control-btn.tetris-auto-btn {
+        font-size: 5px;
+        padding: 0 6px;
+        min-width: 28px;
+    }
+    .tetris-play-btn {
+        bottom: -50px;
+        padding: 6px 12px;
+        font-size: 8px;
     }
 }
 
@@ -1236,17 +1296,46 @@ body {
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.tetris-auto-btn:hover {
-    background: var(--lime);
-    transform: scale(1.05);
+.tetris-play-btn:hover {
+    transform: translate(-50%, -50%) scale(1.05);
     box-shadow: 0 6px 20px rgba(0, 255, 8, 0.6);
 }
 
-.tetris-auto-btn:active {
-    transform: scale(0.95);
-    border-radius: 8px;
+/* ===== Controles del juego ===== */
+.tetris-controls {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 12px;
+    z-index: 10;
 }
 
+.tetris-control-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    background: transparent;
+    border: 2px solid var(--indigo);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.tetris-control-btn:hover {
+    background: rgba(91, 63, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.tetris-control-btn:active {
+    transform: scale(0.9);
+}
+
+/* ===== Botón AUTO (mismo estilo que tetris-play-btn) =====
+   Selector combinado .tetris-control-btn.tetris-auto-btn para ganar
+   especificidad sobre .tetris-control-btn y no depender del orden en el archivo. */
 .tetris-control-btn.tetris-auto-btn {
     width: auto;
     min-width: 45px;
@@ -1270,45 +1359,3 @@ body {
     transform: scale(0.95);
     border-radius: 8px;
 }
-
-.tetris-message.reset-message {
-    animation: reset-flash 0.8s linear infinite;
-}
-
-
-
-/* ===== Controles del juego ===== */
-.tetris-controls {
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
-    gap: 12px;
-    z-index: 10;
-}
-
-.tetris-control-btn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 7px;
-    letter-spacing: 0.02em;
-    width: 45px;
-    height: 45px;
-    font-size: 20px;
-    background: transparent;
-    border: 2px solid var(--indigo);
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-}
-
-.tetris-control-btn:hover {
-    background: rgba(91, 63, 255, 0.2);
-    transform: scale(1.1);
-}
-
-.tetris-control-btn:active {
-    transform: scale(0.9);
-}
-
