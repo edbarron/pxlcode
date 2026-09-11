@@ -1,0 +1,422 @@
+/* ============================================================
+   blog.css — PxlCode Studio Blog
+   Loaded AFTER ../style.css on every blog page, so all design
+   tokens (--navy, --indigo, --lime, --muted, --border, --pad-x...)
+   are already available here. This file only adds blog-specific
+   components: the blog hero, the post grid/cards, and article
+   typography.
+   ============================================================ */
+
+/* ─── BLOG HERO (content-only, same treatment as the Work page) ─── */
+.blog-hero {
+    padding: 110px var(--pad-x) 70px;
+    text-align: center;
+}
+
+.blog-hero-inner {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.blog-hero-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: var(--white);
+    margin: 0 0 20px;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+}
+
+/* ─── POST GRID ──────────────────────────────── */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--pad-x) 100px;
+}
+
+/* Card no longer has inner padding: the thumbnail needs to reach the
+   card's edges. Padding now lives on .blog-card-body instead. */
+.blog-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.blog-card:hover {
+    background: #1f1f3a;
+    border-color: var(--indigo);
+    transform: translateY(-2px);
+}
+
+/* ─── POST THUMBNAIL ─────────────────────────── */
+/* Same treatment as .work-card-img / .project-thumb elsewhere on the
+   site: fixed height, lime bottom border, cover-fit image, and a
+   labeled fallback if the .jpg isn't there yet. */
+.blog-thumb {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    background: #1A1A2E;
+    border-bottom: 2px solid var(--lime);
+    overflow: hidden;
+}
+
+.blog-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover .blog-thumb img {
+    transform: scale(1.04);
+}
+
+.blog-thumb-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1A1A2E;
+    color: var(--lime);
+}
+
+.blog-thumb-fallback svg {
+    width: 60px;
+    height: 60px;
+}
+
+/* ─── POST CARD BODY ─────────────────────────── */
+.blog-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 24px 26px 28px;
+}
+
+.blog-card-date {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+}
+
+.blog-card-title {
+    color: var(--white);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 12px;
+}
+
+.blog-card-excerpt {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin: 0 0 18px;
+    flex: 1;
+}
+
+.blog-card-readmore {
+    color: var(--lime);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* ─── ARTICLE PAGE ───────────────────────────── */
+.article-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 110px var(--pad-x) 100px;
+}
+
+.article-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 28px;
+    transition: color 0.2s;
+}
+
+.article-back:hover {
+    color: var(--white);
+}
+
+.article-meta {
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 14px;
+}
+
+.article-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--white);
+    margin: 0 0 28px;
+    image-rendering: pixelated;
+    -webkit-font-smoothing: none;
+}
+
+.article-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+}
+
+/* Cover image — same "graceful fallback" pattern as .project-thumb /
+   .project-thumb-fallback elsewhere on the site: if the image file
+   isn't there yet, this shows a labeled placeholder instead of a
+   broken-image icon. aspect-ratio keeps the layout stable either way. */
+.article-image-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #1A1A2E;
+    margin: 8px 0 40px;
+}
+
+.article-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-image-fallback {
+    display: none;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    font-family: monospace;
+    font-weight: 900;
+    font-size: 20px;
+    color: var(--lime);
+}
+
+.article-body {
+    color: var(--white);
+    font-size: 16.5px;
+    line-height: 1.8;
+}
+
+.article-body p {
+    margin: 0 0 22px;
+}
+
+.article-body h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    margin: 40px 0 16px;
+}
+
+.article-body h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 30px 0 12px;
+}
+
+.article-body ul,
+.article-body ol {
+    margin: 0 0 22px;
+    padding-left: 22px;
+    color: var(--muted);
+}
+
+.article-body li {
+    margin-bottom: 8px;
+}
+
+.article-body strong {
+    color: var(--white);
+}
+
+.article-body a {
+    color: var(--lime);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.article-body pre {
+    background: #050505;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--indigo);
+    border-radius: 6px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    margin: 0 0 22px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.article-body pre code {
+    background: none;
+    padding: 0;
+    color: #e6e6e6;
+}
+
+.article-body code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+.article-body p code,
+.article-body li code {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--lime);
+}
+
+.article-body .code-bad pre {
+    border-left-color: #ff6b6b;
+}
+
+.article-body .code-good pre {
+    border-left-color: var(--lime);
+}
+
+.article-body .code-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.article-body .code-bad .code-label {
+    color: #ff6b6b;
+}
+
+.article-body .code-good .code-label {
+    color: var(--lime);
+}
+
+.article-cta {
+    margin-top: 56px;
+    padding: 32px;
+    background: var(--navy);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.article-cta h3 {
+    margin: 0 0 10px;
+    color: var(--white);
+    font-size: 20px;
+}
+
+.article-cta p {
+    margin: 0 0 20px;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+@media (max-width: 600px) {
+    .article-title {
+        font-size: 0.95rem;
+    }
+    .blog-hero-title {
+        font-size: 1.05rem;
+    }
+    .blog-thumb {
+        height: 160px;
+    }
+}
+
+/* ─── ARTICLE SHARE BUTTONS ──────────────────── */
+.article-share {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.article-share-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-right: 4px;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.share-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+}
+
+.share-whatsapp:hover {
+    background: #25D366;
+    border-color: #25D366;
+    color: #fff;
+}
+
+.share-facebook:hover {
+    background: #1877F2;
+    border-color: #1877F2;
+    color: #fff;
+}
+
+.share-x:hover {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+}
+
+.share-copy:hover {
+    background: var(--indigo);
+    border-color: var(--indigo);
+    color: #fff;
+}

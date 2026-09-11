@@ -66,7 +66,7 @@
                 <div id="tetris-message" class="tetris-message" role="status">PERFECT FIT</div>
 
                 <!-- Button to start game -->
-                <button id="playBtn" class="tetris-play-btn">I want to play!</button>
+                <button id="playBtn" class="tetris-play-btn">Let me play!</button>
                 <!-- Controls -->
                 <div id="tetrisControls" class="tetris-controls">
                     <button id="btnLeft" class="tetris-control-btn" aria-label="Move left">←</button>
@@ -290,7 +290,7 @@
             // Startup messages, independent of game state.
             say([
                 "Like in tetris, to solve a problem we most often need the perfect fit \u2014 or sometimes, a fresh start.",
-                'Want to think it over while you play? Click "I want to play!" and see how high you can score.'
+                'Want to think it over while you play? Click "Let me play!" and see how high you can score.'
             ]);
 
             return { say };
@@ -478,7 +478,7 @@
             let score = 0;
             let resets = 0;
             let isManual = false;
-            let hasPlayedOnce = false; // game messages (milestones/reset) only play after the first "I want to play!"
+            let hasPlayedOnce = false; // game messages (milestones/reset) only play after the first "Let me play!"
             const scoreEl = document.getElementById('tetris-score');
             const resetsEl = document.getElementById('tetris-resets');
             const playBtn = document.getElementById('playBtn');

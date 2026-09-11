@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="PxlCode Studio blog: notes on AI, cybersecurity, and the tools shaping modern software — from Ed Barron." />
+    <link rel="icon" type="image/png" href="../logo_nobackground.png" />
+    <title>Blog | PxlCode Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="blog.css" />
+</head>
+<body>
+
+    <!-- HEADER (injected dynamically) -->
+    <div id="header-placeholder"></div>
+
+    <main>
+
+        <!-- ==================== BLOG HERO ==================== -->
+        <section class="blog-hero">
+            <div class="hero-inner blog-hero-inner">
+                <p class="hero-eyebrow">Blog</p>
+                <h1 class="blog-hero-title">Field Notes</h1>
+                <p class="hero-sub" style="margin-left:auto; margin-right:auto;">
+                    Thoughts on AI, security, and the tools shaping how we build software —
+                    plus the occasional look at what's launching next.
+                </p>
+            </div>
+        </section>
+
+        <!-- ==================== POST GRID ==================== -->
+        <section>
+            <div id="blogGrid" class="blog-grid"></div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <span>© 2026 PxlCode Studio — by Ed Barron</span>
+        <span class="footer-tag">Turning Pixels Into Solutions</span>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // ---------- HEADER INJECTION ----------
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') return '.';
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        // ---------- DROPDOWNS ----------
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
+
+        // ---------- BLOG POSTS ----------
+        // Reusable pixel-art icon presets, styled like the homepage service
+        // icons (40x40 viewBox, currentColor strokes). Pick whichever fits
+        // a new post's topic, or add your own following the same pattern.
+        const SECURITY_ICON = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 5L33 10V19C33 27 27.5 33 20 36C12.5 33 7 27 7 19V10L20 5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M14 20L18 24L27 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+
+        const AI_ICON = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="12" width="16" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+            <circle cx="20" cy="20" r="4" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 4V12M20 28V36M4 20H12M28 20H36M8 8L13 13M32 8L27 13M8 32L13 27M32 32L27 27" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>`;
+
+        const LAUNCH_ICON = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4C24 8 27 14 27 20C27 23 26 26 24.5 28L20 32L15.5 28C14 26 13 23 13 20C13 14 16 8 20 4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="20" cy="17" r="3" stroke="currentColor" stroke-width="2"/>
+            <path d="M14 26L9 31M26 26L31 31M17 32L15 37M23 32L25 37" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>`;
+
+        const CODE_ICON = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14 13L6 20L14 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M26 13L34 20L26 27" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M23 8L17 32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>`;
+
+        const INJECTION_ICON = `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g transform="rotate(45 20 20)">
+                <rect x="14" y="4" width="12" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                <line x1="14" y1="4" x2="14" y2="0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <line x1="26" y1="4" x2="26" y2="0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <line x1="17" y1="10" x2="23" y2="10" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="17" y1="14" x2="23" y2="14" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="20" y1="22" x2="20" y2="34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </g>
+        </svg>`;
+
+        // ---- HOW TO ADD A NEW POST ----
+        // 1. Write the article as its own .html file in this /blog/ folder
+        //    (copy cybersecurity-basics-small-business.html as a starting point).
+        // 2. Drop a cover image in this same folder named after the article's
+        //    file, e.g. "my-new-post.jpg" for "my-new-post.html" — the article
+        //    template already looks for that filename. No image yet? It's
+        //    fine, a labeled placeholder shows instead of a broken image.
+        // 3. Add an object below with: title, excerpt, date (YYYY-MM-DD, for
+        //    sorting/SEO), dateLabel (human-readable), tag, an icon (pick one
+        //    of the presets above or add your own), and link (the file name).
+        // 4. New posts can go anywhere in the array — buildBlogGrid() below
+        //    sorts by date automatically, newest first.
+        const posts = [
+            {
+                title: 'SQL Injection: How One Apostrophe Can Ruin Your Entire Week',
+                excerpt: 'From the login bypass so famous it has its own comic, to the parameterized queries that actually stop it — everything you need to know about the 25-year-old bug that still won\'t die.',
+                date: '2026-09-11',
+                dateLabel: 'September 11, 2026',
+                tag: 'Security',
+                icon: INJECTION_ICON,
+                link: 'sql-injection-how-one-apostrophe-can-ruin-your-week.html'
+            },
+            {
+                title: 'Why Small Businesses Get Hacked (And 3 Things That Actually Stop It)',
+                excerpt: "Most attacks on small businesses aren't sophisticated — they exploit basic gaps that are simple, and cheap, to close. Here's what actually moves the needle.",
+                date: '2026-09-11',
+                dateLabel: 'September 11, 2026',
+                tag: 'Security',
+                icon: SECURITY_ICON,
+                link: 'cybersecurity-basics-small-business.html'
+            }
+        ];
+
+        function buildBlogGrid() {
+            const grid = document.getElementById('blogGrid');
+            if (!grid) return;
+
+            const sorted = posts.slice().sort((a, b) => (a.date < b.date ? 1 : -1));
+
+            grid.innerHTML = sorted.map((post) => {
+                // Derive the thumbnail path from the link (.html -> .jpg)
+                const thumbPath = post.link.replace(/\.html$/, '.jpg');
+
+                return `
+                    <a href="${post.link}" class="blog-card">
+                        <div class="blog-thumb">
+                            <img src="${thumbPath}" alt="${post.title}" loading="lazy"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                            <div class="blog-thumb-fallback" style="display:none;">${post.icon}</div>
+                        </div>
+                        <div class="blog-card-body">
+                            <p class="blog-card-date"><time datetime="${post.date}">${post.dateLabel}</time> · ${post.tag}</p>
+                            <h2 class="blog-card-title">${post.title}</h2>
+                            <p class="blog-card-excerpt">${post.excerpt}</p>
+                            <span class="blog-card-readmore">Read article →</span>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+                buildBlogGrid();
+    </script>
+
+</body>
+</html>

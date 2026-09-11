@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="description" content="SQL injection has been breaking systems for 25+ years and still tops the OWASP list. Here's how it works, why it refuses to die, and the fixes that actually stop it." />
+    <meta name="author" content="Ed Barron" />
+
+    <title>SQL Injection: How One Apostrophe Can Ruin Your Entire Week | PxlCode Studio Blog</title>
+
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn) -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="PxlCode Studio">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:title" content="SQL Injection: How One Apostrophe Can Ruin Your Entire Week">
+    <meta property="og:description" content="SQL injection still tops the OWASP list. Here's how it works, why it refuses to die, and the fixes that actually stop it.">
+    <meta property="og:url" content="https://pxlcode.xyz/blog/sql-injection-how-one-apostrophe-can-ruin-your-week.html">
+    <meta property="og:image" content="https://pxlcode.xyz/blog/sql-injection-how-one-apostrophe-can-ruin-your-week.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SQL Injection: How One Apostrophe Can Ruin Your Entire Week">
+    <meta name="twitter:description" content="SQL injection still tops the OWASP list. Here's how it works and how to actually stop it.">
+    <meta name="twitter:image" content="https://pxlcode.xyz/blog/sql-injection-how-one-apostrophe-can-ruin-your-week.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://pxlcode.xyz/blog/sql-injection-how-one-apostrophe-can-ruin-your-week.html">
+
+    <link rel="icon" type="image/png" href="../logo_nobackground.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="blog.css" />
+</head>
+<body>
+
+    <!-- HEADER (injected dynamically) -->
+    <div id="header-placeholder"></div>
+
+    <main>
+        <article class="article-wrap">
+            <a href="index.html" class="article-back">← Back to Blog</a>
+
+            <p class="article-meta"><time datetime="2026-09-15">September 15, 2026</time> · Security</p>
+            <h1 class="article-title">SQL Injection: How One Apostrophe Can Ruin Your Entire Life</h1>
+
+            <div class="article-tags">
+                <span class="tag">Security</span>
+                <span class="tag">SQL</span>
+                <span class="tag">Web Development</span>
+            </div>
+
+            <!-- Cover image: drop a file named
+                 "sql-injection-how-one-apostrophe-can-ruin-your-week.jpg"
+                 (or .png) in this same /blog/ folder. If it's missing, the
+                 fallback label below shows instead of a broken image. -->
+            <div class="article-image-wrap">
+                <img class="article-image" src="sql-injection-how-one-apostrophe-can-ruin-your-week.jpg" alt="Illustration representing a SQL injection attack on a login form" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="article-image-fallback">SQL Injection</div>
+            </div>
+
+            <!-- Share buttons -->
+            <div class="article-share">
+                <span class="article-share-label">Share:</span>
+                <a class="share-btn share-whatsapp" id="share-whatsapp" target="_blank" rel="noopener" aria-label="Share on WhatsApp">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.05-1.33A9.93 9.93 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18.18c-1.63 0-3.16-.46-4.46-1.25l-.32-.19-3.32.87.89-3.24-.21-.33A8.16 8.16 0 0 1 3.82 12c0-4.52 3.67-8.18 8.18-8.18s8.18 3.67 8.18 8.18-3.66 8.18-8.18 8.18zm4.49-6.13c-.25-.12-1.45-.71-1.67-.79-.22-.08-.39-.12-.55.13-.16.24-.63.79-.78.95-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.99-1.22-.74-.65-1.23-1.46-1.38-1.71-.14-.24-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42-.14-.01-.3-.01-.46-.01s-.43.06-.65.31c-.22.24-.86.84-.86 2.05s.88 2.37 1 2.54c.13.16 1.74 2.65 4.21 3.71.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.45-.59 1.65-1.16.21-.57.21-1.06.14-1.16-.06-.11-.22-.17-.47-.29z"/></svg>
+                </a>
+                <a class="share-btn share-facebook" id="share-facebook" target="_blank" rel="noopener" aria-label="Share on Facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+                </a>
+                <a class="share-btn share-x" id="share-x" target="_blank" rel="noopener" aria-label="Share on X">
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-6.6L4.4 22H1.2l8.1-9.3L1 2h7l4.9 6.1L18.9 2zm-1.2 18h1.9L7.4 4H5.3l12.4 16z"/></svg>
+                </a>
+                <button type="button" class="share-btn share-copy" id="share-copy" aria-label="Copy link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L12.5 19.5"/></svg>
+                </button>
+            </div>
+
+            <div class="article-body">
+                <p>
+                    SQL injection has been sitting near the top of the OWASP Top 10 since roughly
+                    the dawn of the modern web, has survived several "we've definitely solved
+                    this now" moments, and is still, in 2026, how attackers get into systems that
+                    otherwise had a perfectly reasonable security budget. It's the horror-movie
+                    villain of web security: you're sure it's dead, and then it's back for part
+                    fourteen.
+                </p>
+
+                <h2>What It Actually Is</h2>
+                <p>
+                    At its core, SQL injection happens when an application takes something a user
+                    typed and pastes it directly into a database query, trusting it completely —
+                    the way you'd trust a stranger's home address if they scribbled it on a napkin
+                    and handed it to your GPS.
+                </p>
+                <p>
+                    Here's the classic, textbook-cliché version — a login check that builds its
+                    query by gluing strings together:
+                </p>
+
+                <div class="code-bad">
+                    <span class="code-label">Don't</span>
+                    <pre><code>query = f"SELECT * FROM users WHERE username = '{username}' AND password = '{password}'"
+cursor.execute(query)</code></pre>
+                </div>
+
+                <p>
+                    Looks harmless. It is not harmless. Type <code>' OR '1'='1' --</code> into
+                    the username field, and the query the database actually receives becomes
+                    something close to <em>"show me a user where the username matches AND the
+                    password matches, OR where 1 equals 1"</em> — and since 1 always, reliably,
+                    equals 1, the database happily logs you in as whoever it finds first. No
+                    password required. It's less "hacking" and more "asking very politely" in
+                    grammar the database is contractually obligated to obey.
+                </p>
+                <p>
+                    If you've spent any time around security folks, you've probably met
+                    <strong>Little Bobby Tables</strong> — the kid from the famous comic whose
+                    parents, apparently for fun, named him something like
+                    <code>Robert'); DROP TABLE Students;--</code>, just to see if the school's
+                    database could take a joke. It could not.
+                </p>
+
+                <h2>Where I First Heard About This</h2>
+                <p>
+                    I'll be honest — the first time I ever heard the phrase "SQL injection" out
+                    loud wasn't from a breach report or a Stack Overflow thread. It was from
+                    David Malan, the famously high-energy computer science professor at Harvard,
+                    back when I was working through CS50 online. Out of all the security topics he could
+                    have opened with, this was the one he chose first.
+                </p>
+                <p>
+                    What stuck with me wasn't the technical breakdown — it was how genuinely
+                    baffled he sounded that, after decades of this being public knowledge, he
+                    still ran into sites that were wide open to it. His take was blunt: not
+                    protecting against malicious input isn't a "we didn't know" problem, it's a
+                    "we didn't bother" problem. And "didn't bother" is exactly how you end up on
+                    the wrong side of a breach headline — either because you didn't know, or
+                    because you knew and left the door unlocked anyway.
+                </p>
+                <p>
+                    That class was the first time it clicked for me that user input isn't just
+                    "data" — it's <em>untrusted code waiting to happen</em>. Every text box,
+                    every search bar, every form field is a doorway. If you don't check who's
+                    coming through it, someone eventually will. And not to visit.
+                </p>
+
+                <h2>How Far It Can Go</h2>
+                <p>
+                    Once an attacker can influence the query, "log in for free" is usually just
+                    the opening act. Depending on how the application is built, that same opening
+                    can be used to pull data out of tables it was never supposed to touch, or, in
+                    the worst cases, to modify or delete it outright. This is the part of the
+                    story where "harmless typo" becomes the "app_ocalypse" (pun intended) —
+                    which is also where we're going to stop talking about how to do it, and start
+                    talking about how to make sure nobody does it to you.
+                </p>
+
+                <h2>How to Actually Stop It</h2>
+
+                <h3>1. Parameterized queries — not a "best practice," the actual fix</h3>
+                <p>
+                    Instead of building a query by concatenating strings, you send the query
+                    structure and the user's data separately. The database treats the data as
+                    data — never as part of the instructions — no matter what someone types
+                    into it.
+                </p>
+
+                <div class="code-good">
+                    <span class="code-label">Do</span>
+                    <pre><code>query = "SELECT * FROM users WHERE username = ? AND password = ?"
+cursor.execute(query, (username, password))</code></pre>
+                </div>
+
+                <p>
+                    Same logic, same database, same login form. The difference is that
+                    <code>' OR '1'='1' --</code> is now just a very strange, very unsuccessful
+                    password attempt — not a syntax override.
+                </p>
+
+                <h3>2. ORMs help — but watch the escape hatch</h3>
+                <p>
+                    Most modern ORMs (Django's, SQLAlchemy, you name it) parameterize for you by
+                    default, which quietly prevents a huge amount of this. The risk shows up when
+                    someone reaches for a raw query "just this once" and builds it with an
+                    f-string because the deadline was yesterday. That one shortcut is where most
+                    ORM-based injection bugs are born.
+                </p>
+
+                <h3>3. Least privilege — your app doesn't need admin rights to its own database</h3>
+                <p>
+                    If the database account your web app connects with has permission to
+                    <code>DROP TABLE</code> anything it wants, that's not a convenience, it's a
+                    liability waiting for an opening. Give each application account only what it
+                    actually needs — read/write on its own tables, nothing more — so that even if
+                    an injection does slip through, there's a ceiling on the damage.
+                </p>
+
+                <h3>4. Validate input anyway</h3>
+                <p>
+                    Input validation isn't the fix for SQL injection — parameterized queries are
+                    — but it's a reasonable second lock on the same door. Reject what obviously
+                    shouldn't be there (a phone number field that's suddenly 400 characters long
+                    is not a phone number), and you shrink the space an attacker has to work with.
+                </p>
+
+                <h3>5. Log it, watch it</h3>
+                <p>
+                    Someone testing <code>' OR '1'='1</code> against your login form is, in a
+                    strange way, doing you a favor: they're telling you they're about to be a
+                    problem before they actually become one. Basic logging and alerting on
+                    repeated failed logins or malformed input turns a silent break-in attempt
+                    into a warning you can actually act on.
+                </p>
+
+                <p>
+                    SQL injection is older than most smartphones and it's still showing up in
+                    fresh breach reports every year — not because it's clever, but because
+                    somewhere, someone decided string concatenation was "probably fine." It
+                    probably wasn't.
+                </p>
+            </div>
+
+            <div class="article-cta">
+                <h3>Not sure if your queries are safe?</h3>
+                <p>A quick audit usually finds this stuff fast — and fixing it is a lot cheaper than explaining it to your customers afterward.</p>
+                <a href="../index.html#contact" class="btn-primary">Get in touch</a>
+            </div>
+        </article>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <span>© 2026 PxlCode Studio — by Ed Barron</span>
+        <span class="footer-tag">Turning Pixels Into Solutions</span>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // ---------- HEADER INJECTION ----------
+        (function() {
+            function getBasePath() {
+                var path = window.location.pathname;
+                if (path === '/' || path === '/index.html') return '.';
+                var parts = path.split('/').filter(function(p) { return p !== ''; });
+                var depth = parts.length;
+                if (depth <= 1) return '.';
+                return '../'.repeat(depth - 1);
+            }
+            var base = getBasePath();
+            var headerUrl = base + '/header.html';
+            fetch(headerUrl)
+                .then(function(response) {
+                    if (!response.ok) throw new Error('Header not found at ' + headerUrl);
+                    return response.text();
+                })
+                .then(function(html) {
+                    var placeholder = document.getElementById('header-placeholder');
+                    if (placeholder) {
+                        placeholder.outerHTML = html;
+                        initDropdowns();
+                    }
+                })
+                .catch(function(error) {
+                    console.error('Error loading header:', error);
+                });
+        })();
+
+        // ---------- DROPDOWNS ----------
+        function initDropdowns() {
+            document.addEventListener('click', function(e) {
+                var toggle = e.target.closest('.nav-toggle');
+                if (toggle) {
+                    e.stopPropagation();
+                    var parentLi = toggle.closest('.has-dropdown');
+                    if (!parentLi) return;
+                    var isOpen = parentLi.classList.contains('open');
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                    if (!isOpen) {
+                        parentLi.classList.add('open');
+                        toggle.setAttribute('aria-expanded', 'true');
+                    }
+                    return;
+                }
+                if (!e.target.closest('.has-dropdown')) {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
+                        openItem.classList.remove('open');
+                        var btn = openItem.querySelector('.nav-toggle');
+                        if (btn) btn.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        }
+
+        // ---------- SHARE BUTTONS ----------
+        (function() {
+            const pageUrl = encodeURIComponent(window.location.href);
+            const pageTitle = encodeURIComponent(document.title.replace(' | PxlCode Studio Blog', ''));
+
+            document.getElementById('share-whatsapp').href = `https://wa.me/?text=${pageTitle}%20${pageUrl}`;
+            document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+            document.getElementById('share-x').href = `https://twitter.com/intent/tweet?text=${pageTitle}&url=${pageUrl}`;
+
+            document.getElementById('share-copy').addEventListener('click', async function () {
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    const btn = this;
+                    const original = btn.innerHTML;
+                    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+                    setTimeout(() => { btn.innerHTML = original; }, 1500);
+                } catch (err) {
+                    alert('Could not copy the link. Please copy it manually from the address bar.');
+                }
+            });
+        })();
+    </script>
+
+    <!-- Structured data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "SQL Injection: How One Apostrophe Can Ruin Your Entire Week",
+        "description": "SQL injection has been breaking systems for 25+ years and still tops the OWASP list. Here's how it works and how to actually stop it.",
+        "author": {
+            "@type": "Person",
+            "name": "Ed Barron"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "PxlCode Studio",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://pxlcode.xyz/logo_nobackground.png"
+            }
+        },
+        "datePublished": "2026-09-15",
+        "dateModified": "2026-09-15",
+        "image": "https://pxlcode.xyz/blog/sql-injection-how-one-apostrophe-can-ruin-your-week.jpg",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://pxlcode.xyz/blog/sql-injection-how-one-apostrophe-can-ruin-your-week.html"
+        }
+    }
+    </script>
+
+</body>
+</html>
