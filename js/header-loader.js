@@ -1,22 +1,22 @@
 // js/header-loader.js
 (function() {
     // ============================================================
-    // 1. Detecta la profundidad de la página actual para construir
-    //    la ruta al header.html (que está en la raíz).
+    // 1. Detect the current page depth to build the path to
+    //    header.html (which lives at the root).
     // ============================================================
     function getBasePath() {
         var path = window.location.pathname;
-        // Elimina el nombre del archivo (todo después del último '/')
+        // Strip the file name (everything after the last '/')
         var dir = path.substring(0, path.lastIndexOf('/') + 1);
-        // Cuenta cuántos segmentos tiene la ruta (excluyendo el vacío)
+        // Count how many segments the path has (excluding the empty one)
         var segments = dir.split('/').filter(function(s) { return s !== ''; });
         var depth = segments.length;
-        // Si estamos en la raíz (depth === 0), la base es './'
+        // If we're at the root (depth === 0), the base is './'
         if (depth === 0) {
             return '.';
         }
-        // Subimos un nivel por cada segmento de la ruta
-        // Ej: projects/navigoals/ → '../../'
+        // Go up one level for each path segment
+        // e.g. projects/navigoals/ → '../../'
         return '../'.repeat(depth);
     }
 
@@ -24,7 +24,7 @@
     var headerUrl = base + '/header.html';
 
     // ============================================================
-    // 2. Inyecta el header en el placeholder
+    // 2. Inject the header into the placeholder
     // ============================================================
     fetch(headerUrl)
         .then(function(response) {
@@ -35,7 +35,7 @@
             var placeholder = document.getElementById('header-placeholder');
             if (placeholder) {
                 placeholder.outerHTML = html;
-                // Una vez inyectado, activamos la lógica de los dropdowns
+                // Once injected, activate the dropdown logic
                 initDropdowns();
             }
         })
@@ -44,28 +44,28 @@
         });
 
     // ============================================================
-    // 3. Lógica de los dropdowns (toggle, cierre al hacer clic fuera)
+    // 3. Dropdown logic (toggle, close on outside click)
     // ============================================================
     function initDropdowns() {
-        // Delegación de eventos: como el header se inyecta después,
-        // usamos el documento para escuchar los clics.
+        // Event delegation: since the header is injected afterward,
+        // we listen on the document for clicks.
         document.addEventListener('click', function(e) {
-            // Busca si el clic fue en un botón de toggle
+            // Check if the click was on a toggle button
             var toggle = e.target.closest('.nav-toggle');
             if (toggle) {
-                e.stopPropagation(); // Evita que se cierre inmediatamente
+                e.stopPropagation(); // Prevent it from closing immediately
                 var parentLi = toggle.closest('.has-dropdown');
                 if (!parentLi) return;
                 var isOpen = parentLi.classList.contains('open');
 
-                // Cierra todos los dropdowns abiertos
+                // Close every open dropdown
                 document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
                     openItem.classList.remove('open');
                     var btn = openItem.querySelector('.nav-toggle');
                     if (btn) btn.setAttribute('aria-expanded', 'false');
                 });
 
-                // Si no estaba abierto, lo abrimos
+                // If it wasn't open, open it
                 if (!isOpen) {
                     parentLi.classList.add('open');
                     toggle.setAttribute('aria-expanded', 'true');
@@ -73,7 +73,7 @@
                 return;
             }
 
-            // Clic fuera de cualquier dropdown: lo cerramos todo
+            // Click outside any dropdown: close them all
             var clickedInside = e.target.closest('.has-dropdown');
             if (!clickedInside) {
                 document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
@@ -84,7 +84,7 @@
             }
         });
 
-        // Cerrar dropdowns con la tecla Escape
+        // Close dropdowns with the Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.has-dropdown.open').forEach(function(openItem) {
